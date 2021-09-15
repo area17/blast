@@ -1,0 +1,7 @@
+{
+    "phpVersion": "8.0",
+    "semi": true,
+    "arrowParens": "always",
+    "singleQuote": true,
+    "trailingComma": "none"
+}

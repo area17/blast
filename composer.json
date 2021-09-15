@@ -1,0 +1,54 @@
+{
+    "name": "area17/blast",
+    "type": "library",
+    "license": "Apache-2.0",
+    "description": "Storybook for Laravel Blade",
+    "authors": [
+        {
+            "name": "Tim Brook",
+            "email": "tim@area17.com"
+        }
+    ],
+    "keywords": [
+        "A17",
+        "storybook",
+        "components",
+        "laravel",
+        "blade",
+        "design-systems",
+        "ui"
+    ],
+    "homepage": "https://area17.com",
+    "support": {
+        "issues": "https://github.com/area17/blast/issues/"
+    },
+    "require": {
+        "php": "^7.3|^8.0",
+        "ext-json": "*",
+        "illuminate/filesystem": "^7.0|^8.0",
+        "illuminate/support": "^7.0|^8.0",
+        "illuminate/view": "^7.0|^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "A17\\Blast\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "A17\\Blast\\BlastServiceProvider"
+            ]
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

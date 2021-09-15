@@ -1,0 +1,96 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.blast-wysiwyg {
+    @apply blast-font-sans
+            blast-text-base
+            blast-font-normal
+            blast-antialiased;
+}
+
+.blast-wysiwyg h1,
+.blast-wysiwyg h2 {
+    @apply blast-mt-7
+            md:blast-mt-8
+            lg:blast-mt-9
+            blast-font-sans
+            blast-text-3xl
+            blast-font-semibold
+            md:blast-text-4xl;
+}
+
+.blast-wysiwyg h3 {
+    @apply blast-mt-6
+            md:blast-mt-7
+            lg:blast-mt-8
+            blast-font-sans
+            blast-text-2xl
+            blast-font-semibold
+            md:blast-text-3xl;
+}
+
+.blast-wysiwyg h4,
+.blast-wysiwyg h5,
+.blast-wysiwyg h6 {
+    @apply blast-mt-6
+            lg:blast-mt-7
+            blast-font-sans
+            blast-text-xl
+            blast-font-semibold
+            md:blast-text-2xl;
+}
+
+.blast-wysiwyg p,
+.blast-wysiwyg ul,
+.blast-wysiwyg ol,
+.blast-wysiwyg pre {
+    margin-top: 1em;
+    font-variant-numeric: lining-nums;
+}
+
+.blast-wysiwyg strong {
+    @apply blast-font-semibold;
+}
+
+.blast-wysiwyg > *:first-child {
+    @apply blast-mt-0;
+}
+
+.blast-wysiwyg ul,
+.blast-wysiwyg ol {
+    padding-left: 1.5em;
+}
+
+.blast-wysiwyg ul li {
+    @apply blast-relative;
+}
+
+.blast-wysiwyg ul {
+    list-style: outside disc;
+}
+
+.blast-wysiwyg ol {
+    list-style: outside decimal;
+}
+
+.blast-wysiwyg p a,
+.blast-wysiwyg li a {
+    @apply blast-border-b
+            blast-border-gray-400
+            hover:blast-border-gray-800
+            blast-transition-all;
+}
+
+.blast-wysiwyg figcaption {
+    @apply blast-mt-5
+            lg:blast-mt-6;
+}
+
+.blast-wysiwyg code {
+    @apply blast-py-1 blast-px-2 blast-bg-gray-100 blast-text-sm;
+}
+
+.blast-wysiwyg pre {
+    @apply blast-p-4 blast-bg-gray-100 blast-text-sm;
+}
