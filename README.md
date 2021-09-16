@@ -317,6 +317,19 @@ Note: Defining custom statuses will override the existing statuses.
 
 Adding a `README.md` to your storybook blade directory will allow you to add notes to the Docs tab for each component in Storybook. The content of the markdown file will be output above the auto-generated Storybook content.
 
+## Publish Static Storybook
+
+Blast can build a static Storybook app and publish it to your public folder. You do this by running:
+
+```bash
+php artisan blast:publish
+```
+
+### Options
+
+-   `--o, --output-dir` - the directory where to store built files relative to your `public` directory
+-   `--s, --static-dir` - the directory where to load static files from, comma-separated list relative to your project root directory
+
 ## Troubleshooting
 
 If you see a `Failed to fetch` message when viewing your stories you will need to go to the path that Storybook is trying to load (open dev tools > network and right click the failed path and open in a new tab) and debug there. Any php errors or `dd` will trigger the `Failed to fetch` message.
