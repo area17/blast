@@ -73,10 +73,20 @@ class Launch extends Command
                         true,
                     )
                 ) {
-                    $this->runProcessInBlast(['npm', 'ci']);
+                    $this->runProcessInBlast([
+                        'npm',
+                        'ci',
+                        '--production',
+                        '--ignore-scripts',
+                    ]);
                 }
             } else {
-                $this->runProcessInBlast(['npm', 'ci']);
+                $this->runProcessInBlast([
+                    'npm',
+                    'ci',
+                    '--production',
+                    '--ignore-scripts',
+                ]);
             }
         } else {
             sleep(1);
