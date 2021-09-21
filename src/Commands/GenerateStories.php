@@ -327,7 +327,6 @@ class GenerateStories extends Command
                 }
             }
 
-            // dd($options);
             if (Arr::has($options, 'name')) {
                 $data['name'] = $options['name'];
             }
