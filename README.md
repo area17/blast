@@ -330,7 +330,6 @@ php artisan blast:publish
 ### Options
 
 -   `--o, --output-dir` - the directory where to store built files relative to your `public` directory
--   `--s, --static-dir` - the directory where to load static files from, comma-separated list relative to your project root directory
 
 ## Troubleshooting
 
