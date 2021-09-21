@@ -124,6 +124,7 @@ class Launch extends Command
 
         $this->runProcessInBlast(['npm', 'run', 'storybook'], true, [
             'STORYBOOK_SERVER_URL' => $this->storybookServer,
+            'STORYBOOK_STATIC_PATH' => public_path(),
             'STORYBOOK_STATUSES' => json_encode($this->storybookStatuses),
             'STORYBOOK_THEME' => json_encode($this->storybookTheme),
             'LIBSTORYPATH' => base_path($this->vendorPath . '/stories'),

@@ -18,8 +18,7 @@ class Publish extends Command
      * @var string
      */
     protected $signature = 'blast:publish
-                                {--o|output-dir=storybook-static : Directory where to store built files}
-                                {--s|static-dir= : Directory where to load static files from relative to project root, comma-separated list}';
+                                {--o|output-dir=storybook-static : Directory where to store built files}';
 
     /**
      * The console command description.
@@ -55,7 +54,6 @@ class Publish extends Command
     public function handle()
     {
         $outputDir = $this->option('output-dir');
-        $staticDir = $this->option('static-dir');
 
         if (Str::startsWith($outputDir, '/')) {
             $outputDir = Str::after($outputDir, '/');
@@ -65,16 +63,10 @@ class Publish extends Command
 
         $process = ['npm', 'run', 'build-storybook'];
 
-        if ($outputDir || $staticDir) {
+        if ($outputDir) {
             $process[] = '--';
 
-            if ($outputDir) {
-                $process = array_merge($process, ['-o', $outputDir]);
-            }
-
-            if ($staticDir) {
-                $process = array_merge($process, ['-s', base_path($staticDir)]);
-            }
+            $process = array_merge($process, ['-o', $outputDir]);
         }
 
         $this->runProcessInBlast($process, true, [

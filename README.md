@@ -49,6 +49,8 @@ php artisan blast:generate-stories
 
 Global configuration can be done through the `config/blast.php`.
 
+Blast uses the `public_path()` to reference any static assets. This means that any assets in that directory will be available during developement as well as static builds published to the public directory using the `blast:publish` task.
+
 ### Options
 
 #### `storybook_server_url`
