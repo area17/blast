@@ -49,6 +49,8 @@ php artisan blast:generate-stories
 
 Global configuration can be done through the `config/blast.php`.
 
+Blast uses the `public_path()` to reference any static assets. This means that any assets in that directory will be available during developement as well as static builds published to the public directory using the `blast:publish` task.
+
 ### Options
 
 #### `storybook_server_url`
@@ -316,6 +318,18 @@ Note: Defining custom statuses will override the existing statuses.
 ## Documentation
 
 Adding a `README.md` to your storybook blade directory will allow you to add notes to the Docs tab for each component in Storybook. The content of the markdown file will be output above the auto-generated Storybook content.
+
+## Publish Static Storybook
+
+Blast can build a static Storybook app and publish it to your public folder. You do this by running:
+
+```bash
+php artisan blast:publish
+```
+
+### Options
+
+-   `--o, --output-dir` - the directory where to store built files relative to your `public` directory
 
 ## Troubleshooting
 

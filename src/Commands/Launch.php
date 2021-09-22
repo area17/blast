@@ -4,10 +4,12 @@ namespace A17\Blast\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Symfony\Component\Process\Process;
+use A17\Blast\Traits\Helpers;
 
 class Launch extends Command
 {
+    use Helpers;
+
     /**
      * The name and signature of the console command.
      *
@@ -73,10 +75,20 @@ class Launch extends Command
                         true,
                     )
                 ) {
-                    $this->runProcessInBlast(['npm', 'ci']);
+                    $this->runProcessInBlast([
+                        'npm',
+                        'ci',
+                        '--production',
+                        '--ignore-scripts',
+                    ]);
                 }
             } else {
-                $this->runProcessInBlast(['npm', 'ci']);
+                $this->runProcessInBlast([
+                    'npm',
+                    'ci',
+                    '--production',
+                    '--ignore-scripts',
+                ]);
             }
         } else {
             sleep(1);
@@ -112,35 +124,12 @@ class Launch extends Command
 
         $this->runProcessInBlast(['npm', 'run', 'storybook'], true, [
             'STORYBOOK_SERVER_URL' => $this->storybookServer,
+            'STORYBOOK_STATIC_PATH' => public_path(),
             'STORYBOOK_STATUSES' => json_encode($this->storybookStatuses),
             'STORYBOOK_THEME' => json_encode($this->storybookTheme),
             'LIBSTORYPATH' => base_path($this->vendorPath . '/stories'),
             'PROJECTPATH' => base_path(),
             'COMPONENTPATH' => base_path('resources/views/stories'),
         ]);
-    }
-
-    /**
-     * @return void
-     */
-    private function runProcessInBlast(
-        array $command,
-        $disableTimeout = false,
-        $envVars = null,
-    ) {
-        $process = new Process(
-            $command,
-            base_path($this->vendorPath),
-            $envVars,
-        );
-        $process->setTty(Process::isTtySupported());
-
-        if ($disableTimeout) {
-            $process->setTimeout(null);
-        } else {
-            $process->setTimeout(config('blast.build_timeout', 300));
-        }
-
-        $process->mustRun();
     }
 }

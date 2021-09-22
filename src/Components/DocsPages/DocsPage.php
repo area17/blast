@@ -19,7 +19,7 @@ class DocsPage extends Component
     public function __construct(
         $label = null,
         $title = null,
-        $description = null,
+        $description = null
     ) {
         $this->label = $label;
         $this->title = $title;

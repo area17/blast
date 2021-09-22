@@ -1,5 +1,5 @@
 {
-    "phpVersion": "8.0",
+    "phpVersion": "7.3",
     "semi": true,
     "arrowParens": "always",
     "singleQuote": true,

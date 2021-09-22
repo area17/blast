@@ -5,6 +5,7 @@ namespace A17\Blast;
 use A17\Blast\Commands\Demo;
 use A17\Blast\Commands\GenerateStories;
 use A17\Blast\Commands\Launch;
+use A17\Blast\Commands\Publish;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
@@ -33,6 +34,7 @@ final class BlastServiceProvider extends ServiceProvider
                 Demo::class,
                 GenerateStories::class,
                 Launch::class,
+                Publish::class,
             ]);
         }
     }
@@ -57,7 +59,7 @@ final class BlastServiceProvider extends ServiceProvider
     private function bootBladeComponents(): void
     {
         $this->callAfterResolving(BladeCompiler::class, function (
-            BladeCompiler $blade,
+            BladeCompiler $blade
         ) {
             $prefix = config('blast.prefix', '');
 
