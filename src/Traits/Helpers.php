@@ -12,7 +12,7 @@ trait Helpers
     private function runProcessInBlast(
         array $command,
         $disableTimeout = false,
-        $envVars = null,
+        $envVars = null
     ) {
         $process = new Process(
             $command,
