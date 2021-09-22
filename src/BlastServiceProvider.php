@@ -59,7 +59,7 @@ final class BlastServiceProvider extends ServiceProvider
     private function bootBladeComponents(): void
     {
         $this->callAfterResolving(BladeCompiler::class, function (
-            BladeCompiler $blade,
+            BladeCompiler $blade
         ) {
             $prefix = config('blast.prefix', '');
 
