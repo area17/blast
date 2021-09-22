@@ -10,7 +10,7 @@
         "prod": "npm run production",
         "production": "mix --production",
         "build-storybook": "build-storybook",
-        "storybook": "concurrently \"start-storybook --quiet -p 6006\" \"npm run watch-components\" \"npm run watch-data\"",
+        "storybook": "concurrently \"start-storybook --quiet -s $STORYBOOK_STATIC_PATH -p 6006\" \"npm run watch-components\" \"npm run watch-data\"",
         "watch-components": "chokidar \"$COMPONENTPATH/**/*.blade.php\" -d 0 -c \"cd $PROJECTPATH && php artisan blast:generate-stories --watchEvent={event} -- '{path}';\"",
         "watch-data": "chokidar \"$COMPONENTPATH/data/**/*.php\" \"$COMPONENTPATH/**/*.md\" -d 0 -c \"cd $PROJECTPATH && php artisan blast:generate-stories;\"",
         "prepare": "husky install",

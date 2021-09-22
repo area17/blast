@@ -4,13 +4,15 @@ namespace A17\Blast\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Symfony\Component\Process\Process;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use A17\Blast\DataStore;
+use A17\Blast\Traits\Helpers;
 
 class GenerateStories extends Command
 {
+    use Helpers;
+
     /**
      * The name and signature of the console command.
      *
@@ -391,29 +393,5 @@ class GenerateStories extends Command
         }
 
         return false;
-    }
-
-    /**
-     * @return void
-     */
-    private function runProcessInBlast(
-        array $command,
-        $disableTimeout = false,
-        $envVars = null,
-    ) {
-        $process = new Process(
-            $command,
-            base_path($this->vendorPath),
-            $envVars,
-        );
-        $process->setTty(Process::isTtySupported());
-
-        if ($disableTimeout) {
-            $process->setTimeout(null);
-        } else {
-            $process->setTimeout(config('blast.build_timeout', 300));
-        }
-
-        $process->mustRun();
     }
 }
