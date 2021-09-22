@@ -310,46 +310,52 @@ class GenerateStories extends Command
 
         // build options array
         if (Arr::has($item, 'options')) {
-            if (Arr::has($item['options'], 'name')) {
-                $data['name'] = $item['options']['name'];
-            }
+            $options = $item['options'];
 
-            if (Arr::has($item['options'], 'status')) {
-                $data['parameters']['status'] = [
-                    'type' => $item['options']['status'],
-                ];
-            }
+            if (Arr::has($options, 'preset')) {
+                $preset = $this->dataStore->get($options['preset']);
 
-            if (Arr::has($item['options'], 'layout')) {
-                $data['parameters']['layout'] = $item['options']['layout'];
-            }
-
-            if (Arr::has($item['options'], 'args')) {
-                $data['args'] = $item['options']['args'];
-            }
-
-            if (Arr::has($item['options'], 'argTypes')) {
-                $data['argTypes'] = $item['options']['argTypes'];
-            }
-
-            if (Arr::has($item['options'], 'design')) {
-                $data['parameters']['design'] = [
-                    'type' => 'figma',
-                    'url' => $item['options']['design'],
-                ];
-            }
-
-            if (Arr::has($item['options'], 'preset')) {
-                $preset = $this->dataStore->get($item['options']['preset']);
-
-                foreach (array_keys($preset) as $key) {
-                    if (Arr::has($preset, $key)) {
-                        $data[$key] = array_merge(
-                            $preset[$key],
-                            $data[$key] ?? [],
+                foreach ($preset as $key => $settings) {
+                    if (is_array($settings)) {
+                        $options[$key] = array_merge(
+                            $settings,
+                            $options[$key] ?? [],
                         );
+                    } else {
+                        if (!Arr::has($options, $key)) {
+                            $options[$key] = $settings;
+                        }
                     }
                 }
+            }
+
+            if (Arr::has($options, 'name')) {
+                $data['name'] = $options['name'];
+            }
+
+            if (Arr::has($options, 'status')) {
+                $data['parameters']['status'] = [
+                    'type' => $options['status'],
+                ];
+            }
+
+            if (Arr::has($options, 'layout')) {
+                $data['parameters']['layout'] = $options['layout'];
+            }
+
+            if (Arr::has($options, 'args')) {
+                $data['args'] = $options['args'];
+            }
+
+            if (Arr::has($options, 'argTypes')) {
+                $data['argTypes'] = $options['argTypes'];
+            }
+
+            if (Arr::has($options, 'design')) {
+                $data['parameters']['design'] = [
+                    'type' => 'figma',
+                    'url' => $options['design'],
+                ];
             }
         }
 
