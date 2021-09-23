@@ -45,7 +45,6 @@ return [
     'vendor_path' => 'vendor/area17/blast',
 
     'components' => [
-        'docs-page' =>
-            \A17\Blast\Components\Components\DocsPages\DocsPage::class,
+        'docs-page' => \A17\Blast\Components\DocsPages\DocsPage::class,
     ],
 ];
