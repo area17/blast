@@ -4,9 +4,12 @@ namespace A17\Blast\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use A17\Blast\Traits\Helpers;
 
 class Demo extends Command
 {
+    use Helpers;
+
     /**
      * The name and signature of the console command.
      *
@@ -35,7 +38,7 @@ class Demo extends Command
 
         $this->filesystem = $filesystem;
         $this->storyViewsPath = base_path('resources/views/stories');
-        $this->vendorPath = config('blast.vendor_path');
+        $this->vendorPath = $this->getVendorPath();
     }
 
     /*
@@ -66,8 +69,7 @@ class Demo extends Command
         $localComponentsPath = base_path(
             'resources/views/components/blast-demo',
         );
-        $packageComponentsPath =
-            base_path($this->vendorPath) . '/demo/components';
+        $packageComponentsPath = $this->vendorPath . '/demo/components';
 
         $this->filesystem->ensureDirectoryExists($localComponentsPath);
 
@@ -87,7 +89,7 @@ class Demo extends Command
     private function CopyStoryFiles()
     {
         $localComponentsPath = base_path('resources/views/stories/blast-demo');
-        $packageComponentsPath = base_path($this->vendorPath) . '/demo/stories';
+        $packageComponentsPath = $this->vendorPath . '/demo/stories';
 
         $this->filesystem->ensureDirectoryExists($localComponentsPath);
 
