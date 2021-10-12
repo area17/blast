@@ -47,7 +47,7 @@ class GenerateStories extends Command
         $this->dataStore = $dataStore;
         $this->filesystem = $filesystem;
         $this->storyViewsPath = base_path('resources/views/stories');
-        $this->vendorPath = config('blast.vendor_path');
+        $this->vendorPath = $this->getVendorPath();
         $this->packageStoriesPath = $this->vendorPath . '/stories';
     }
 
@@ -91,9 +91,7 @@ class GenerateStories extends Command
 
         // get relative path
         $relativePath = str_replace($storyPathSlash, '', $dirname);
-        $storyPath = base_path(
-            $this->packageStoriesPath . '/' . $relativePath . '.stories.json',
-        );
+        $storyPath = $this->packageStoriesPath . '/' . $relativePath . '.stories.json';
 
         // check if story exists
         if ($this->filesystem->exists($storyPath)) {
@@ -192,12 +190,7 @@ class GenerateStories extends Command
 
         foreach ($groups as $group) {
             $template = $this->buildStoryTemplate($group);
-            $storyFilePath = base_path(
-                $this->packageStoriesPath .
-                    '/' .
-                    $group['path'] .
-                    '.stories.json',
-            );
+            $storyFilePath = $this->packageStoriesPath . '/' . $group['path'] . '.stories.json';
             $storyPath = Str::beforeLast($storyFilePath, '/');
             $fileData = json_encode($template, JSON_PRETTY_PRINT);
 

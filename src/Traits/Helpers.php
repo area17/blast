@@ -3,6 +3,7 @@
 namespace A17\Blast\Traits;
 
 use Symfony\Component\Process\Process;
+use Illuminate\Support\Str;
 
 trait Helpers
 {
@@ -16,7 +17,7 @@ trait Helpers
     ) {
         $process = new Process(
             $command,
-            base_path($this->vendorPath),
+            $this->vendorPath,
             $envVars,
         );
         $process->setTty(Process::isTtySupported());
@@ -44,5 +45,21 @@ trait Helpers
         if ($this->filesystem->exists($from)) {
             $this->filesystem->copyDirectory($from, $to);
         }
+    }
+
+    /**
+     * Returns the full vendor_path for Blast.
+     *
+     * @return string
+     */
+    private function getVendorPath()
+    {
+        $vendorPath = config('blast.vendor_path');
+
+        if (Str::startsWith($vendorPath, '/')) {
+            return $vendorPath;
+        }
+
+        return base_path($vendorPath);
     }
 }
