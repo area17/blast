@@ -91,7 +91,8 @@ class GenerateStories extends Command
 
         // get relative path
         $relativePath = str_replace($storyPathSlash, '', $dirname);
-        $storyPath = $this->packageStoriesPath . '/' . $relativePath . '.stories.json';
+        $storyPath =
+            $this->packageStoriesPath . '/' . $relativePath . '.stories.json';
 
         // check if story exists
         if ($this->filesystem->exists($storyPath)) {
@@ -190,7 +191,11 @@ class GenerateStories extends Command
 
         foreach ($groups as $group) {
             $template = $this->buildStoryTemplate($group);
-            $storyFilePath = $this->packageStoriesPath . '/' . $group['path'] . '.stories.json';
+            $storyFilePath =
+                $this->packageStoriesPath .
+                '/' .
+                $group['path'] .
+                '.stories.json';
             $storyPath = Str::beforeLast($storyFilePath, '/');
             $fileData = json_encode($template, JSON_PRETTY_PRINT);
 
@@ -319,6 +324,22 @@ class GenerateStories extends Command
                             $options[$key] = $settings;
                         }
                     }
+                }
+            }
+
+            if (Arr::has($options, 'presetArgs')) {
+                $presetArgs = $options['presetArgs'];
+
+                foreach ($presetArgs as $key => $preset) {
+                    if (is_array($preset)) {
+                        $args = array_map(function ($item) {
+                            return $this->dataStore->get($item)['args'] ?? [];
+                        }, $preset);
+                    } else {
+                        $args = $this->dataStore->get($preset)['args'] ?? [];
+                    }
+
+                    $options['args'][$key] = $args;
                 }
             }
 
