@@ -103,6 +103,11 @@ final class BlastServiceProvider extends ServiceProvider
 
     private function setAssetsFromMix(): void
     {
+        // bail early if assets are already set
+        if ($this->areAssetsSet()) {
+            return;
+        }
+
         $assets = [
             'css' => [],
             'js' => [],
@@ -110,8 +115,8 @@ final class BlastServiceProvider extends ServiceProvider
 
         $mix_manifest_path = public_path('mix-manifest.json');
 
-        // if the mix manifest exists and assets aren't set, automatically load them
-        if (is_file($mix_manifest_path) && !$this->areAssetsSet()) {
+        // if the mix manifest exists, automatically load assets
+        if (is_file($mix_manifest_path)) {
             $mix_manifest = json_decode(file_get_contents($mix_manifest_path));
 
             foreach ($mix_manifest as $key => $asset) {
