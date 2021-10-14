@@ -134,14 +134,8 @@ final class BlastServiceProvider extends ServiceProvider
     private function areAssetsSet(): bool
     {
         $assets = config('blast.assets');
-        $counter = 0;
 
-        // loop over assets and if any of the asset types have something set, increase the counter
-        foreach ($assets as $asset) {
-            $counter = $counter + count($asset);
-        }
-
-        // if the counter is greater than 0, we can assume that assets have been set
-        return $counter > 0;
+        // if the count is greater than 0, we can assume that assets have been set
+        return count(array_filter($assets)) > 0;
     }
 }
