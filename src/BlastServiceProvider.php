@@ -103,8 +103,8 @@ final class BlastServiceProvider extends ServiceProvider
 
     private function setAssetsFromMix(): void
     {
-        // bail early if assets are already set
-        if ($this->areAssetsSet()) {
+        // bail early if autoload disabled or assets are already set
+        if (!config('blast.autoload_assets') || $this->areAssetsSet()) {
             return;
         }
 
