@@ -15,7 +15,10 @@ class Launch extends Command
      *
      * @var string
      */
-    protected $signature = 'blast:launch {--noInstall} {--noGenerate}';
+    protected $signature = 'blast:launch
+                                        {--install : Force install dependencies}
+                                        {--noInstall : Deprecated. Launch Blast without installing dependencies}
+                                        {--noGenerate : Skip auto-generating stories based on existing components}';
 
     /**
      * The console command description.
@@ -53,43 +56,36 @@ class Launch extends Command
         $progressBar = $this->output->createProgressBar(5);
         $progressBar->setFormat('%current%/%max% [%bar%] %message%');
 
-        $npmInstall = !$this->option('noInstall');
+        $npmInstall = $this->option('install');
+        $noInstall = $this->option('noInstall');
+        $depsInstalled = $this->filesystem->exists(
+            $this->vendorPath . '/node_modules/@storybook',
+        );
 
         $progressBar->setMessage(
-            ($npmInstall ? 'Installing' : 'Reusing') .
-                " npm dependencies...\n\n",
+            ($npmInstall || (!$npmInstall && !$depsInstalled)
+                ? 'Installing'
+                : 'Reusing') . " npm dependencies...\n\n",
         );
 
         $progressBar->start();
 
+        if ($noInstall) {
+            $this->info(
+                'The `--noInstall` option has been removed and npm dependencies are now installed automatically. Run `php artisan blast:launch` without options to skip installing dependencies and use the `--install` option to force install dependencies',
+            );
+
+            sleep(5);
+        }
+
         // npm install
-        if ($npmInstall) {
-            if (
-                $this->filesystem->exists(
-                    $this->vendorPath . '/node_modules/@storybook',
-                )
-            ) {
-                if (
-                    $this->confirm(
-                        'It looks like Storybook is already installed. Install anyway? Tip: add --noInstall to skip this step in the future',
-                        true,
-                    )
-                ) {
-                    $this->runProcessInBlast([
-                        'npm',
-                        'ci',
-                        '--production',
-                        '--ignore-scripts',
-                    ]);
-                }
-            } else {
-                $this->runProcessInBlast([
-                    'npm',
-                    'ci',
-                    '--production',
-                    '--ignore-scripts',
-                ]);
-            }
+        if ($npmInstall || (!$npmInstall && !$depsInstalled)) {
+            $this->runProcessInBlast([
+                'npm',
+                'ci',
+                '--production',
+                '--ignore-scripts',
+            ]);
         } else {
             sleep(1);
         }
