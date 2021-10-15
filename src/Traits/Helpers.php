@@ -15,11 +15,7 @@ trait Helpers
         $disableTimeout = false,
         $envVars = null
     ) {
-        $process = new Process(
-            $command,
-            $this->vendorPath,
-            $envVars,
-        );
+        $process = new Process($command, $this->vendorPath, $envVars);
         $process->setTty(Process::isTtySupported());
 
         if ($disableTimeout) {
@@ -61,5 +57,35 @@ trait Helpers
         }
 
         return base_path($vendorPath);
+    }
+
+    private function dependenciesInstalled()
+    {
+        return $this->filesystem->exists(
+            $this->vendorPath . '/node_modules/@storybook',
+        );
+    }
+
+    private function getInstallMessage($npmInstall)
+    {
+        $depsInstalled = $this->dependenciesInstalled();
+
+        return ($npmInstall || (!$npmInstall && !$depsInstalled)
+            ? 'Installing'
+            : 'Reusing') . ' npm dependencies...';
+    }
+
+    private function installDependencies($npmInstall)
+    {
+        $depsInstalled = $this->dependenciesInstalled();
+
+        if ($npmInstall || (!$npmInstall && !$depsInstalled)) {
+            $this->runProcessInBlast([
+                'npm',
+                'ci',
+                '--production',
+                '--ignore-scripts',
+            ]);
+        }
     }
 }
