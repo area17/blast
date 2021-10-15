@@ -71,6 +71,12 @@ Set the background color of the component canvas area. The Storybook theme doesn
 
 Default: `''`
 
+#### `autoload_assets`
+
+Blast will attempt to autoload assets from a `mix-manifest.json` if the assets arrays are empty. This option allows you to disable that functionality.
+
+Default: `true`
+
 #### `assets`
 
 An array of urls to the `css` and `js` used by your components. The `css` and `js` urls are seperated out as the `css` is included in the head and the `js` is included before the closing `body` tag. You will most likely need to configure this after installing the package.
