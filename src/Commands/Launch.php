@@ -53,22 +53,22 @@ class Launch extends Command
      */
     public function handle()
     {
-        $progressBar = $this->output->createProgressBar(5);
-        $progressBar->setFormat('%current%/%max% [%bar%] %message%');
-
+        $noGenerate = $this->option('noGenerate');
         $npmInstall = $this->option('install');
         $noInstall = $this->option('noInstall');
-        $depsInstalled = $this->filesystem->exists(
-            $this->vendorPath . '/node_modules/@storybook',
-        );
+        $installMessage = $this->getInstallMessage($npmInstall);
 
-        $progressBar->setMessage(
-            ($npmInstall || (!$npmInstall && !$depsInstalled)
-                ? 'Installing'
-                : 'Reusing') . " npm dependencies...\n\n",
-        );
+        // init progress bar
+        $progressBar = $this->output->createProgressBar(3);
+        $progressBar->setFormat('%current%/%max% [%bar%] %message%');
 
+        // Install step
+        $progressBar->setMessage($installMessage);
         $progressBar->start();
+
+        if ($npmInstall) {
+            $this->newLine();
+        }
 
         if ($noInstall) {
             $this->info(
@@ -78,21 +78,12 @@ class Launch extends Command
             sleep(5);
         }
 
-        // npm install
-        if ($npmInstall || (!$npmInstall && !$depsInstalled)) {
-            $this->runProcessInBlast([
-                'npm',
-                'ci',
-                '--production',
-                '--ignore-scripts',
-            ]);
-        } else {
-            sleep(1);
-        }
+        // install
+        $this->installDependencies($npmInstall);
+
+        usleep(250000);
 
         // generate stories
-        $noGenerate = $this->option('noGenerate');
-
         if (!$noGenerate) {
             $this->info('');
             $progressBar->setMessage('Generating Stories...');
@@ -100,13 +91,18 @@ class Launch extends Command
 
             $this->call('blast:generate-stories');
         } else {
+            $this->info('');
+            $progressBar->setMessage('Skipping Story Generation...');
             $progressBar->advance();
-            sleep(1);
         }
+
+        usleep(250000);
 
         // publish FE assets
         $this->info('');
         $progressBar->setMessage('Publishing FE assets.');
+        $progressBar->advance();
+        $this->newLine();
         $this->call('vendor:publish', ['--tag' => 'blast-assets']);
 
         // init storybook and watch stories
@@ -115,8 +111,6 @@ class Launch extends Command
             'Setup Complete. Booting Storybook and watching stories.',
         );
         $progressBar->finish();
-
-        sleep(1);
 
         $this->runProcessInBlast(['npm', 'run', 'storybook'], true, [
             'STORYBOOK_SERVER_URL' => $this->storybookServer,
