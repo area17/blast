@@ -212,7 +212,7 @@ class GenerateStories extends Command
 
         $this->info('');
         $progressBar->setMessage(
-            'Stories created. Run blast:build to init Storybook.',
+            'Stories created. Run blast:launch to init Storybook.',
         );
         $progressBar->finish();
 
@@ -239,6 +239,8 @@ class GenerateStories extends Command
                     $relativePathname = $file->getRelativePathname();
                     $relativePath = $file->getRelativePath();
                     $pathname = $file->getPathname();
+                    $storyName =
+                        $relativePath == '' ? $filename : $relativePath;
 
                     // if the view is in the folder root, add it to a generic 'components' directory
                     $storyPath = $relativePath
@@ -251,10 +253,10 @@ class GenerateStories extends Command
                         'options' => $this->getStoryOptions($pathname),
                     ];
 
-                    if (Arr::has($groups, $relativePath)) {
-                        $groups[$relativePath]['children'][] = $childData;
+                    if (Arr::has($groups, $storyName)) {
+                        $groups[$storyName]['children'][] = $childData;
                     } else {
-                        $groups[$relativePath] = [
+                        $groups[$storyName] = [
                             'path' => $storyPath,
                             'docs' => $this->getDocs($file->getPath()),
                             'children' => [$childData],
