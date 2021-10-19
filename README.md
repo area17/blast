@@ -1,5 +1,9 @@
 # Blast — Storybook for Laravel Blade 🚀
 
+<a href="https://github.com/area17/blast/actions"><img src="https://github.com/area17/blast/actions/workflows/phpunit.yml/badge.svg" alt="phpunit tests status"></a>
+<a href="https://packagist.org/packages/area17/blast"><img src="https://poser.pugx.org/area17/blast/v/stable.svg" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/area17/blast"><img src="https://poser.pugx.org/area17/blast/license.svg" alt="License"></a>
+
 ## What is Blast?
 
 Blast is a low maintenance component library using Storybook Server, built to integrate into your Laravel apps.
