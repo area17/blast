@@ -18,7 +18,8 @@ class Publish extends Command
      * @var string
      */
     protected $signature = 'blast:publish
-                                {--o|output-dir=storybook-static : Directory where to store built files}';
+                                        {--install : Force install dependencies}
+                                        {--o|output-dir=storybook-static : Directory where to store built files}';
 
     /**
      * The console command description.
@@ -41,7 +42,7 @@ class Publish extends Command
 
         $this->filesystem = $filesystem;
         $this->storybookServer = config('blast.storybook_server_url');
-        $this->vendorPath = config('blast.vendor_path');
+        $this->vendorPath = $this->getVendorPath();
         $this->storybookStatuses = config('blast.storybook_statuses');
         $this->storybookTheme = config('blast.storybook_theme', false);
     }
@@ -53,13 +54,32 @@ class Publish extends Command
      */
     public function handle()
     {
+        $npmInstall = $this->option('install');
+        $installMessage = $this->getInstallMessage($npmInstall);
         $outputDir = $this->option('output-dir');
 
         if (Str::startsWith($outputDir, '/')) {
             $outputDir = Str::after($outputDir, '/');
         }
 
-        $this->info('Starting static Storybook build..');
+        $progressBar = $this->output->createProgressBar(3);
+        $progressBar->setFormat('%current%/%max% [%bar%] %message%');
+
+        $progressBar->setMessage($installMessage);
+        $progressBar->start();
+
+        if ($npmInstall) {
+            $this->newLine();
+        }
+
+        // install
+        $this->installDependencies($npmInstall);
+
+        usleep(250000);
+
+        $this->info('');
+        $progressBar->setMessage('Starting static Storybook build...');
+        $progressBar->advance();
 
         $process = ['npm', 'run', 'build-storybook'];
 
@@ -73,18 +93,30 @@ class Publish extends Command
             'STORYBOOK_SERVER_URL' => $this->storybookServer,
             'STORYBOOK_STATUSES' => json_encode($this->storybookStatuses),
             'STORYBOOK_THEME' => json_encode($this->storybookTheme),
-            'LIBSTORYPATH' => base_path($this->vendorPath . '/stories'),
+            'LIBSTORYPATH' => $this->vendorPath . '/stories',
             'PROJECTPATH' => base_path(),
             'COMPONENTPATH' => base_path('resources/views/stories'),
         ]);
 
-        $this->info('Copying static build to `/public/' . $outputDir . '`..');
+        usleep(250000);
 
-        $this->info('View at ' . url($outputDir . '/index.html'));
+        $this->info('');
+        $progressBar->setMessage(
+            'Copying static build to `/public/' . $outputDir . '`..',
+        );
+        $progressBar->advance();
 
         $outputPath = $this->vendorPath . '/' . $outputDir;
         $destPath = public_path($outputDir);
 
         $this->CopyDirectory($outputPath, $destPath);
+
+        $this->info('');
+        $progressBar->setMessage('Publish Complete');
+        $progressBar->finish();
+
+        $this->newLine();
+
+        $this->info('View at ' . url($outputDir . '/index.html'));
     }
 }

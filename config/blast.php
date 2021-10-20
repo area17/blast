@@ -10,6 +10,9 @@ return [
     // set the background color of the storybook canvas area
     'canvas_bg_color' => '',
 
+    // Blast will attempt to autoload assets from a mix-manifest if the assets arrays are empty. This option allows you to disable that functionality
+    'autoload_assets' => true,
+
     'assets' => [
         'css' => [],
         'js' => [],
@@ -45,7 +48,6 @@ return [
     'vendor_path' => 'vendor/area17/blast',
 
     'components' => [
-        'docs-page' =>
-            \A17\Blast\Components\Components\DocsPages\DocsPage::class,
+        'docs-page' => \A17\Blast\Components\DocsPages\DocsPage::class,
     ],
 ];

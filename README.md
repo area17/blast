@@ -1,5 +1,9 @@
 # Blast — Storybook for Laravel Blade 🚀
 
+<a href="https://github.com/area17/blast/actions"><img src="https://github.com/area17/blast/actions/workflows/phpunit.yml/badge.svg" alt="phpunit tests status"></a>
+<a href="https://packagist.org/packages/area17/blast"><img src="https://poser.pugx.org/area17/blast/v/stable.svg" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/area17/blast"><img src="https://poser.pugx.org/area17/blast/license.svg" alt="License"></a>
+
 ## What is Blast?
 
 Blast is a low maintenance component library using Storybook Server, built to integrate into your Laravel apps.
@@ -30,7 +34,7 @@ This will install all of the dependencies, generate stories and start a Storyboo
 
 ### Options
 
--   `--noInstall` - skip installing dependencies
+-   `--install` - force install dependencies
 -   `--noGenerate` - skip auto-generating stories based on existing components
 
 ## Generating Stories
@@ -70,6 +74,12 @@ Default: `[]`
 Set the background color of the component canvas area. The Storybook theme doesn't allow this without also changing the background of other areas of the UI.
 
 Default: `''`
+
+#### `autoload_assets`
+
+Blast will attempt to autoload assets from a `mix-manifest.json` if the assets arrays are empty. This option allows you to disable that functionality.
+
+Default: `true`
 
 #### `assets`
 

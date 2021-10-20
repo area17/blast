@@ -47,7 +47,7 @@ class GenerateStories extends Command
         $this->dataStore = $dataStore;
         $this->filesystem = $filesystem;
         $this->storyViewsPath = base_path('resources/views/stories');
-        $this->vendorPath = config('blast.vendor_path');
+        $this->vendorPath = $this->getVendorPath();
         $this->packageStoriesPath = $this->vendorPath . '/stories';
     }
 
@@ -91,9 +91,8 @@ class GenerateStories extends Command
 
         // get relative path
         $relativePath = str_replace($storyPathSlash, '', $dirname);
-        $storyPath = base_path(
-            $this->packageStoriesPath . '/' . $relativePath . '.stories.json',
-        );
+        $storyPath =
+            $this->packageStoriesPath . '/' . $relativePath . '.stories.json';
 
         // check if story exists
         if ($this->filesystem->exists($storyPath)) {
@@ -192,12 +191,11 @@ class GenerateStories extends Command
 
         foreach ($groups as $group) {
             $template = $this->buildStoryTemplate($group);
-            $storyFilePath = base_path(
+            $storyFilePath =
                 $this->packageStoriesPath .
-                    '/' .
-                    $group['path'] .
-                    '.stories.json',
-            );
+                '/' .
+                $group['path'] .
+                '.stories.json';
             $storyPath = Str::beforeLast($storyFilePath, '/');
             $fileData = json_encode($template, JSON_PRETTY_PRINT);
 
@@ -214,7 +212,7 @@ class GenerateStories extends Command
 
         $this->info('');
         $progressBar->setMessage(
-            'Stories created. Run blast:build to init Storybook.',
+            'Stories created. Run blast:launch to init Storybook.',
         );
         $progressBar->finish();
 
@@ -241,6 +239,8 @@ class GenerateStories extends Command
                     $relativePathname = $file->getRelativePathname();
                     $relativePath = $file->getRelativePath();
                     $pathname = $file->getPathname();
+                    $storyName =
+                        $relativePath == '' ? $filename : $relativePath;
 
                     // if the view is in the folder root, add it to a generic 'components' directory
                     $storyPath = $relativePath
@@ -253,10 +253,10 @@ class GenerateStories extends Command
                         'options' => $this->getStoryOptions($pathname),
                     ];
 
-                    if (Arr::has($groups, $relativePath)) {
-                        $groups[$relativePath]['children'][] = $childData;
+                    if (Arr::has($groups, $storyName)) {
+                        $groups[$storyName]['children'][] = $childData;
                     } else {
-                        $groups[$relativePath] = [
+                        $groups[$storyName] = [
                             'path' => $storyPath,
                             'docs' => $this->getDocs($file->getPath()),
                             'children' => [$childData],
@@ -326,6 +326,22 @@ class GenerateStories extends Command
                             $options[$key] = $settings;
                         }
                     }
+                }
+            }
+
+            if (Arr::has($options, 'presetArgs')) {
+                $presetArgs = $options['presetArgs'];
+
+                foreach ($presetArgs as $key => $preset) {
+                    if (is_array($preset)) {
+                        $args = array_map(function ($item) {
+                            return $this->dataStore->get($item)['args'] ?? [];
+                        }, $preset);
+                    } else {
+                        $args = $this->dataStore->get($preset)['args'] ?? [];
+                    }
+
+                    $options['args'][$key] = $args;
                 }
             }
 

@@ -3,6 +3,7 @@
 namespace A17\Blast\Traits;
 
 use Symfony\Component\Process\Process;
+use Illuminate\Support\Str;
 
 trait Helpers
 {
@@ -14,11 +15,7 @@ trait Helpers
         $disableTimeout = false,
         $envVars = null
     ) {
-        $process = new Process(
-            $command,
-            base_path($this->vendorPath),
-            $envVars,
-        );
+        $process = new Process($command, $this->vendorPath, $envVars);
         $process->setTty(Process::isTtySupported());
 
         if ($disableTimeout) {
@@ -43,6 +40,52 @@ trait Helpers
 
         if ($this->filesystem->exists($from)) {
             $this->filesystem->copyDirectory($from, $to);
+        }
+    }
+
+    /**
+     * Returns the full vendor_path for Blast.
+     *
+     * @return string
+     */
+    private function getVendorPath()
+    {
+        $vendorPath = config('blast.vendor_path');
+
+        if (Str::startsWith($vendorPath, '/')) {
+            return $vendorPath;
+        }
+
+        return base_path($vendorPath);
+    }
+
+    private function dependenciesInstalled()
+    {
+        return $this->filesystem->exists(
+            $this->vendorPath . '/node_modules/@storybook',
+        );
+    }
+
+    private function getInstallMessage($npmInstall)
+    {
+        $depsInstalled = $this->dependenciesInstalled();
+
+        return ($npmInstall || (!$npmInstall && !$depsInstalled)
+            ? 'Installing'
+            : 'Reusing') . ' npm dependencies...';
+    }
+
+    private function installDependencies($npmInstall)
+    {
+        $depsInstalled = $this->dependenciesInstalled();
+
+        if ($npmInstall || (!$npmInstall && !$depsInstalled)) {
+            $this->runProcessInBlast([
+                'npm',
+                'ci',
+                '--production',
+                '--ignore-scripts',
+            ]);
         }
     }
 }

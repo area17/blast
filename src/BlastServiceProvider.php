@@ -9,6 +9,7 @@ use A17\Blast\Commands\Publish;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
+use Illuminate\Support\Str;
 
 final class BlastServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,7 @@ final class BlastServiceProvider extends ServiceProvider
         $this->bootBladeDirectives();
         $this->bootRoutes();
         $this->bootPublishing();
+        $this->setAssetsFromMix();
     }
 
     private function registerCommands(): void
@@ -97,5 +99,43 @@ final class BlastServiceProvider extends ServiceProvider
                 'blast-assets',
             );
         }
+    }
+
+    private function setAssetsFromMix(): void
+    {
+        // bail early if autoload disabled or assets are already set
+        if (!config('blast.autoload_assets') || $this->areAssetsSet()) {
+            return;
+        }
+
+        $assets = [
+            'css' => [],
+            'js' => [],
+        ];
+
+        $mix_manifest_path = public_path('mix-manifest.json');
+
+        // if the mix manifest exists, automatically load assets
+        if (is_file($mix_manifest_path)) {
+            $mix_manifest = json_decode(file_get_contents($mix_manifest_path));
+
+            foreach ($mix_manifest as $key => $asset) {
+                if (Str::endsWith($key, '.js')) {
+                    $assets['js'][] = config('app.url') . $asset;
+                } elseif (Str::endsWith($key, '.css')) {
+                    $assets['css'][] = config('app.url') . $asset;
+                }
+            }
+
+            config(['blast.assets' => $assets]);
+        }
+    }
+
+    private function areAssetsSet(): bool
+    {
+        $assets = config('blast.assets');
+
+        // if the count is greater than 0, we can assume that assets have been set
+        return count(array_filter($assets)) > 0;
     }
 }

@@ -29,6 +29,9 @@
         "illuminate/support": "^7.0|^8.0",
         "illuminate/view": "^7.0|^8.0"
     },
+    "require-dev": {
+        "orchestra/testbench": "^6.21"
+    },
     "autoload": {
         "psr-4": {
             "A17\\Blast\\": "src"

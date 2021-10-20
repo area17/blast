@@ -15,7 +15,10 @@ class Launch extends Command
      *
      * @var string
      */
-    protected $signature = 'blast:launch {--noInstall} {--noGenerate}';
+    protected $signature = 'blast:launch
+                                        {--install : Force install dependencies}
+                                        {--noInstall : Deprecated. Launch Blast without installing dependencies}
+                                        {--noGenerate : Skip auto-generating stories based on existing components}';
 
     /**
      * The console command description.
@@ -38,7 +41,7 @@ class Launch extends Command
 
         $this->filesystem = $filesystem;
         $this->storybookServer = config('blast.storybook_server_url');
-        $this->vendorPath = config('blast.vendor_path');
+        $this->vendorPath = $this->getVendorPath();
         $this->storybookStatuses = config('blast.storybook_statuses');
         $this->storybookTheme = config('blast.storybook_theme', false);
     }
@@ -50,53 +53,37 @@ class Launch extends Command
      */
     public function handle()
     {
-        $progressBar = $this->output->createProgressBar(5);
+        $noGenerate = $this->option('noGenerate');
+        $npmInstall = $this->option('install');
+        $noInstall = $this->option('noInstall');
+        $installMessage = $this->getInstallMessage($npmInstall);
+
+        // init progress bar
+        $progressBar = $this->output->createProgressBar(3);
         $progressBar->setFormat('%current%/%max% [%bar%] %message%');
 
-        $npmInstall = !$this->option('noInstall');
-
-        $progressBar->setMessage(
-            ($npmInstall ? 'Installing' : 'Reusing') .
-                " npm dependencies...\n\n",
-        );
-
+        // Install step
+        $progressBar->setMessage($installMessage);
         $progressBar->start();
 
-        // npm install
         if ($npmInstall) {
-            if (
-                $this->filesystem->exists(
-                    $this->vendorPath . '/node_modules/@storybook',
-                )
-            ) {
-                if (
-                    $this->confirm(
-                        'It looks like Storybook is already installed. Install anyway? Tip: add --noInstall to skip this step in the future',
-                        true,
-                    )
-                ) {
-                    $this->runProcessInBlast([
-                        'npm',
-                        'ci',
-                        '--production',
-                        '--ignore-scripts',
-                    ]);
-                }
-            } else {
-                $this->runProcessInBlast([
-                    'npm',
-                    'ci',
-                    '--production',
-                    '--ignore-scripts',
-                ]);
-            }
-        } else {
-            sleep(1);
+            $this->newLine();
         }
 
-        // generate stories
-        $noGenerate = $this->option('noGenerate');
+        if ($noInstall) {
+            $this->info(
+                'The `--noInstall` option has been removed and npm dependencies are now installed automatically. Run `php artisan blast:launch` without options to skip installing dependencies and use the `--install` option to force install dependencies',
+            );
 
+            sleep(5);
+        }
+
+        // install
+        $this->installDependencies($npmInstall);
+
+        usleep(250000);
+
+        // generate stories
         if (!$noGenerate) {
             $this->info('');
             $progressBar->setMessage('Generating Stories...');
@@ -104,13 +91,18 @@ class Launch extends Command
 
             $this->call('blast:generate-stories');
         } else {
+            $this->info('');
+            $progressBar->setMessage('Skipping Story Generation...');
             $progressBar->advance();
-            sleep(1);
         }
+
+        usleep(250000);
 
         // publish FE assets
         $this->info('');
         $progressBar->setMessage('Publishing FE assets.');
+        $progressBar->advance();
+        $this->newLine();
         $this->call('vendor:publish', ['--tag' => 'blast-assets']);
 
         // init storybook and watch stories
@@ -120,14 +112,12 @@ class Launch extends Command
         );
         $progressBar->finish();
 
-        sleep(1);
-
         $this->runProcessInBlast(['npm', 'run', 'storybook'], true, [
             'STORYBOOK_SERVER_URL' => $this->storybookServer,
             'STORYBOOK_STATIC_PATH' => public_path(),
             'STORYBOOK_STATUSES' => json_encode($this->storybookStatuses),
             'STORYBOOK_THEME' => json_encode($this->storybookTheme),
-            'LIBSTORYPATH' => base_path($this->vendorPath . '/stories'),
+            'LIBSTORYPATH' => $this->vendorPath . '/stories',
             'PROJECTPATH' => base_path(),
             'COMPONENTPATH' => base_path('resources/views/stories'),
         ]);

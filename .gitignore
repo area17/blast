@@ -11,3 +11,4 @@ yarn-error.log
 /stories/*
 !/stories/.keep
 .php_cs.cache
+composer.lock
