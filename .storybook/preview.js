@@ -15,3 +15,5 @@ export const parameters = {
     },
   },
 };
+
+export const globalTypes = JSON.parse(process.env.STORYBOOK_GLOBAL_TYPES);

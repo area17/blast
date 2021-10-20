@@ -43,6 +43,8 @@ return [
         ],
     ],
 
+    'storybook_global_types' => [],
+
     'build_timeout' => 300,
 
     'vendor_path' => 'vendor/area17/blast',

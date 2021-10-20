@@ -45,6 +45,7 @@ class Publish extends Command
         $this->vendorPath = $this->getVendorPath();
         $this->storybookStatuses = config('blast.storybook_statuses');
         $this->storybookTheme = config('blast.storybook_theme', false);
+        $this->storybookGlobalTypes = config('blast.storybook_global_types', []);
     }
 
     /*
@@ -93,6 +94,7 @@ class Publish extends Command
             'STORYBOOK_SERVER_URL' => $this->storybookServer,
             'STORYBOOK_STATUSES' => json_encode($this->storybookStatuses),
             'STORYBOOK_THEME' => json_encode($this->storybookTheme),
+            'STORYBOOK_GLOBAL_TYPES' => json_encode($this->storybookGlobalTypes),
             'LIBSTORYPATH' => $this->vendorPath . '/stories',
             'PROJECTPATH' => base_path(),
             'COMPONENTPATH' => base_path('resources/views/stories'),
