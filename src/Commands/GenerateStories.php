@@ -119,10 +119,12 @@ class GenerateStories extends Command
             if ($watchEvent === 'unlink') {
                 unset($parsedStory['stories'][$key]);
             } else {
+                $options = $this->getStoryOptions($component);
                 $storyData = [
                     'name' => $filename,
                     'path' => $componentPath,
-                    'options' => $this->getStoryOptions($component),
+                    'options' => $options,
+                    'hash' => $this->getBladeChecksum($componentPath, $options['args'])
                 ];
                 $updatedChildData = $this->buildChildTemplate($storyData);
 
@@ -247,10 +249,12 @@ class GenerateStories extends Command
                         ? $relativePath
                         : str_replace('.blade.php', '', $filename);
 
+                    $options = $this->getStoryOptions($pathname);
                     $childData = [
                         'name' => $filename,
                         'path' => $relativePathname,
-                        'options' => $this->getStoryOptions($pathname),
+                        'options' => $options,
+                        'hash' => $this->getBladeChecksum($relativePathname, $options['args'])
                     ];
 
                     if (Arr::has($groups, $storyName)) {
@@ -301,6 +305,7 @@ class GenerateStories extends Command
                 str_replace('.blade.php', '', $item['name']),
                 '/',
             ),
+            'hash' => $item['hash'] ?? '',
             'parameters' => [
                 'server' => [
                     'id' => str_replace('.blade.php', '', $item['path']),
@@ -376,6 +381,20 @@ class GenerateStories extends Command
         }
 
         return $data;
+    }
+
+    /**
+     * @return string
+     */
+    private function getBladeChecksum($filepath, $bladeArgs = [])
+    {
+        if (!Str::endsWith($filepath, '.blade.php')) {
+            return '';
+        }
+
+        $bladePath = 'stories.' . str_replace('/','.', str_replace('.blade.php', '', $filepath));
+
+        return md5(view($bladePath, $bladeArgs)->render());
     }
 
     /**
