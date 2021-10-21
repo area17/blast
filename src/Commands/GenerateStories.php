@@ -120,11 +120,15 @@ class GenerateStories extends Command
                 unset($parsedStory['stories'][$key]);
             } else {
                 $options = $this->getStoryOptions($component);
+                $bladeArgs = [];
+                if (Arr::has($options, 'args')) {
+                    $bladeArgs = $options['args'];
+                }
                 $storyData = [
                     'name' => $filename,
                     'path' => $componentPath,
                     'options' => $options,
-                    'hash' => $this->getBladeChecksum($componentPath, $options['args'])
+                    'hash' => $this->getBladeChecksum($componentPath, $bladeArgs)
                 ];
                 $updatedChildData = $this->buildChildTemplate($storyData);
 
@@ -250,11 +254,15 @@ class GenerateStories extends Command
                         : str_replace('.blade.php', '', $filename);
 
                     $options = $this->getStoryOptions($pathname);
+                    $bladeArgs = [];
+                    if (Arr::has($options, 'args')) {
+                        $bladeArgs = $options['args'];
+                    }
                     $childData = [
                         'name' => $filename,
                         'path' => $relativePathname,
                         'options' => $options,
-                        'hash' => $this->getBladeChecksum($relativePathname, $options['args'])
+                        'hash' => $this->getBladeChecksum($relativePathname, $bladeArgs)
                     ];
 
                     if (Arr::has($groups, $storyName)) {
