@@ -119,6 +119,12 @@ Default:
 ]
 ```
 
+#### `storybook_global_types`
+
+The Global Types can be used, for example, to extend and edit the toolbar. The array of toolbars and globals options used by Storybook. More info [here](https://storybook.js.org/docs/react/essentials/toolbars-and-globals).
+
+Default: `[]`
+
 #### `build_timeout`
 
 Set a custom timeout for tasks in `launch` and `generate-stories`
