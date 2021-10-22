@@ -122,7 +122,7 @@ class GenerateStories extends Command
                 $storyData = [
                     'name' => $filename,
                     'path' => $componentPath,
-                    'options' => $this->getStoryOptions($component),
+                    'options' => $this->getStoryOptions($component)
                 ];
                 $updatedChildData = $this->buildChildTemplate($storyData);
 
@@ -250,7 +250,7 @@ class GenerateStories extends Command
                     $childData = [
                         'name' => $filename,
                         'path' => $relativePathname,
-                        'options' => $this->getStoryOptions($pathname),
+                        'options' => $this->getStoryOptions($pathname)
                     ];
 
                     if (Arr::has($groups, $storyName)) {
@@ -375,7 +375,23 @@ class GenerateStories extends Command
             }
         }
 
+        $data['hash'] = $this->getBladeChecksum($item['path'], $data['args'] ?? []);
+
         return $data;
+    }
+
+    /**
+     * @return string
+     */
+    private function getBladeChecksum($filepath, $bladeArgs = [])
+    {
+        if (!Str::endsWith($filepath, '.blade.php')) {
+            return '';
+        }
+
+        $bladePath = 'stories.' . str_replace('/','.', str_replace('.blade.php', '', $filepath));
+
+        return md5(view($bladePath, $bladeArgs)->render());
     }
 
     /**
