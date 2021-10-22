@@ -119,16 +119,10 @@ class GenerateStories extends Command
             if ($watchEvent === 'unlink') {
                 unset($parsedStory['stories'][$key]);
             } else {
-                $options = $this->getStoryOptions($component);
-                $bladeArgs = [];
-                if (Arr::has($options, 'args')) {
-                    $bladeArgs = $options['args'];
-                }
                 $storyData = [
                     'name' => $filename,
                     'path' => $componentPath,
-                    'options' => $options,
-                    'hash' => $this->getBladeChecksum($componentPath, $bladeArgs)
+                    'options' => $this->getStoryOptions($component)
                 ];
                 $updatedChildData = $this->buildChildTemplate($storyData);
 
@@ -253,16 +247,10 @@ class GenerateStories extends Command
                         ? $relativePath
                         : str_replace('.blade.php', '', $filename);
 
-                    $options = $this->getStoryOptions($pathname);
-                    $bladeArgs = [];
-                    if (Arr::has($options, 'args')) {
-                        $bladeArgs = $options['args'];
-                    }
                     $childData = [
                         'name' => $filename,
                         'path' => $relativePathname,
-                        'options' => $options,
-                        'hash' => $this->getBladeChecksum($relativePathname, $bladeArgs)
+                        'options' => $this->getStoryOptions($pathname)
                     ];
 
                     if (Arr::has($groups, $storyName)) {
@@ -313,7 +301,6 @@ class GenerateStories extends Command
                 str_replace('.blade.php', '', $item['name']),
                 '/',
             ),
-            'hash' => $item['hash'] ?? '',
             'parameters' => [
                 'server' => [
                     'id' => str_replace('.blade.php', '', $item['path']),
@@ -387,6 +374,8 @@ class GenerateStories extends Command
                 ];
             }
         }
+
+        $data['hash'] = $this->getBladeChecksum($item['path'], $data['args'] ?? []);
 
         return $data;
     }
