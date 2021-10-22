@@ -1,3 +1,5 @@
+import '../public/main.css';
+
 export const parameters = {
   server: {
     url: process.env.STORYBOOK_SERVER_URL
@@ -12,8 +14,8 @@ export const parameters = {
         return typeof notes === 'string' ? notes : notes.markdown || notes.text;
       }
       return null;
-    },
-  },
+    }
+  }
 };
 
 export const globalTypes = JSON.parse(process.env.STORYBOOK_GLOBAL_TYPES);

@@ -83,7 +83,38 @@ Default: `true`
 
 #### `assets`
 
-An array of urls to the `css` and `js` used by your components. The `css` and `js` urls are seperated out as the `css` is included in the head and the `js` is included before the closing `body` tag. You will most likely need to configure this after installing the package.
+An array of urls to the `css` and `js` used by your components. The `css` and `js` urls are seperated out as the `css` is included in the head and the `js` is included before the closing `body` tag.
+
+You can also load in different assets for different components:
+
+```php
+'assets' => [
+    'css' => [
+        'blast' => [
+            'path/to/blast.css'
+        ],
+        'area17' => [
+            'path/to/area17.css'
+        ]
+    ],
+    'js' => [
+        'blast' => [
+            'path/to/blast.js'
+        ],
+        'area17' => [
+            'path/to/area17.js'
+        ]
+    ]
+]
+```
+
+In your story blade file you would select the assets to use with `_tenant_`.
+
+```php
+@storybook([
+    '_tenant' => 'blast',
+]);
+```
 
 Default: `[ 'css' => [], 'js' => [], ]`
 
