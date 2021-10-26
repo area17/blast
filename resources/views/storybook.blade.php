@@ -11,7 +11,7 @@
     @if (!empty($css))
         @foreach ($css as $key => $asset)
             @if (is_string($key))
-                @if($key == $_tenant)
+                @if($key == $assetGroup)
                     <link rel="stylesheet" href="{{ $asset }}">
                 @endif
             @else

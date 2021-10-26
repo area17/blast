@@ -85,7 +85,7 @@ Default: `true`
 
 An array of urls to the `css` and `js` used by your components. The `css` and `js` urls are seperated out as the `css` is included in the head and the `js` is included before the closing `body` tag.
 
-You can also load in different assets for different components:
+You can also group assets and specify which to use for different components:
 
 ```php
 'assets' => [
@@ -108,11 +108,11 @@ You can also load in different assets for different components:
 ]
 ```
 
-In your story blade file you would select the assets to use with `_tenant_`.
+In your story blade file you would select the assets to use with `assetGroup`.
 
 ```php
 @storybook([
-    '_tenant' => 'blast',
+    'assetGroup' => 'blast',
 ]);
 ```
 
