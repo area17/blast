@@ -206,6 +206,8 @@ video {
     border-color: rgba(229, 231, 235, var(--tw-border-opacity));
 }
 .blast-container {
+    margin-left: auto;
+    margin-right: auto;
     padding-left: 1rem;
     padding-right: 1rem;
     width: 100%;
