@@ -15,16 +15,16 @@
                 @endif
 
                 @if($description)
-                    <p class="md:blast-w-10/12 blast-mt-4 md:blast-mt-5  blast-text-base blast-font-normal blast-antialiased">
-                        {{ $description }}
-                    </p>
+                    <div class="md:blast-w-10/12 blast-mt-4 md:blast-mt-5  blast-wysiwyg">
+                        {!! Str::markdown($description) !!}
+                    </div>
                 @endif
             </div>
         </div>
     </div>
 
     <!-- Content -->
-    <div class=" blast-container blast-mt-6 blast-mb-12 blast-wysiwyg">
+    <div class=" blast-container blast-mt-6 blast-mb-12">
         {{ $slot }}
     </div>
 </div>

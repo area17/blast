@@ -77,8 +77,7 @@
 .blast-wysiwyg p a,
 .blast-wysiwyg li a {
     @apply blast-border-b
-            blast-border-gray-400
-            hover:blast-border-gray-800
+            hover:blast-border-opacity-50
             blast-transition-all;
 }
 
