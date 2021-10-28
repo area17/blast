@@ -122,7 +122,7 @@ class GenerateStories extends Command
                 $storyData = [
                     'name' => $filename,
                     'path' => $componentPath,
-                    'options' => $this->getStoryOptions($component)
+                    'options' => $this->getStoryOptions($component),
                 ];
                 $updatedChildData = $this->buildChildTemplate($storyData);
 
@@ -135,10 +135,9 @@ class GenerateStories extends Command
                 }
             }
 
-            // sort alphabetically by story name
-            usort($parsedStory['stories'], function ($item1, $item2) {
-                return $item1['name'] <=> $item2['name'];
-            });
+            $parsedStory['stories'] = $this->updateStoryOrder(
+                $parsedStory['stories'],
+            );
 
             $fileData = json_encode($parsedStory, JSON_PRETTY_PRINT);
 
@@ -250,7 +249,7 @@ class GenerateStories extends Command
                     $childData = [
                         'name' => $filename,
                         'path' => $relativePathname,
-                        'options' => $this->getStoryOptions($pathname)
+                        'options' => $this->getStoryOptions($pathname),
                     ];
 
                     if (Arr::has($groups, $storyName)) {
@@ -274,13 +273,14 @@ class GenerateStories extends Command
      */
     private function buildStoryTemplate($item)
     {
+        $child_stories = $this->updateStoryOrder(
+            array_map([$this, 'buildChildTemplate'], $item['children']),
+        );
+
         $data = [
             'title' => ucwords($item['path'], '/'),
             'parameters' => [],
-            'stories' => array_map(
-                [$this, 'buildChildTemplate'],
-                $item['children'],
-            ),
+            'stories' => $child_stories,
         ];
 
         if (Arr::has($item, 'docs')) {
@@ -295,7 +295,6 @@ class GenerateStories extends Command
      */
     private function buildChildTemplate($item)
     {
-        $designOptions = null;
         $data = [
             'name' => ucwords(
                 str_replace('.blade.php', '', $item['name']),
@@ -373,9 +372,16 @@ class GenerateStories extends Command
                     'url' => $options['design'],
                 ];
             }
+
+            if (Arr::has($options, 'order')) {
+                $data['order'] = (float) $options['order'];
+            }
         }
 
-        $data['hash'] = $this->getBladeChecksum($item['path'], $data['args'] ?? []);
+        $data['hash'] = $this->getBladeChecksum(
+            $item['path'],
+            $data['args'] ?? [],
+        );
 
         return $data;
     }
@@ -389,7 +395,9 @@ class GenerateStories extends Command
             return '';
         }
 
-        $bladePath = 'stories.' . str_replace('/','.', str_replace('.blade.php', '', $filepath));
+        $bladePath =
+            'stories.' .
+            str_replace('/', '.', str_replace('.blade.php', '', $filepath));
 
         return md5(view($bladePath, $bladeArgs)->render());
     }
@@ -431,5 +439,15 @@ class GenerateStories extends Command
         }
 
         return false;
+    }
+
+    private function updateStoryOrder($stories)
+    {
+        // sort by custom order. Fall back to alphabetical by story name
+        return array_values(
+            Arr::sort($stories, function ($story) {
+                return $story['order'] ?? $story['name'];
+            }),
+        );
     }
 }
