@@ -12,8 +12,13 @@ export const parameters = {
         return typeof notes === 'string' ? notes : notes.markdown || notes.text;
       }
       return null;
-    },
+    }
   },
+  options: {
+    storySort: {
+      order: JSON.parse(process.env.STORYBOOK_SORT_ORDER)
+    }
+  }
 };
 
 export const globalTypes = JSON.parse(process.env.STORYBOOK_GLOBAL_TYPES);
