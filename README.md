@@ -85,24 +85,24 @@ Default: `true`
 
 An array of urls to the `css` and `js` used by your components. The `css` and `js` urls are seperated out as the `css` is included in the head and the `js` is included before the closing `body` tag.
 
-You can also group assets and specify which to use for different components:
+You can also group assets and specify which to use for different components.
 
 ```php
 'assets' => [
     'css' => [
-        'blast' => [
-            'path/to/blast.css'
-        ],
-        'area17' => [
-            'path/to/area17.css'
+        'path/to/default.css', // default, loaded in all stories
+        'blast' => 'path/to/blast.css', // load a single file
+        'area17' => [ // use array to load multiple files
+            'path/to/area17.css',
+            'path/to/area17-other.css'
         ]
     ],
     'js' => [
-        'blast' => [
-            'path/to/blast.js'
-        ],
-        'area17' => [
+        'path/to/default.js', // default, loaded in all stories
+        'blast' => 'path/to/blast.js', // load a single file
+        'area17' => [ // use array to load multiple files
             'path/to/area17.js'
+            'path/to/area17-other.js'
         ]
     ]
 ]
