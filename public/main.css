@@ -206,6 +206,8 @@ video {
     border-color: rgba(229, 231, 235, var(--tw-border-opacity));
 }
 .blast-container {
+    margin-left: auto;
+    margin-right: auto;
     padding-left: 1rem;
     padding-right: 1rem;
     width: 100%;
@@ -335,16 +337,9 @@ video {
     font-size: 0.875rem;
     line-height: 1.25rem;
 }
-.blast-text-base {
-    font-size: 1rem;
-    line-height: 1.5rem;
-}
 .blast-text-6xl {
     font-size: 3.75rem;
     line-height: 1;
-}
-.blast-font-normal {
-    font-weight: 400;
 }
 .blast-font-semibold {
     font-weight: 600;
@@ -478,14 +473,11 @@ video {
 }
 .blast-wysiwyg li a,
 .blast-wysiwyg p a {
-    --tw-border-opacity: 1;
     border-bottom-width: 1px;
-    border-color: rgba(156, 163, 175, var(--tw-border-opacity));
 }
 .blast-wysiwyg li a:hover,
 .blast-wysiwyg p a:hover {
-    --tw-border-opacity: 1;
-    border-color: rgba(31, 41, 55, var(--tw-border-opacity));
+    --tw-border-opacity: 0.5;
 }
 .blast-wysiwyg li a,
 .blast-wysiwyg p a {

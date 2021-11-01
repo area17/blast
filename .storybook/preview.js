@@ -15,6 +15,11 @@ export const parameters = {
       }
       return null;
     }
+  },
+  options: {
+    storySort: {
+      order: JSON.parse(process.env.STORYBOOK_SORT_ORDER)
+    }
   }
 };
 

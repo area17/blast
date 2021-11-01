@@ -48,6 +48,7 @@ class Launch extends Command
             'blast.storybook_global_types',
             [],
         );
+        $this->storybookSortOrder = config('blast.storybook_sort_order', []);
     }
 
     /*
@@ -117,6 +118,7 @@ class Launch extends Command
             'STORYBOOK_GLOBAL_TYPES' => json_encode(
                 $this->storybookGlobalTypes,
             ),
+            'STORYBOOK_SORT_ORDER' => json_encode($this->storybookSortOrder),
             'LIBSTORYPATH' => $this->vendorPath . '/stories',
             'PROJECTPATH' => base_path(),
             'COMPONENTPATH' => base_path('resources/views/stories'),

@@ -150,6 +150,12 @@ Default:
 ]
 ```
 
+#### `storybook_sort_order`
+
+Define a custom order for the stories. Accepts an array of story names and can contain nested arrays to set the order of 2nd tier stories. More information can be found in the [official Storybook Docs](https://storybook.js.org/docs/react/writing-stories/naming-components-and-hierarchy#sorting-stories).
+
+Default: `[]` (alphabetical)
+
 #### `storybook_global_types`
 
 The Global Types can be used, for example, to extend and edit the toolbar. The array of toolbars and globals options used by Storybook. More info [here](https://storybook.js.org/docs/react/essentials/toolbars-and-globals).
@@ -184,6 +190,7 @@ There are certain Storybook elements you can configure from within your story bl
     'name' => 'Component Name',
     'layout' => 'fullscreen',
     'status' => 'stable',
+    'order' => 1,
     'design' => "https://www.figma.com/file/LKQ4FJ4bTn\CSjedbRpk931/Sample-File",
     'args' => [
         'label' => 'Lorem Ipsum',
@@ -208,6 +215,7 @@ The supported options for this directive are:
 -   `name` - Overrides the auto generated name in the Storybook sidebar.
 -   `layout` - Set the component layout in canvas area. Options are `fullscreen`, `padded`, `centered` (default).
 -   `status` - adds a status badge to the component story. Can be configured in the package config. See below for more info.
+-   `order` - Customize the order of each story. Supports float values. Defaults to alphabetical order.
 -   `design` - a Figma url for the component
 -   `args` - an array of static data used to create storybook fields. You can read more about that [here](https://github.com/storybookjs/storybook/tree/main/app/server#server-rendering). The keys in the array are passed to the blade view and updated when the fields are updated in storybook.
 -   `argTypes` - an array to define the args used for the controls. You can read more about them [here](https://storybook.js.org/docs/react/api/argtypes)
