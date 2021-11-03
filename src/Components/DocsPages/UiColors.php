@@ -60,7 +60,7 @@ class UiColors extends Component
             $newKey = $parentKey ? $parentKey . '-' . $key : $key;
 
             if (is_array($value)) {
-                $this->buildClasses($value, $newKey);
+                $this->buildClasses($value, $prefix, $newKey);
             } else {
                 $classname = $prefix ? $prefix . '-' . $newKey : $newKey;
                 $this->colors[$classname] = [
