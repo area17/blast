@@ -55,5 +55,6 @@ return [
 
     'components' => [
         'docs-page' => \A17\Blast\Components\DocsPages\DocsPage::class,
+        'ui-colors' => \A17\Blast\Components\DocsPages\UiColors::class,
     ],
 ];
