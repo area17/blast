@@ -67,6 +67,10 @@ class GenerateUIDocs extends Command
     public function handle()
     {
         $this->getConfigData();
+
+        $this->copyFiles();
+
+        $this->call('blast:generate-stories', ['--ui-docs']);
     }
 
     private function get($key = null)
@@ -92,6 +96,33 @@ class GenerateUIDocs extends Command
 
         if ($this->filesystem->exists($this->parsedConfig)) {
             $this->config = include $this->parsedConfig;
+        }
+    }
+
+    /**
+     * @return void
+     */
+    private function copyFiles()
+    {
+        $pathname = $this->ask(
+            'What do you want to name the documentation section?',
+            'UI Documentation',
+        );
+
+        $localComponentsPath = base_path(
+            'resources/views/stories/' . $pathname,
+        );
+        $packageComponentsPath = $this->vendorPath . '/resources/ui-docs';
+
+        $this->filesystem->ensureDirectoryExists($localComponentsPath);
+
+        $this->filesystem->cleanDirectory($localComponentsPath);
+
+        if ($this->filesystem->exists($packageComponentsPath)) {
+            $this->filesystem->copyDirectory(
+                $packageComponentsPath,
+                $localComponentsPath,
+            );
         }
     }
 }

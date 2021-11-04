@@ -178,9 +178,7 @@ class GenerateStories extends Command
     private function handleAllComponents($files = null)
     {
         $this->filesystem->cleanDirectory($this->packageStoriesPath);
-
-        $path = base_path('resources/views/stories');
-        $files = $this->filesystem->allfiles($path);
+        $files = $this->filesystem->allfiles($this->storyViewsPath);
         $watch = $this->option('watch');
 
         $groups = $this->createGroups($files);

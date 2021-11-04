@@ -2,7 +2,6 @@
 
 namespace A17\Blast;
 
-use A17\Blast\UIDocs;
 use A17\Blast\Commands\Demo;
 use A17\Blast\Commands\GenerateStories;
 use A17\Blast\Commands\GenerateUIDocs;

@@ -33,7 +33,8 @@ class UiDocsStore
         if (!$this->filesystem->exists($this->configPath)) {
             return 1;
         }
-        $this->getConfigData();
+
+        $this->data = include $this->configPath;
     }
 
     public function get($key = null)
@@ -41,14 +42,5 @@ class UiDocsStore
         if ($key) {
             return Arr::get($this->data, $key);
         }
-    }
-
-    private function getConfigData()
-    {
-        if (!$this->filesystem->exists($this->configPath)) {
-            return 1;
-        }
-
-        $this->data = include $this->configPath;
     }
 }
