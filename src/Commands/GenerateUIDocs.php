@@ -19,7 +19,7 @@ class GenerateUIDocs extends Command
      *
      * @var string
      */
-    protected $signature = 'blast:generate-docs';
+    protected $signature = 'blast:generate-docs {--force}';
 
     /**
      * The console command description.
@@ -66,11 +66,16 @@ class GenerateUIDocs extends Command
      */
     public function handle()
     {
+        $force = $this->option('force');
+
         $this->getConfigData();
 
-        $this->copyFiles();
+        $copied = $this->copyFiles($force);
 
-        $this->call('blast:generate-stories', ['--ui-docs']);
+        if ($copied) {
+            $this->info('Generating stories');
+            $this->call('blast:generate-stories', ['--ui-docs']);
+        }
     }
 
     private function get($key = null)
@@ -100,9 +105,9 @@ class GenerateUIDocs extends Command
     }
 
     /**
-     * @return void
+     * @return boolean
      */
-    private function copyFiles()
+    private function copyFiles($force = false)
     {
         $pathname = $this->ask(
             'What do you want to name the documentation section?',
@@ -114,6 +119,21 @@ class GenerateUIDocs extends Command
         );
         $packageComponentsPath = $this->vendorPath . '/resources/ui-docs';
 
+        if (!$force && $this->filesystem->exists($localComponentsPath)) {
+            if (
+                $this->confirm(
+                    $pathname .
+                        ' exists. This will overwrite the existing files. Do you wish to continue?',
+                )
+            ) {
+                $this->info('Overwriting UI Docs stories');
+            } else {
+                $this->error('Aborting');
+
+                return false;
+            }
+        }
+
         $this->filesystem->ensureDirectoryExists($localComponentsPath);
 
         $this->filesystem->cleanDirectory($localComponentsPath);
@@ -124,5 +144,7 @@ class GenerateUIDocs extends Command
                 $localComponentsPath,
             );
         }
+
+        return true;
     }
 }
