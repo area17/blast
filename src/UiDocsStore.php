@@ -40,7 +40,7 @@ class UiDocsStore
     public function get($key = null)
     {
         if ($key) {
-            return Arr::get($this->data, $key);
+            return collect(Arr::get($this->data, $key));
         }
     }
 }

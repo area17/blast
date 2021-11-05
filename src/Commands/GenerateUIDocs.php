@@ -114,12 +114,13 @@ class GenerateUIDocs extends Command
             'UI Documentation',
         );
 
-        $localComponentsPath = base_path(
-            'resources/views/stories/' . $pathname,
-        );
-        $packageComponentsPath = $this->vendorPath . '/resources/ui-docs';
+        $localStoriesPath = base_path('resources/views/stories/' . $pathname);
+        $localDataPath = base_path('resources/views/stories/data');
 
-        if (!$force && $this->filesystem->exists($localComponentsPath)) {
+        $packageStoriesPath = $this->vendorPath . '/resources/ui-docs/stories';
+        $packageDataPath = $this->vendorPath . '/resources/ui-docs/data';
+
+        if (!$force && $this->filesystem->exists($localStoriesPath)) {
             if (
                 $this->confirm(
                     $pathname .
@@ -134,15 +135,20 @@ class GenerateUIDocs extends Command
             }
         }
 
-        $this->filesystem->ensureDirectoryExists($localComponentsPath);
+        $this->filesystem->ensureDirectoryExists($localStoriesPath);
+        $this->filesystem->ensureDirectoryExists($localDataPath);
 
-        $this->filesystem->cleanDirectory($localComponentsPath);
-
-        if ($this->filesystem->exists($packageComponentsPath)) {
+        // copy stories
+        if ($this->filesystem->exists($packageStoriesPath)) {
             $this->filesystem->copyDirectory(
-                $packageComponentsPath,
-                $localComponentsPath,
+                $packageStoriesPath,
+                $localStoriesPath,
             );
+        }
+
+        // copy data
+        if ($this->filesystem->exists($packageDataPath)) {
+            $this->filesystem->copyDirectory($packageDataPath, $localDataPath);
         }
 
         return true;

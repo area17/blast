@@ -69,5 +69,6 @@ return [
             \A17\Blast\Components\DocsPages\UiBorderRadius::class,
         'ui-opacity' => \A17\Blast\Components\DocsPages\UiOpacity::class,
         'ui-shadows' => \A17\Blast\Components\DocsPages\UiShadows::class,
+        'ui-transition' => \A17\Blast\Components\DocsPages\UiTransition::class,
     ],
 ];
