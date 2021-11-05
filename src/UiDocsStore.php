@@ -23,12 +23,12 @@ class UiDocsStore
     /**
      * @param Filesystem $filesystem
      */
-    public function __construct(Filesystem $filesystem)
+    public function __construct()
     {
         $this->data = [];
         $this->vendorPath = $this->getVendorPath();
         $this->configPath = $this->vendorPath . '/tmp/tailwind.config.php';
-        $this->filesystem = $filesystem;
+        $this->filesystem = new Filesystem();
 
         if (!$this->filesystem->exists($this->configPath)) {
             return 1;

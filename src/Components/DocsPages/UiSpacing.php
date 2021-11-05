@@ -12,7 +12,7 @@ class UiSpacing extends Component
     public $type;
 
     /** @var array */
-    public $spacing;
+    public $items;
 
     /** @var string */
     public $prefix;
@@ -28,7 +28,7 @@ class UiSpacing extends Component
         $this->uiDocsStore = $uiDocsStore;
         $this->type = $type;
         $this->variation = $variation;
-        $this->spacing = $this->uiDocsStore->get('theme.spacing');
+        $this->items = $this->uiDocsStore->get('theme.spacing');
         $this->prefix = $this->getPrefix();
     }
 
@@ -81,6 +81,6 @@ class UiSpacing extends Component
 
     public function render(): View
     {
-        return view('blast::components.ui-docs.spacing');
+        return view('blast::components.ui-docs.full-width');
     }
 }
