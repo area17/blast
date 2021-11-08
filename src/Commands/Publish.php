@@ -72,6 +72,12 @@ class Publish extends Command
         $progressBar->setMessage($installMessage);
         $progressBar->start();
 
+        // remove cors check file
+        $cors_file_path = $this->vendorPath . '/tmp/_blast';
+        if ($this->filesystem->exists($cors_file_path)) {
+            $this->filesystem->delete($cors_file_path);
+        }
+
         if ($npmInstall) {
             $this->newLine();
         }
