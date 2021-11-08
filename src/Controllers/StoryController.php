@@ -2,11 +2,10 @@
 
 namespace A17\Blast\Controllers;
 
-use App\Http\Controllers\Controller;
 use A17\Blast\Traits\Helpers;
 use Illuminate\Filesystem\Filesystem;
 
-class StoryController extends Controller
+class StoryController
 {
     use Helpers;
 
