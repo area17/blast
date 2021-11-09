@@ -117,6 +117,10 @@ class Launch extends Command
         );
         $progressBar->finish();
 
+        // fix CORS in dev
+        $this->filesystem->ensureDirectoryExists($this->vendorPath . '/tmp');
+        $this->filesystem->put($this->vendorPath . '/tmp/_blast', '');
+
         $this->runProcessInBlast(['npm', 'run', 'storybook'], true, [
             'STORYBOOK_SERVER_URL' => $this->storybookServer,
             'STORYBOOK_STATIC_PATH' => public_path(),
