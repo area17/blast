@@ -8,10 +8,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use A17\Blast\DataStore;
 use A17\Blast\Traits\Helpers;
+use A17\Blast\Traits\SourceCode;
 
 class GenerateStories extends Command
 {
     use Helpers;
+    use SourceCode;
 
     /**
      * The name and signature of the console command.
@@ -181,6 +183,7 @@ class GenerateStories extends Command
 
         $path = base_path('resources/views/stories');
         $files = $this->filesystem->allfiles($path);
+        
         $watch = $this->option('watch');
 
         $groups = $this->createGroups($files);
@@ -304,6 +307,11 @@ class GenerateStories extends Command
                 'server' => [
                     'id' => str_replace('.blade.php', '', $item['path']),
                 ],
+                'docs' => [
+                    'source' => [
+                        'code' => $this->fileContents($this->storyViewsPath.'/'.$item['path'])
+                    ]
+                ]
             ],
         ];
 
