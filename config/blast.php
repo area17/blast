@@ -70,5 +70,10 @@ return [
         'ui-opacity' => \A17\Blast\Components\DocsPages\UiOpacity::class,
         'ui-shadows' => \A17\Blast\Components\DocsPages\UiShadows::class,
         'ui-transition' => \A17\Blast\Components\DocsPages\UiTransition::class,
+        'ui-font-size' => \A17\Blast\Components\DocsPages\UiFontSize::class,
+        'ui-font-weight' => \A17\Blast\Components\DocsPages\UiFontWeight::class,
+        'ui-line-height' => \A17\Blast\Components\DocsPages\UiLineHeight::class,
+        'ui-letter-spacing' =>
+            \A17\Blast\Components\DocsPages\UiLetterSpacing::class,
     ],
 ];

@@ -26,7 +26,7 @@
         <div class="blast-mt-4 blast-pt-4 blast-border-t blast-border-solid blast-border-gray-200">
             <div class="blast-w-full blast-bg-gray-200 blast-group">
                 <div
-                    class="blast-w-28 blast-h-28 blast-bg-blue-500 blast-transition-all group-hover:blast-w-full"
+                    class="blast-w-16 blast-h-16 blast-bg-blue-500 blast-transition-all group-hover:blast-w-full"
                     style="
                         transition-timing-function: {{ $item }};
                         transition-delay: {{ $delay }};

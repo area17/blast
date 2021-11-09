@@ -38,8 +38,7 @@
         "stylelint": "^13.12.0",
         "stylelint-config-recommended": "^4.0.0",
         "stylelint-order": "^4.1.0",
-        "stylelint-prettier": "^1.2.0",
-        "tailwindcss": "^2.2.7"
+        "stylelint-prettier": "^1.2.0"
     },
     "dependencies": {
         "@etchteam/storybook-addon-status": "^4.0.0",
@@ -53,7 +52,8 @@
         "@storybook/server": "^6.3.7",
         "chokidar-cli": "^3.0.0",
         "concurrently": "^6.2.1",
-        "storybook-addon-designs": "^6.0.1"
+        "storybook-addon-designs": "^6.0.1",
+        "tailwindcss": "^2.2.7"
     },
     "lint-staged": {
         "*.js": "eslint --no-fix",
