@@ -75,5 +75,13 @@ return [
         'ui-line-height' => \A17\Blast\Components\DocsPages\UiLineHeight::class,
         'ui-letter-spacing' =>
             \A17\Blast\Components\DocsPages\UiLetterSpacing::class,
+        'ui-breakpoints' =>
+            \A17\Blast\Components\DocsPages\UiBreakpoints::class,
+        'ui-columns' => \A17\Blast\Components\DocsPages\UiColumns::class,
+        'ui-gutter-inner' =>
+            \A17\Blast\Components\DocsPages\UiGutterInner::class,
+        'ui-gutter-outer' =>
+            \A17\Blast\Components\DocsPages\UiGutterOuter::class,
+        'ui-container' => \A17\Blast\Components\DocsPages\UiContainer::class,
     ],
 ];
