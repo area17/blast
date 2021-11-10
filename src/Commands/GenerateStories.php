@@ -305,15 +305,11 @@ class GenerateStories extends Command
                     'id' => str_replace('.blade.php', '', $item['path']),
                 ],
                 'componentSource' => [
-                    'code' => $this->getCodeSnippet(
-                        $this->storyViewsPath . '/' . $item['path'],
-                    ),
+                    'code' => $this->getCodeSnippet($item['path']),
                 ],
                 'docs' => [
                     'source' => [
-                        'code' => $this->getCodeSnippet(
-                            $this->storyViewsPath . '/' . $item['path'],
-                        ),
+                        'code' => $this->getCodeSnippet($item['path']),
                     ],
                 ],
             ],
@@ -465,8 +461,11 @@ class GenerateStories extends Command
 
     private function getCodeSnippet($filepath)
     {
+        $filepath =
+            $this->storyViewsPath . '/' . Str::finish($filepath, '.blade.php');
+
         if (!$this->filesystem->exists($filepath)) {
-            return [];
+            return false;
         }
 
         $contents = $this->filesystem->get($filepath);
