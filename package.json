@@ -52,7 +52,8 @@
         "@storybook/server": "^6.3.7",
         "chokidar-cli": "^3.0.0",
         "concurrently": "^6.2.1",
-        "storybook-addon-designs": "^6.0.1"
+        "storybook-addon-designs": "^6.0.1",
+        "storybook-source-code-addon": "^1.2.0"
     },
     "lint-staged": {
         "*.js": "eslint --no-fix",

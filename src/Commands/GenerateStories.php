@@ -304,6 +304,18 @@ class GenerateStories extends Command
                 'server' => [
                     'id' => str_replace('.blade.php', '', $item['path']),
                 ],
+                'componentSource' => [
+                    'code' => $this->getCodeSnippet(
+                        $this->storyViewsPath . '/' . $item['path'],
+                    ),
+                ],
+                'docs' => [
+                    'source' => [
+                        'code' => $this->getCodeSnippet(
+                            $this->storyViewsPath . '/' . $item['path'],
+                        ),
+                    ],
+                ],
             ],
         ];
 
@@ -449,5 +461,18 @@ class GenerateStories extends Command
                 return $story['order'] ?? $story['name'];
             }),
         );
+    }
+
+    private function getCodeSnippet($filepath)
+    {
+        if (!$this->filesystem->exists($filepath)) {
+            return [];
+        }
+
+        $contents = $this->filesystem->get($filepath);
+
+        $snippet = preg_replace('/@storybook\(\[(.*)\]\)/sU', '', $contents);
+
+        return trim($snippet);
     }
 }
