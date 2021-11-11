@@ -1,4 +1,7 @@
 export const parameters = {
+  controls: {
+    expanded: true
+  },
   server: {
     url: process.env.STORYBOOK_SERVER_URL
   },

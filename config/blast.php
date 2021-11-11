@@ -2,10 +2,42 @@
 
 return [
     'storybook_server_url' =>
-        env('STORYBOOK_SERVER_HOST', env('APP_URL')) . '/storybook_preview',
+        env('STORYBOOK_SERVER_HOST', env('APP_URL')) . 'storybook_preview',
+    
+    // 
+    'expanded_controls' => true,
 
-    // See https://storybook.js.org/docs/react/configure/theming for available options
-    'storybook_theme' => [],
+    /**
+     * See https://storybook.js.org/docs/react/configure/theming for detail
+     * dark, normal, custom. Dark and Normal (light) are out of the box
+     * from @storybook-theming. For Custom replace values in
+     * 'custom_theme' to create a custom theme
+     */
+    'storybook_theme' => 'dark',
+
+    // 'custom_theme' => [
+    //     'base' => 'light',
+    //     'colorPrimary' => 'hotpink',
+    //     'colorSecondary' => 'deepskyblue',
+    //     'appBg' => 'white',
+    //     'appContentBg' => 'silver',
+    //     'appBorderColor' => 'grey',
+    //     'appBorderRadius' => 4,
+    //     'fontBase' => '"Open Sans", sans-serif',
+    //     'fontCode' => 'monospace',
+    //     'textColor' => 'black',
+    //     'textInverseColor' => 'rgba(255,255,255,0.9)',
+    //     'barTextColor' => 'silver',
+    //     'barSelectedColor' => 'black',
+    //     'barBg' => 'hotpink',
+    //     'inputBg' => 'white',
+    //     'inputBorder' => 'silver',
+    //     'inputTextColor' => 'black',
+    //     'inputBorderRadius' => 4,
+    //     'brandTitle' => 'My custom storybook',
+    //     'brandUrl' => 'https://example.com',
+    //     'brandImage' => 'https://place-hold.it/350x150'
+    // ],
 
     // set the background color of the storybook canvas area
     'canvas_bg_color' => '',
@@ -42,12 +74,6 @@ return [
             'description' => 'This component is stable and released',
         ],
     ],
-
-    'storybook_global_types' => [],
-
-    // set a global custom order for stories in the Storybook UI
-    // More info - https://storybook.js.org/docs/react/writing-stories/naming-components-and-hierarchy#sorting-stories
-    'storybook_sort_order' => [],
 
     'build_timeout' => 300,
 
