@@ -48,6 +48,7 @@ class Publish extends Command
         $this->customTheme = config('blast.storybook_custom_theme', false);
         $this->docsTheme = config('blast.storybook_docs_theme', 'normal');
         $this->expandedControls = config('blast.storybook_expanded_controls');
+        $this->storybookSortOrder = config('blast.storybook_sort_order', []);
         $this->storybookGlobalTypes = config(
             'blast.storybook_global_types',
             [],
@@ -121,6 +122,7 @@ class Publish extends Command
             'LIBSTORYPATH' => $this->vendorPath . '/stories',
             'PROJECTPATH' => base_path(),
             'COMPONENTPATH' => base_path('resources/views/stories'),
+            'STORYBOOK_SORT_ORDER' => json_encode($this->storybookSortOrder),
         ]);
 
         usleep(250000);
