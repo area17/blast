@@ -382,7 +382,7 @@ class GenerateStories extends Command
             }
 
             if (Arr::has($options, 'order')) {
-                $data['order'] = $options['order'];
+                $data['order'] = (float) $options['order'];
             }
         }
 
