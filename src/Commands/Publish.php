@@ -45,6 +45,7 @@ class Publish extends Command
         $this->vendorPath = $this->getVendorPath();
         $this->storybookStatuses = config('blast.storybook_statuses');
         $this->storybookTheme = config('blast.storybook_theme', false);
+        $this->storybookSortOrder = config('blast.storybook_sort_order', []);
         $this->storybookGlobalTypes = config(
             'blast.storybook_global_types',
             [],
@@ -115,6 +116,7 @@ class Publish extends Command
             'LIBSTORYPATH' => $this->vendorPath . '/stories',
             'PROJECTPATH' => base_path(),
             'COMPONENTPATH' => base_path('resources/views/stories'),
+            'STORYBOOK_SORT_ORDER' => json_encode($this->storybookSortOrder),
         ]);
 
         usleep(250000);
