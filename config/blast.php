@@ -4,40 +4,46 @@ return [
     'storybook_server_url' =>
         env('STORYBOOK_SERVER_HOST', env('APP_URL')) . 'storybook_preview',
     
-    // 
-    'expanded_controls' => true,
+    /**
+     * See https://storybook.js.org/docs/react/essentials/controls Set
+     * to true to enable full documentation on the controls tab. 
+     */
+    'storybook_expanded_controls' => true,
 
     /**
-     * See https://storybook.js.org/docs/react/configure/theming for detail
-     * dark, normal, custom. Dark and Normal (light) are out of the box
-     * from @storybook-theming. For Custom replace values in
-     * 'custom_theme' to create a custom theme
+     * See https://storybook.js.org/docs/react/configure/theming for
+     * detail - dark, normal, custom. Dark and normal are out of
+     * the box from @storybook-theming. For custom edit the
+     * values in 'custom_theme' to create a custom theme
      */
     'storybook_theme' => 'dark',
 
-    // 'custom_theme' => [
-    //     'base' => 'light',
-    //     'colorPrimary' => 'hotpink',
-    //     'colorSecondary' => 'deepskyblue',
-    //     'appBg' => 'white',
-    //     'appContentBg' => 'silver',
-    //     'appBorderColor' => 'grey',
-    //     'appBorderRadius' => 4,
-    //     'fontBase' => '"Open Sans", sans-serif',
-    //     'fontCode' => 'monospace',
-    //     'textColor' => 'black',
-    //     'textInverseColor' => 'rgba(255,255,255,0.9)',
-    //     'barTextColor' => 'silver',
-    //     'barSelectedColor' => 'black',
-    //     'barBg' => 'hotpink',
-    //     'inputBg' => 'white',
-    //     'inputBorder' => 'silver',
-    //     'inputTextColor' => 'black',
-    //     'inputBorderRadius' => 4,
-    //     'brandTitle' => 'My custom storybook',
-    //     'brandUrl' => 'https://example.com',
-    //     'brandImage' => 'https://place-hold.it/350x150'
-    // ],
+    'storybook_custom_theme' => [
+        'base' => 'light',
+        'colorPrimary' => 'hotpink',
+        'colorSecondary' => 'deepskyblue',
+        'appBg' => 'white',
+        'appContentBg' => 'silver',
+        'appBorderColor' => 'grey',
+        'appBorderRadius' => 4,
+        'fontBase' => '"Open Sans", sans-serif',
+        'fontCode' => 'monospace',
+        'textColor' => 'black',
+        'textInverseColor' => 'rgba(255,255,255,0.9)',
+        'barTextColor' => 'silver',
+        'barSelectedColor' => 'black',
+        'barBg' => 'hotpink',
+        'inputBg' => 'white',
+        'inputBorder' => 'silver',
+        'inputTextColor' => 'black',
+        'inputBorderRadius' => 4,
+        'brandTitle' => 'My custom storybook',
+        'brandUrl' => 'https://example.com',
+        'brandImage' => 'https://place-hold.it/350x150'
+    ],
+
+    // dark or normal
+    'storybook_docs_theme' => 'dark',
 
     // set the background color of the storybook canvas area
     'canvas_bg_color' => '',

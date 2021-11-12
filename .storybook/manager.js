@@ -1,8 +1,8 @@
 import { addons } from '@storybook/addons';
 import { themes } from '@storybook/theming';
-// import theme from './theme';
+import theme from './theme';
 
-let configTheme = JSON.parse(process.env.STORYBOOK_THEME);
+const configTheme = JSON.parse(process.env.STORYBOOK_THEME);
 
 let storybookTheme = () => {
   if (configTheme === "dark") {
@@ -13,7 +13,6 @@ let storybookTheme = () => {
 }
 
 let customTheme = () => {
-  console.log(theme)
   addons.setConfig({ theme });
 }
 
