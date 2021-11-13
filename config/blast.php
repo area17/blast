@@ -37,7 +37,7 @@ return [
         'inputBorder' => 'ghostwhite',
         'inputTextColor' => 'darkslategrey',
         'inputBorderRadius' => 4,
-        'brandTitle' => 'Blast storybook for blade',
+        'brandTitle' => 'Blast - Storybook for blade',
         'brandUrl' => '#',
         'brandImage' => 'https://i.gifer.com/nN2.gif'
     ],
@@ -89,4 +89,3 @@ return [
         'docs-page' => \A17\Blast\Components\DocsPages\DocsPage::class,
     ],
 ];
-
