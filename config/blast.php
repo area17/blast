@@ -2,10 +2,48 @@
 
 return [
     'storybook_server_url' =>
-        env('STORYBOOK_SERVER_HOST', env('APP_URL')) . '/storybook_preview',
+        env('STORYBOOK_SERVER_HOST', env('APP_URL')) . 'storybook_preview',
+    
+    /**
+     * See https://storybook.js.org/docs/react/essentials/controls Set
+     * to true to enable full documentation on the controls tab. 
+     */
+    'storybook_expanded_controls' => true,
 
-    // See https://storybook.js.org/docs/react/configure/theming for available options
-    'storybook_theme' => [],
+    /**
+     * See https://storybook.js.org/docs/react/configure/theming for
+     * detail - dark, normal, custom. Dark and normal are out of
+     * the box from @storybook-theming. For custom edit the
+     * values in 'custom_theme' to create a custom theme
+     */
+    'storybook_theme' => 'custom',
+
+    'storybook_custom_theme' => [
+        'base' => 'lightgray',
+        'colorPrimary' => 'cadetblue',
+        'colorSecondary' => 'lightcoral',
+        'appBg' => 'whitesmoke',
+        'appContentBg' => 'gainsboro',
+        'appBorderColor' => 'ghostwhite',
+        'appBorderRadius' => 4,
+        'fontBase' => '"Nunito", sans-serif',
+        'fontCode' => 'monospace',
+        'textColor' => 'darkslategrey',
+        'textInverseColor' => 'darkgrey',
+        'barTextColor' => 'white',
+        'barSelectedColor' => 'ghostwhite',
+        'barBg' => 'cadetblue',
+        'inputBg' => 'ghostwhite',
+        'inputBorder' => 'ghostwhite',
+        'inputTextColor' => 'darkslategrey',
+        'inputBorderRadius' => 4,
+        'brandTitle' => 'Blast storybook for blade',
+        'brandUrl' => '#',
+        'brandImage' => 'https://i.gifer.com/nN2.gif'
+    ],
+
+    // dark or normal
+    'storybook_docs_theme' => 'custom',
 
     // set the background color of the storybook canvas area
     'canvas_bg_color' => '',
@@ -43,12 +81,6 @@ return [
         ],
     ],
 
-    'storybook_global_types' => [],
-
-    // set a global custom order for stories in the Storybook UI
-    // More info - https://storybook.js.org/docs/react/writing-stories/naming-components-and-hierarchy#sorting-stories
-    'storybook_sort_order' => [],
-
     'build_timeout' => 300,
 
     'vendor_path' => 'vendor/area17/blast',
@@ -57,3 +89,4 @@ return [
         'docs-page' => \A17\Blast\Components\DocsPages\DocsPage::class,
     ],
 ];
+
