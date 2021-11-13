@@ -1,8 +1,11 @@
 import { themes } from '@storybook/theming';
+import theme from './theme';
 
 let setDocsTheme = (configDocsTheme) => {
   if (configDocsTheme === "dark") {
     return themes.dark;
+  } else if (configDocsTheme === 'custom') {
+    return theme;
   } else {
     return themes.normal;
   }

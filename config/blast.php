@@ -16,34 +16,34 @@ return [
      * the box from @storybook-theming. For custom edit the
      * values in 'custom_theme' to create a custom theme
      */
-    'storybook_theme' => 'dark',
+    'storybook_theme' => 'custom',
 
     'storybook_custom_theme' => [
-        'base' => 'light',
-        'colorPrimary' => 'hotpink',
-        'colorSecondary' => 'deepskyblue',
-        'appBg' => 'white',
-        'appContentBg' => 'silver',
-        'appBorderColor' => 'grey',
+        'base' => 'lightgray',
+        'colorPrimary' => 'cadetblue',
+        'colorSecondary' => 'lightcoral',
+        'appBg' => 'whitesmoke',
+        'appContentBg' => 'gainsboro',
+        'appBorderColor' => 'ghostwhite',
         'appBorderRadius' => 4,
-        'fontBase' => '"Open Sans", sans-serif',
+        'fontBase' => '"Nunito", sans-serif',
         'fontCode' => 'monospace',
-        'textColor' => 'black',
-        'textInverseColor' => 'rgba(255,255,255,0.9)',
-        'barTextColor' => 'silver',
-        'barSelectedColor' => 'black',
-        'barBg' => 'hotpink',
-        'inputBg' => 'white',
-        'inputBorder' => 'silver',
-        'inputTextColor' => 'black',
+        'textColor' => 'darkslategrey',
+        'textInverseColor' => 'darkgrey',
+        'barTextColor' => 'white',
+        'barSelectedColor' => 'ghostwhite',
+        'barBg' => 'cadetblue',
+        'inputBg' => 'ghostwhite',
+        'inputBorder' => 'ghostwhite',
+        'inputTextColor' => 'darkslategrey',
         'inputBorderRadius' => 4,
-        'brandTitle' => 'My custom storybook',
-        'brandUrl' => 'https://example.com',
-        'brandImage' => 'https://place-hold.it/350x150'
+        'brandTitle' => 'Blast storybook for blade',
+        'brandUrl' => '#',
+        'brandImage' => 'https://i.gifer.com/nN2.gif'
     ],
 
     // dark or normal
-    'storybook_docs_theme' => 'dark',
+    'storybook_docs_theme' => 'custom',
 
     // set the background color of the storybook canvas area
     'canvas_bg_color' => '',
