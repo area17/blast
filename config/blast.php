@@ -2,7 +2,7 @@
 
 return [
     'storybook_server_url' =>
-        env('STORYBOOK_SERVER_HOST', env('APP_URL')) . 'storybook_preview',
+        env('STORYBOOK_SERVER_HOST', env('APP_URL')) . '/storybook_preview',
     
     /**
      * See https://storybook.js.org/docs/react/essentials/controls Set
