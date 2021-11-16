@@ -59,6 +59,37 @@ Blast uses the `public_path()` to reference any static assets. This means that a
 
 #### `storybook_server_url`
 
+Blast can automatically generate documentation pages in the form of stories based on your Tailwind config. Use this array to specify which documentation pages to generate or leave empty to generate documentation for everything.
+
+The available options are:
+
+```
+[
+    'border-radius',
+    'border-width',
+    'colors',
+    'font-size',
+    'font-weight',
+    'height',
+    'layout',
+    'letter-spacing',
+    'line-height',
+    'max-height',
+    'max-width',
+    'min-height',
+    'min-width',
+    'opacity',
+    'shadows',
+    'spacing',
+    'transition',
+    'width',
+]
+```
+
+Default: `[]`
+
+#### `auto_documentation`
+
 The route Storybook Server uses to render components. You shouldn't need to change this as it isn't ever visible on the FE.
 
 Default: `config('app.url') . '/storybook_preview'`

@@ -2,12 +2,9 @@
 
 namespace A17\Blast\Commands;
 
-use Symfony\Component\Process\Process;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use A17\Blast\DataStore;
 use A17\Blast\Traits\Helpers;
 
 class GenerateUIDocs extends Command
@@ -34,18 +31,14 @@ class GenerateUIDocs extends Command
     protected $filesystem;
 
     /**
-     * @var DataStore
-     */
-    protected $dataStore;
-
-    /**
      * @param Filesystem $filesystem
      */
-    public function __construct(Filesystem $filesystem, DataStore $dataStore)
+    public function __construct(Filesystem $filesystem)
     {
         parent::__construct();
 
         $this->config = [];
+        $this->storiesToGenerate = config('blast.auto_documentation', []);
         $this->vendorPath = $this->getVendorPath();
         $this->configPath = config(
             'blast.tailwind_config_path',
@@ -74,6 +67,7 @@ class GenerateUIDocs extends Command
 
         if ($copied) {
             $this->info('Generating stories');
+            usleep(250000);
             $this->call('blast:generate-stories', ['--ui-docs']);
         }
     }
@@ -138,17 +132,58 @@ class GenerateUIDocs extends Command
         $this->filesystem->ensureDirectoryExists($localStoriesPath);
         $this->filesystem->ensureDirectoryExists($localDataPath);
 
-        // copy stories
-        if ($this->filesystem->exists($packageStoriesPath)) {
-            $this->filesystem->copyDirectory(
-                $packageStoriesPath,
-                $localStoriesPath,
-            );
-        }
+        if (
+            !is_array($this->storiesToGenerate) ||
+            empty($this->storiesToGenerate)
+        ) {
+            if ($this->filesystem->exists($packageStoriesPath)) {
+                $this->filesystem->copyDirectory(
+                    $packageStoriesPath,
+                    $localStoriesPath,
+                );
+            }
 
-        // copy data
-        if ($this->filesystem->exists($packageDataPath)) {
-            $this->filesystem->copyDirectory($packageDataPath, $localDataPath);
+            // copy data
+            if ($this->filesystem->exists($packageDataPath)) {
+                $this->filesystem->copyDirectory(
+                    $packageDataPath,
+                    $localDataPath,
+                );
+            }
+        } else {
+            foreach ($this->storiesToGenerate as $name) {
+                $filepath =
+                    $this->vendorPath .
+                    '/resources/ui-docs/stories/' .
+                    $name .
+                    '.blade.php';
+
+                if ($this->filesystem->exists($filepath)) {
+                    if ($this->filesystem->exists($packageStoriesPath)) {
+                        $this->info('Copying stories for `' . $name . '`.');
+
+                        // transitions also require the data file
+                        if ($name === 'transition') {
+                            $dataFilepath = $packageDataPath . '/ui-docs.php';
+
+                            if ($this->filesystem->exists($dataFilepath)) {
+                                $this->filesystem->copy(
+                                    $dataFilepath,
+                                    $localDataPath . '/ui-docs.php',
+                                );
+                            }
+                        }
+
+                        // copy documentation story
+                        $this->filesystem->copy(
+                            $filepath,
+                            $localStoriesPath . '/' . $name . '.blade.php',
+                        );
+                    }
+                } else {
+                    $this->error('`' . $name . '` not recognized. Ignoring.');
+                }
+            }
         }
 
         return true;

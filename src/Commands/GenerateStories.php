@@ -320,15 +320,17 @@ class GenerateStories extends Command
             if (Arr::has($options, 'preset')) {
                 $preset = $this->dataStore->get($options['preset']);
 
-                foreach ($preset as $key => $settings) {
-                    if (is_array($settings)) {
-                        $options[$key] = array_merge(
-                            $settings,
-                            $options[$key] ?? [],
-                        );
-                    } else {
-                        if (!Arr::has($options, $key)) {
-                            $options[$key] = $settings;
+                if (is_array($preset) && !empty($preset)) {
+                    foreach ($preset as $key => $settings) {
+                        if (is_array($settings)) {
+                            $options[$key] = array_merge(
+                                $settings,
+                                $options[$key] ?? [],
+                            );
+                        } else {
+                            if (!Arr::has($options, $key)) {
+                                $options[$key] = $settings;
+                            }
                         }
                     }
                 }
