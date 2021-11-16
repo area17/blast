@@ -46,10 +46,6 @@ class GenerateUIDocs extends Command
         );
         $this->parsedConfig = $this->vendorPath . '/tmp/tailwind.config.php';
         $this->filesystem = $filesystem;
-
-        if ($this->filesystem->exists($this->configPath)) {
-            $this->getConfigData();
-        }
     }
 
     /*
@@ -59,6 +55,19 @@ class GenerateUIDocs extends Command
      */
     public function handle()
     {
+        if (!$this->configPath) {
+            $this->error(
+                'No Tailwind config defined. Update `tailwind_config_path` in `config/blast.php`',
+            );
+
+            return false;
+        } elseif (!$this->filesystem->exists($this->configPath)) {
+            $this->error(
+                'Tailwind config file not found at `' . $this->configPath . '`',
+            );
+            return false;
+        }
+
         $force = $this->option('force');
 
         $this->getConfigData();
