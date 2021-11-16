@@ -3,9 +3,54 @@
 return [
     'storybook_server_url' =>
         env('STORYBOOK_SERVER_HOST', env('APP_URL')) . '/storybook_preview',
+    
+    /**
+     * See https://storybook.js.org/docs/react/essentials/controls Set
+     * to true to enable full documentation on the controls tab. 
+     */
+    'storybook_expanded_controls' => true,
 
-    // See https://storybook.js.org/docs/react/configure/theming for available options
-    'storybook_theme' => [],
+    /**
+     * See https://storybook.js.org/docs/react/configure/theming for more
+     * detail - normal, dark or custom. Normal and dark themes are out
+     * of the box from @storybook-theming. To add a custom theme edit
+     * values in the 'storybook_custom_theme' array in this file.
+     */
+    'storybook_theme' => 'normal',
+
+    // Normal, dark or custom
+    'storybook_docs_theme' => 'normal',
+
+    'storybook_custom_theme' => [
+        'base' => 'light',
+        'colorPrimary' => '#FF4785',
+        'colorSecondary' => '#1EA7FD',
+        'appBg' => '#F6F9FC',
+        'appContentBg' => '#FFFFFF',
+        'appBorderColor' => 'rgba(0,0,0,.1)',
+        'appBorderRadius' => 4,
+        'fontBase' => "\"Nunito Sans\", -apple-system, \".SFNSText-Regular\", \"San Francisco\", BlinkMacSystemFont, \"Segoe UI\", \"Helvetica Neue\", Helvetica, Arial, sans-serif",
+        'fontCode' => "\"Operator Mono\", \"Fira Code Retina\", \"Fira Code\", \"FiraCode-Retina\", \"Andale Mono\", \"Lucida Console\", Consolas, Monaco, monospace",
+        'textColor' => '#333333',
+        'textInverseColor' => '#FFFFFF',
+        'textMutedColor' => '#666666',
+        'barTextColor' => '#999999',
+        'barSelectedColor' => '#1EA7FD',
+        'barBg' => '#FFFFFF',
+        'inputBg' => '#FFFFFF',
+        'inputBorder' => 'rgba(0,0,0,.1)',
+        'inputTextColor' => '#333333',
+        'inputBorderRadius' => 4,
+        'brandTitle' => 'Blast - Storybook for blade',
+        'brandUrl' => 'https://storybook.js.org',
+        'brandImage' => \A17\Blast\Traits\StorybookLogo::defaultLogo()
+    ],
+
+    'storybook_global_types' => [],
+
+    // Set a global custom order for stories in the Storybook UI
+    // More info - https://storybook.js.org/docs/react/writing-stories/naming-components-and-hierarchy#sorting-stories
+    'storybook_sort_order' => [],
 
     // set the background color of the storybook canvas area
     'canvas_bg_color' => '',
@@ -42,12 +87,6 @@ return [
             'description' => 'This component is stable and released',
         ],
     ],
-
-    'storybook_global_types' => [],
-
-    // set a global custom order for stories in the Storybook UI
-    // More info - https://storybook.js.org/docs/react/writing-stories/naming-components-and-hierarchy#sorting-stories
-    'storybook_sort_order' => [],
 
     'build_timeout' => 300,
 

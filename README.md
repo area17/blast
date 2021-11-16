@@ -63,11 +63,30 @@ The route Storybook Server uses to render components. You shouldn't need to chan
 
 Default: `config('app.url') . '/storybook_preview'`
 
+#### `storybook_expanded_controls`
+
+See https://storybook.js.org/docs/react/essentials/controls Set to true to enable full documentation on the controls tab.
+Enabling this feature will require configuration in the `@storybook` blade directive, see `description`, `defaultValue` and `table` array keys in the blade directive configuration. 
+
+Default: `true`
+
 #### `storybook_theme`
 
 The array of theme options used by Storybook. More info [here](https://storybook.js.org/docs/react/configure/theming).
+The options are normal, dark or custom. Normal and dark themes are out of the box from the @storybook-theming addon.
+To add a custom theme edit values in the `storybook_custom_theme` array in config/blast.php. 
 
-Default: `[]`
+Default: `'normal'`
+
+#### `storybook_docs_theme`
+
+With the same options as `storybook_theme` this configures the theme applied to the docs tab.
+
+Default: `'normal'`
+
+#### `storybook_custom_theme`
+
+An array passed to the `@storybook-theming` addon to create a custom theme. HTML color names, RGB and HEX colors are all supported.
 
 #### `canvas_bg_color`
 
@@ -172,7 +191,17 @@ There are certain Storybook elements you can configure from within your story bl
             ],
             'control' => [
                 'type' => 'select'
-            ]
+            ],
+            'description' => 'descriptive text',
+            'defaultValue' => 'lorem-icon-dolor',
+            'table' => [
+                'type' => [
+                    'summary' => 'string'
+                ],
+                'defaultValue' => [
+                    'summary' => 'lorem-icon-dolor'
+                ],
+            ],
         ]
     ]
 ])
