@@ -48,7 +48,7 @@ return [
 
     'storybook_global_types' => [],
 
-    // set a global custom order for stories in the Storybook UI
+    // Set a global custom order for stories in the Storybook UI
     // More info - https://storybook.js.org/docs/react/writing-stories/naming-components-and-hierarchy#sorting-stories
     'storybook_sort_order' => [],
 
