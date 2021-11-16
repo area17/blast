@@ -16,8 +16,12 @@ let customTheme = () => {
   addons.setConfig({ theme });
 }
 
-if (configTheme === "custom") {
+if (typeof configTheme !== 'string') {
   customTheme();
 } else {
-  storybookTheme();
+  if (configTheme === "custom") {
+    customTheme();
+  } else {
+    storybookTheme();
+  }
 }
