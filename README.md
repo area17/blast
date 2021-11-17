@@ -88,6 +88,7 @@ Default:
     'shadows',
     'spacing',
     'transition',
+    'typesets',
     'width',
 ]
 
