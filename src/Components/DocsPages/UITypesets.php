@@ -90,31 +90,31 @@ class UiTypesets extends Component
     {
         switch ($property) {
             case 'font-size':
-                $color = 'bg-red-100';
+                $color = 'blast-bg-red-100';
                 break;
 
             case 'font-weight':
-                $color = 'bg-indigo-100';
+                $color = 'blast-bg-indigo-100';
                 break;
 
             case 'font-family':
-                $color = 'bg-yellow-100';
+                $color = 'blast-bg-yellow-100';
                 break;
 
             case 'line-height':
-                $color = 'bg-blue-100';
+                $color = 'blast-bg-blue-100';
                 break;
 
             case 'letter-spacing':
-                $color = 'bg-green-100';
+                $color = 'blast-bg-green-100';
                 break;
 
             default:
-                $color = 'bg-gray-100';
+                $color = 'blast-bg-gray-100';
                 break;
         }
 
-        return 'blast-' . $color;
+        return $color;
     }
 
     public function render(): View

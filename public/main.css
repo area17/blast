@@ -77,6 +77,10 @@ legend {
 progress {
     vertical-align: baseline;
 }
+[type='search'] {
+    -webkit-appearance: textfield;
+    outline-offset: -2px;
+}
 summary {
     display: list-item;
 }
@@ -425,9 +429,29 @@ video {
     --tw-bg-opacity: 1;
     background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
 }
+.blast-bg-red-100 {
+    --tw-bg-opacity: 1;
+    background-color: rgba(254, 226, 226, var(--tw-bg-opacity));
+}
+.blast-bg-yellow-100 {
+    --tw-bg-opacity: 1;
+    background-color: rgba(254, 243, 199, var(--tw-bg-opacity));
+}
+.blast-bg-green-100 {
+    --tw-bg-opacity: 1;
+    background-color: rgba(209, 250, 229, var(--tw-bg-opacity));
+}
+.blast-bg-blue-100 {
+    --tw-bg-opacity: 1;
+    background-color: rgba(219, 234, 254, var(--tw-bg-opacity));
+}
 .blast-bg-blue-500 {
     --tw-bg-opacity: 1;
     background-color: rgba(59, 130, 246, var(--tw-bg-opacity));
+}
+.blast-bg-indigo-100 {
+    --tw-bg-opacity: 1;
+    background-color: rgba(224, 231, 255, var(--tw-bg-opacity));
 }
 .blast-p-2 {
     padding: 0.5rem;
