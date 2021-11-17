@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const fs = require('fs');
 
-if (fs.existsSync('tailwindcss/resolveConfig')) {
+try {
   const resolveConfig = require('tailwindcss/resolveConfig');
   const config = require(process.env.CONFIGPATH);
   const tempDir = './tmp';
@@ -33,4 +33,6 @@ if (fs.existsSync('tailwindcss/resolveConfig')) {
   } catch (err) {
     console.error(err);
   }
+} catch (err) {
+  console.error(err);
 }
