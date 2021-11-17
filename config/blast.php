@@ -5,6 +5,38 @@ return [
         env('STORYBOOK_SERVER_HOST', env('APP_URL')) . '/storybook_preview',
 
     /**
+     * Specify which documentation pages to generate for the Tailwind classes used in your application
+     * Defaults to `[]` which will render all
+     * Use `php artisan blast:generate-docs` to generate docs stories
+     */
+    'auto_documentation' => [
+        'border-radius',
+        'border-width',
+        'colors',
+        'font-size',
+        'font-weight',
+        'height',
+        'layout',
+        'letter-spacing',
+        'line-height',
+        'max-height',
+        'max-width',
+        'min-height',
+        'min-width',
+        'opacity',
+        'shadows',
+        'spacing',
+        'transition',
+        'typesets',
+        'width',
+    ],
+
+    /**
+     * Path to tailwind config file to generate documentation.
+     */
+    'tailwind_config_path' => base_path('tailwind.config.js'),
+
+    /**
      * See https://storybook.js.org/docs/react/essentials/controls Set
      * to true to enable full documentation on the controls tab.
      */
