@@ -156,5 +156,6 @@ return [
         'ui-gutter-outer' =>
             \A17\Blast\Components\DocsPages\UiGutterOuter::class,
         'ui-container' => \A17\Blast\Components\DocsPages\UiContainer::class,
+        'ui-typesets' => \A17\Blast\Components\DocsPages\UiTypesets::class,
     ],
 ];
