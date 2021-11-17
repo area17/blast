@@ -112,6 +112,13 @@ class GenerateUIDocs extends Command
      */
     private function copyFiles($force = false)
     {
+        if (empty($this->storiesToGenerate)) {
+            $this->error(
+                'No docs defined. Define which docs stories to generate in `config/blast.php` (`auto_documentation`). Aborting.',
+            );
+            return false;
+        }
+
         $pathname = $this->ask(
             'What do you want to name the documentation section?',
             'UI Documentation',
@@ -142,24 +149,9 @@ class GenerateUIDocs extends Command
         $this->filesystem->ensureDirectoryExists($localDataPath);
 
         if (
-            !is_array($this->storiesToGenerate) ||
-            empty($this->storiesToGenerate)
+            is_array($this->storiesToGenerate) &&
+            !empty($this->storiesToGenerate)
         ) {
-            if ($this->filesystem->exists($packageStoriesPath)) {
-                $this->filesystem->copyDirectory(
-                    $packageStoriesPath,
-                    $localStoriesPath,
-                );
-            }
-
-            // copy data
-            if ($this->filesystem->exists($packageDataPath)) {
-                $this->filesystem->copyDirectory(
-                    $packageDataPath,
-                    $localDataPath,
-                );
-            }
-        } else {
             foreach ($this->storiesToGenerate as $name) {
                 $filepath =
                     $this->vendorPath .

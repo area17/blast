@@ -65,9 +65,9 @@ Default: `config('app.url') . '/storybook_preview'`
 
 #### `auto_documentation`
 
-Blast can automatically generate documentation pages in the form of stories based on your Tailwind config. Use this array to specify which documentation pages to generate or leave empty to generate documentation for everything.
+Blast can automatically generate documentation pages in the form of stories based on your Tailwind config. Use this array to specify which documentation pages to generate. All options are loaded by default.
 
-The available options are:
+Default:
 
 ```
 [
@@ -90,9 +90,8 @@ The available options are:
     'transition',
     'width',
 ]
-```
 
-Default: `[]`
+```
 
 #### `tailwind_config_path`
 
@@ -150,29 +149,31 @@ Blast ships with the [Status Addon](https://storybook.js.org/addons/@etchteam/st
 Default:
 
 ```
+
 [
-    'deprecated' => [
-        'background' => '#e02929',
-        'color' => '#ffffff',
-        'description' =>
-            'This component is deprecated and should no longer be used',
-    ],
-    'wip' => [
-        'background' => '#f59506',
-        'color' => '#ffffff',
-        'description' => 'This component is a work in progress',
-    ],
-    'readyForQA' => [
-        'background' => '#34aae5',
-        'color' => '#ffffff',
-        'description' => 'This component is complete and ready to qa',
-    ],
-    'stable' => [
-        'background' => '#1bbb3f',
-        'color' => '#ffffff',
-        'description' => 'This component is stable and released',
-    ],
+'deprecated' => [
+'background' => '#e02929',
+'color' => '#ffffff',
+'description' =>
+'This component is deprecated and should no longer be used',
+],
+'wip' => [
+'background' => '#f59506',
+'color' => '#ffffff',
+'description' => 'This component is a work in progress',
+],
+'readyForQA' => [
+'background' => '#34aae5',
+'color' => '#ffffff',
+'description' => 'This component is complete and ready to qa',
+],
+'stable' => [
+'background' => '#1bbb3f',
+'color' => '#ffffff',
+'description' => 'This component is stable and released',
+],
 ]
+
 ```
 
 #### `storybook_sort_order`
