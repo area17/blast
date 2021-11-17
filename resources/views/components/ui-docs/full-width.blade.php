@@ -1,18 +1,12 @@
 <div>
     @foreach ($items as $key => $item)
         <div class="{{ $loop->index > 0 ? 'blast-mt-4 blast-pt-4 blast-border-t' : '' }} blast-border-solid blast-border-gray-200">
-            @if (isset($property) && Str::contains($property, 'height') && Str::endsWith($item, '%'))
-                <div class="blast-bg-gray-200 blast-h-72">
-            @endif
-
+            <div class="blast-bg-gray-200 {{ isset($property) && Str::contains($property, 'height') && Str::endsWith($item, '%') ?'blast-h-72' : '' }}">
                 <div
                     class="blast-w-full blast-h-10 blast-bg-blue-500"
                     style="{{ $property ?? 'width' }}: {{ $item }};">
                 </div>
-
-            @if (isset($property) && Str::contains($property, 'height') && Str::endsWith($item, '%'))
-                </div>
-            @endif
+            </div>
 
             <div class="
                 blast-inline-block
