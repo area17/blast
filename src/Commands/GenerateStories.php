@@ -475,3 +475,4 @@ class GenerateStories extends Command
         return trim($snippet);
     }
 }
+
