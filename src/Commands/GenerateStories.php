@@ -480,8 +480,8 @@ class GenerateStories extends Command
 
     private function getEvents(array $item) : array
     { 
-        if (Arr::has($item, 'options.parameters.actions.handles')) {
-            return $item['options']['parameters']['actions']['handles'];
+        if (Arr::has($item, 'options.actions.handles')) {
+            return $item['options']['actions']['handles'];
         } else {
            return [];
         }

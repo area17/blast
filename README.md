@@ -204,10 +204,8 @@ There are certain Storybook elements you can configure from within your story bl
             ],
         ]
     ],
-    'parameters' => [
-        'actions' => [
-            'handles' => ['mouseover', 'click']
-        ]
+    'actions' => [
+        'handles' => ['mouseover', 'click']
     ]
 ])
 ```
@@ -222,7 +220,7 @@ The supported options for this directive are:
 -   `design` - a Figma url for the component
 -   `args` - an array of static data used to create storybook fields. You can read more about that [here](https://github.com/storybookjs/storybook/tree/main/app/server#server-rendering). The keys in the array are passed to the blade view and updated when the fields are updated in storybook.
 -   `argTypes` - an array to define the args used for the controls. You can read more about them [here](https://storybook.js.org/docs/react/api/argtypes)
-- `parameters.actions.handles` - an array defining the events that are passed to the `@storybook-actions` addon. You can read more about actions [here](https://storybook.js.org/docs/react/essentials/actions) - See the Action Event Handlers heading.
+- `actions.handles` - an array defining the events that are passed to the `@storybook-actions` addon. You can read more about actions [here](https://storybook.js.org/docs/react/essentials/actions) - See the Action Event Handlers heading.
 
 ## Demo Components
 
