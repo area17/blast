@@ -109,6 +109,14 @@ class Publish extends Command
             $process = array_merge($process, ['-o', $outputDir]);
         }
 
+        // publish preview head
+        $this->info('');
+        $progressBar->setMessage('Publishing Preview Head.');
+        $progressBar->advance();
+        $this->filesystem->ensureDirectoryExists($this->vendorPath . '/.storybook');
+        $this->filesystem->put($this->vendorPath . '/.storybook/preview-head.html', $this->fetchPreviewHead());
+        $progressBar->finish();
+
         $this->runProcessInBlast($process, true, [
             'STORYBOOK_SERVER_URL' => $this->storybookServer,
             'STORYBOOK_STATUSES' => json_encode($this->storybookStatuses),

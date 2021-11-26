@@ -106,6 +106,14 @@ class Launch extends Command
 
         usleep(250000);
 
+        // publish preview head
+        $this->info('');
+        $progressBar->setMessage('Publishing Preview Head.');
+        $progressBar->advance();
+        $this->filesystem->ensureDirectoryExists($this->vendorPath . '/.storybook');
+        $this->filesystem->put($this->vendorPath . '/.storybook/preview-head.html', $this->fetchPreviewHead());
+        $progressBar->finish();
+
         // publish FE assets
         $this->info('');
         $progressBar->setMessage('Publishing FE assets.');

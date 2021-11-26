@@ -63,6 +63,18 @@ return [
         'js' => [],
     ],
 
+    // Links - ['link' => 'rel']
+    'external_links' => [
+        '//fonts.gstatic.com' => 'dns-prefetch',
+        'https://fonts.googleapis.com/css?family=Nunito' => 'stylesheet',
+        'https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' => 'stylesheet'
+    ],
+
+    // Scripts - ['src', 'src']
+    'external_scripts' => [
+        'https://code.jquery.com/jquery-3.6.0.min.js'
+    ],
+
     // See https://storybook.js.org/addons/@etchteam/storybook-addon-status/
     'storybook_statuses' => [
         'deprecated' => [

@@ -88,4 +88,36 @@ trait Helpers
             ]);
         }
     }
+
+    /**
+     * Build a string of <links> and <script>
+     *
+     * @return string
+     */
+    private function fetchPreviewHead(): string
+    {
+        $previewHead = '';
+        $configLinks = config('blast.external_links');
+        $configScripts = config('blast.external_scripts');
+
+        $linkString = '<link href=":href" rel=":rel">' . "\n";
+        $scriptString = '<script src=":src"></script>' . "\n";
+
+        if (!empty($configLinks)) {
+            foreach ($configLinks as $href => $rel) {
+                $newString = Str::replace(':href', $href, $linkString);
+                $newString = Str::replace(':rel', $rel, $newString);
+                $previewHead .= $newString;
+            }
+        }
+
+        if (!empty($configScripts)) {
+            foreach ($configScripts as $src) {
+                $newString = Str::replace(':src', $src, $scriptString);
+                $previewHead .= $newString;
+            }
+        }
+
+        return $previewHead;
+    }
 }
