@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\Support\Str;
-
 final class BlastServiceProvider extends ServiceProvider
 {
     public function register(): void
@@ -113,20 +112,30 @@ final class BlastServiceProvider extends ServiceProvider
             'js' => [],
         ];
 
-        $mix_manifest_path = public_path('mix-manifest.json');
+        $externalAssets = $this->externalAssets();
 
+        $mix_manifest_path = public_path('mix-manifest.json');
         // if the mix manifest exists, automatically load assets
         if (is_file($mix_manifest_path)) {
             $mix_manifest = json_decode(file_get_contents($mix_manifest_path));
 
-            foreach ($mix_manifest as $key => $asset) {
-                if (Str::endsWith($key, '.js')) {
-                    $assets['js'][] = config('app.url') . $asset;
-                } elseif (Str::endsWith($key, '.css')) {
-                    $assets['css'][] = config('app.url') . $asset;
+            foreach ($mix_manifest as $key => &$asset) {
+                // check for external assets as replacements - Fix CORS 
+                if(!empty($externalAssets)) {
+                    foreach($externalAssets as $ext) {
+                        if(Str::contains($ext, Str::replace('/public', '', $key))) {
+                            $asset = null;
+                            break;
+                        }
+                    }
+                                                
+                    if (Str::endsWith($key, '.js') && $asset !== null) {
+                        $assets['js'][] = config('app.url') . $asset;
+                    } elseif (Str::endsWith($key, '.css') && $asset !== null) {
+                        $assets['css'][] = config('app.url') . $asset;
+                    }
                 }
             }
-
             config(['blast.assets' => $assets]);
         }
     }
@@ -137,5 +146,33 @@ final class BlastServiceProvider extends ServiceProvider
 
         // if the count is greater than 0, we can assume that assets have been set
         return count(array_filter($assets)) > 0;
+    }
+
+    /**
+     * Return an array of all external assets,
+     * cleaned ready for matching against
+     * assets from mix.manifest.json
+     *
+     * @return array
+     */
+    private function externalAssets(): array
+    {
+        $externalAssets = array_merge(
+            config('blast.external_links'),
+            config('blast.external_scripts')
+        );
+        $cleanAssets = [];
+
+        foreach ($externalAssets as $href => $rel) {
+            if (preg_match('/\//', $rel)) {
+                $cleanedRel = preg_replace('/(https:\/\/)|(http:\/\/)|(^\/*)|(:?)|(@?)/', '', $rel);
+                $cleanAssets[] = $cleanedRel;
+            }
+            if (!is_numeric($href)) {
+                $cleanedHref = preg_replace('/(https:\/\/)|(http:\/\/)|(^\/*)|(:?)|(@?)/', '', $href);
+                $cleanAssets[] = $cleanedHref;
+            }
+        }
+        return $cleanAssets;
     }
 }
