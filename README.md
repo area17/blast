@@ -106,6 +106,18 @@ An array of urls to the `css` and `js` used by your components. The `css` and `j
 
 Default: `[ 'css' => [], 'js' => [], ]`
 
+#### `external_links`  &  `external_scripts`
+
+Assets causing CORS errors (due to attempting to access public/*folder_name* from localhost without Access-Control-Allow-Headers) may be placed in the external_links / external_scripts array below instead using a CDN.
+
+- Links - ['link' => 'rel', 'link' => 'rel'] e.g. 'https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' => 'stylesheet'
+- Scripts - \['src', 'src'] e.g. 'https://code.jquery.com/jquery-3.6.0.min.js'
+
+When these arrays are populated and assets are being autoloaded via mix-manifest.json, blast will use regex to identify
+these links and refrain from serving them locally using the CDN instead to avoid generating CORS errors from the storybook url.  More can be read on adding assets to the storybook preview-head.html [here](https://storybook.js.org/docs/react/configure/story-rendering).
+
+Default: `[]`
+
 #### `storybook_statuses`
 
 Blast ships with the [Status Addon](https://storybook.js.org/addons/@etchteam/storybook-addon-status) by Etch. This allows you to add custom status indicators to each component. This option allows you to customise these status indicators. More information on this can be found in the Custom Status section below.

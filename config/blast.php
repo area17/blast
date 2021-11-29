@@ -63,17 +63,17 @@ return [
         'js' => [],
     ],
 
-    // Links - ['link' => 'rel']
+    /**
+     * Assets causing CORS errors (due to attempting to access public/*folder_name* from localhost without Access-Control-Allow-Headers) 
+     * may be placed in the external_links / external_scripts array below instead using a CDN.
+     */
+
+    // Links - ['link' => 'rel'] e.g. 'https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' => 'stylesheet'
     'external_links' => [
-        '//fonts.gstatic.com' => 'dns-prefetch',
-        'https://fonts.googleapis.com/css?family=Nunito' => 'stylesheet',
-        'https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' => 'stylesheet'
     ],
 
-    // Scripts - ['src', 'src']
-    'external_scripts' => [
-        'https://code.jquery.com/jquery-3.6.0.min.js'
-    ],
+    // Scripts - ['src'] e.g. 'https://code.jquery.com/jquery-3.6.0.min.js'
+    'external_scripts' => [],
 
     // See https://storybook.js.org/addons/@etchteam/storybook-addon-status/
     'storybook_statuses' => [
