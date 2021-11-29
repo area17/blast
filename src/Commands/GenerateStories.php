@@ -312,7 +312,10 @@ class GenerateStories extends Command
                         'code' => $this->getCodeSnippet($item['path']),
                     ],
                 ],
-            ],
+                'actions' => [
+                    'handles' => $this->getEvents($item)
+                ],
+            ]
         ];
 
         // build options array
@@ -473,6 +476,15 @@ class GenerateStories extends Command
         $snippet = preg_replace('/@storybook\(\[(.*)\]\)/sU', '', $contents);
 
         return trim($snippet);
+    }
+
+    private function getEvents(array $item) : array
+    { 
+        if (Arr::has($item, 'options.actions.handles')) {
+            return $item['options']['actions']['handles'];
+        } else {
+           return [];
+        }
     }
 }
 
