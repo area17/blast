@@ -67,7 +67,7 @@ class Launch extends Command
         $installMessage = $this->getInstallMessage($npmInstall);
 
         // init progress bar
-        $progressBar = $this->output->createProgressBar(3);
+        $progressBar = $this->output->createProgressBar(2);
         $progressBar->setFormat('%current%/%max% [%bar%] %message%');
 
         // Install step
@@ -114,13 +114,6 @@ class Launch extends Command
         $this->filesystem->put($this->vendorPath . '/.storybook/preview-head.html', $this->fetchPreviewHead());
         $progressBar->finish();
 
-        // publish FE assets
-        $this->info('');
-        $progressBar->setMessage('Publishing FE assets.');
-        $progressBar->advance();
-        $this->newLine();
-        $this->call('vendor:publish', ['--tag' => 'blast-assets']);
-
         // init storybook and watch stories
         $this->info('');
         $progressBar->setMessage(
@@ -139,7 +132,9 @@ class Launch extends Command
             'STORYBOOK_THEME' => json_encode($this->storybookTheme),
             'STORYBOOK_CUSTOM_THEME' => json_encode($this->customTheme),
             'STORYBOOK_DOCS_THEME' => json_encode($this->docsTheme),
-            'STORYBOOK_EXPANDED_CONTROLS' => json_encode($this->expandedControls),
+            'STORYBOOK_EXPANDED_CONTROLS' => json_encode(
+                $this->expandedControls,
+            ),
             'STORYBOOK_GLOBAL_TYPES' => json_encode(
                 $this->storybookGlobalTypes,
             ),

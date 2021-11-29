@@ -66,7 +66,7 @@ Default: `config('app.url') . '/storybook_preview'`
 #### `storybook_expanded_controls`
 
 See https://storybook.js.org/docs/react/essentials/controls Set to true to enable full documentation on the controls tab.
-Enabling this feature will require configuration in the `@storybook` blade directive, see `description`, `defaultValue` and `table` array keys in the blade directive configuration. 
+Enabling this feature will require configuration in the `@storybook` blade directive, see `description`, `defaultValue` and `table` array keys in the blade directive configuration.
 
 Default: `true`
 
@@ -74,7 +74,7 @@ Default: `true`
 
 The array of theme options used by Storybook. More info [here](https://storybook.js.org/docs/react/configure/theming).
 The options are normal, dark or custom. Normal and dark themes are out of the box from the @storybook-theming addon.
-To add a custom theme edit values in the `storybook_custom_theme` array in config/blast.php. 
+To add a custom theme edit values in the `storybook_custom_theme` array in config/blast.php.
 
 Default: `'normal'`
 
@@ -102,7 +102,38 @@ Default: `true`
 
 #### `assets`
 
-An array of urls to the `css` and `js` used by your components. The `css` and `js` urls are seperated out as the `css` is included in the head and the `js` is included before the closing `body` tag. You will most likely need to configure this after installing the package.
+An array of urls to the `css` and `js` used by your components. The `css` and `js` urls are seperated out as the `css` is included in the head and the `js` is included before the closing `body` tag.
+
+You can also group assets and specify which to use for different components.
+
+```php
+'assets' => [
+    'css' => [
+        'path/to/default.css', // default, loaded in all stories
+        'blast' => 'path/to/blast.css', // load a single file
+        'area17' => [ // use array to load multiple files
+            'path/to/area17.css',
+            'path/to/area17-other.css'
+        ]
+    ],
+    'js' => [
+        'path/to/default.js', // default, loaded in all stories
+        'blast' => 'path/to/blast.js', // load a single file
+        'area17' => [ // use array to load multiple files
+            'path/to/area17.js'
+            'path/to/area17-other.js'
+        ]
+    ]
+]
+```
+
+In your story blade file you would select the assets to use with `assetGroup`.
+
+```php
+@storybook([
+    'assetGroup' => 'blast',
+]);
+```
 
 Default: `[ 'css' => [], 'js' => [], ]`
 

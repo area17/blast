@@ -123,7 +123,9 @@ class Publish extends Command
             'STORYBOOK_THEME' => json_encode($this->storybookTheme),
             'STORYBOOK_CUSTOM_THEME' => json_encode($this->customTheme),
             'STORYBOOK_DOCS_THEME' => json_encode($this->docsTheme),
-            'STORYBOOK_EXPANDED_CONTROLS' => json_encode($this->expandedControls),
+            'STORYBOOK_EXPANDED_CONTROLS' => json_encode(
+                $this->expandedControls,
+            ),
             'STORYBOOK_GLOBAL_TYPES' => json_encode(
                 $this->storybookGlobalTypes,
             ),
