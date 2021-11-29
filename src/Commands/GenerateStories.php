@@ -312,6 +312,9 @@ class GenerateStories extends Command
                         'code' => $this->getCodeSnippet($item['path']),
                     ],
                 ],
+                'actions' => [
+                    'handles' => $this->getEvents($item),
+                ],
             ],
         ];
 
@@ -383,6 +386,16 @@ class GenerateStories extends Command
 
             if (Arr::has($options, 'order')) {
                 $data['order'] = $options['order'];
+            }
+
+            if (Arr::has($options, 'assetGroup')) {
+                $data['args']['assetGroup'] = $options['assetGroup'];
+
+                if (!Arr::has($data['argTypes'], 'assetGroup')) {
+                    $data['argTypes']['assetGroup'] = [
+                        'table' => ['disable' => true],
+                    ];
+                }
             }
         }
 
@@ -474,5 +487,13 @@ class GenerateStories extends Command
 
         return trim($snippet);
     }
-}
 
+    private function getEvents(array $item): array
+    {
+        if (Arr::has($item, 'options.actions.handles')) {
+            return $item['options']['actions']['handles'];
+        } else {
+            return [];
+        }
+    }
+}
