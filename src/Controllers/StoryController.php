@@ -32,35 +32,39 @@ class StoryController
         $parsedCss = [];
         $parsedJs = [];
 
-        foreach ($css as $key => $asset) {
-            if (is_string($key)) {
-                if (isset($assetGroup) && $key == $assetGroup) {
-                    if (is_array($asset)) {
-                        foreach ($asset as $key => $childAsset) {
-                            $parsedCss[] = $childAsset;
+        if (!empty($css)) {
+            foreach ($css as $key => $asset) {
+                if (is_string($key)) {
+                    if (isset($assetGroup) && $key == $assetGroup) {
+                        if (is_array($asset)) {
+                            foreach ($asset as $key => $childAsset) {
+                                $parsedCss[] = $childAsset;
+                            }
+                        } else {
+                            $parsedCss[] = $asset;
                         }
-                    } else {
-                        $parsedCss[] = $asset;
                     }
+                } else {
+                    $parsedCss[] = $asset;
                 }
-            } else {
-                $parsedCss[] = $asset;
             }
         }
 
-        foreach ($js as $key => $asset) {
-            if (is_string($key)) {
-                if (isset($assetGroup) && $key == $assetGroup) {
-                    if (is_array($asset)) {
-                        foreach ($asset as $key => $childAsset) {
-                            $parsedJs[] = $childAsset;
+        if (!empty($js)) {
+            foreach ($js as $key => $asset) {
+                if (is_string($key)) {
+                    if (isset($assetGroup) && $key == $assetGroup) {
+                        if (is_array($asset)) {
+                            foreach ($asset as $key => $childAsset) {
+                                $parsedJs[] = $childAsset;
+                            }
+                        } else {
+                            $parsedJs[] = $asset;
                         }
-                    } else {
-                        $parsedJs[] = $asset;
                     }
+                } else {
+                    $parsedJs[] = $asset;
                 }
-            } else {
-                $parsedJs[] = $asset;
             }
         }
 
