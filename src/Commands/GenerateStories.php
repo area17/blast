@@ -487,4 +487,3 @@ class GenerateStories extends Command
         }
     }
 }
-

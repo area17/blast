@@ -3,10 +3,10 @@
 return [
     'storybook_server_url' =>
         env('STORYBOOK_SERVER_HOST', env('APP_URL')) . '/storybook_preview',
-    
+
     /**
      * See https://storybook.js.org/docs/react/essentials/controls Set
-     * to true to enable full documentation on the controls tab. 
+     * to true to enable full documentation on the controls tab.
      */
     'storybook_expanded_controls' => true,
 
@@ -29,8 +29,10 @@ return [
         'appContentBg' => '#FFFFFF',
         'appBorderColor' => 'rgba(0,0,0,.1)',
         'appBorderRadius' => 4,
-        'fontBase' => "\"Nunito Sans\", -apple-system, \".SFNSText-Regular\", \"San Francisco\", BlinkMacSystemFont, \"Segoe UI\", \"Helvetica Neue\", Helvetica, Arial, sans-serif",
-        'fontCode' => "\"Operator Mono\", \"Fira Code Retina\", \"Fira Code\", \"FiraCode-Retina\", \"Andale Mono\", \"Lucida Console\", Consolas, Monaco, monospace",
+        'fontBase' =>
+            "\"Nunito Sans\", -apple-system, \".SFNSText-Regular\", \"San Francisco\", BlinkMacSystemFont, \"Segoe UI\", \"Helvetica Neue\", Helvetica, Arial, sans-serif",
+        'fontCode' =>
+            "\"Operator Mono\", \"Fira Code Retina\", \"Fira Code\", \"FiraCode-Retina\", \"Andale Mono\", \"Lucida Console\", Consolas, Monaco, monospace",
         'textColor' => '#333333',
         'textInverseColor' => '#FFFFFF',
         'textMutedColor' => '#666666',
@@ -43,7 +45,7 @@ return [
         'inputBorderRadius' => 4,
         'brandTitle' => 'Blast - Storybook for blade',
         'brandUrl' => 'https://storybook.js.org',
-        'brandImage' => \A17\Blast\Traits\StorybookLogo::defaultLogo()
+        'brandImage' => \A17\Blast\Traits\StorybookLogo::defaultLogo(),
     ],
 
     'storybook_global_types' => [],
