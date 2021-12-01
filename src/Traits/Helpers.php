@@ -97,7 +97,7 @@ trait Helpers
     private function terminateVagrantInstall()
     {
         echo "\n[!] Vagrant installation detected. Windows filesystems do not support symbolic links (symlinks),\n";
-        echo "installation will fail.  Install node.js and npm on the host machine and run the command\n";
+        echo "installation will fail.  Install php, node.js and npm on the host machine and run the command\n";
         echo "`php artisan blast:launch --install` in the project root directory on the windows host\n";
         echo "machine. Once this is done, you can run `php artisan blast:launch` from vagrant\n\n";
         exit("Exiting...\n\n");
