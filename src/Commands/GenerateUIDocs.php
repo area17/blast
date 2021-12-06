@@ -16,7 +16,7 @@ class GenerateUIDocs extends Command
      *
      * @var string
      */
-    protected $signature = 'blast:generate-docs {--force}';
+    protected $signature = 'blast:generate-docs {--force} {--update-data}';
 
     /**
      * The console command description.
@@ -68,13 +68,19 @@ class GenerateUIDocs extends Command
             return false;
         }
 
+        $copied = false;
         $force = $this->option('force');
+        $updateData = $this->option('update-data');
 
         $this->getConfigData();
 
-        $copied = $this->copyFiles($force);
+        if (!$updateData) {
+            $copied = $this->copyFiles($force);
+        } else {
+            $this->info('Updating story data');
+        }
 
-        if ($copied) {
+        if ($copied || (!$copied && $updateData)) {
             $this->info('Generating stories');
             usleep(500000);
             $this->call('blast:generate-stories');
