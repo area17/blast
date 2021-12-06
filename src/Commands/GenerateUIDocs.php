@@ -76,8 +76,8 @@ class GenerateUIDocs extends Command
 
         if ($copied) {
             $this->info('Generating stories');
-            usleep(250000);
-            $this->call('blast:generate-stories', ['--ui-docs']);
+            usleep(500000);
+            $this->call('blast:generate-stories');
         }
     }
 
