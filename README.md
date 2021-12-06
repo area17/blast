@@ -427,7 +427,7 @@ Blast can automatically generate stories to visualize your Tailwind configuratio
 php artisan blast:generate-docs
 ```
 
-You can pass the option `--force` to automatically overwrite existing documenation stories.
+You can pass the option `--force` to automatically overwrite existing documenation stories or use the `--update-data` option to update the story data without copying any files (this option only works if you have already run the task before).
 
 ### Options
 
