@@ -43,7 +43,10 @@ class UiColors extends Component
             $this->buildClasses($raw['textColor'], 'text');
         } elseif ($this->type === 'border') {
             $this->buildClasses($raw['borderColor'], 'border');
+        } elseif ($this->type === 'shades') {
+            $this->buildClasses($raw['colors']);
         } else {
+            $this->buildClasses($raw['colors']);
             $this->buildClasses($raw['bgColor'], 'bg');
             $this->buildClasses($raw['textColor'], 'text');
             $this->buildClasses($raw['borderColor'], 'border');

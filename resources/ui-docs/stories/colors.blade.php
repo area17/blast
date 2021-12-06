@@ -8,6 +8,7 @@
             'control' => 'select',
             'options' => [
                 'All' => 'all',
+                'Shades' => 'shades',
                 'Text' => 'text',
                 'Background' => 'bg',
                 'Border' => 'border',
