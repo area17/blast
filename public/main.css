@@ -302,6 +302,9 @@ video {
 .blast-min-w-150 {
     min-width: 37.5rem;
 }
+.blast-table-fixed {
+    table-layout: fixed;
+}
 @-webkit-keyframes blast-spin {
     to {
         transform: rotate(1turn);

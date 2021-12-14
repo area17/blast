@@ -22,7 +22,7 @@
                     </div>
 
                     <div class="blast-overflow-x-auto">
-                        <table class="blast-w-full blast-text-xs blast-font-mono blast-min-w-150">
+                        <table class="blast-w-full blast-text-xs blast-font-mono blast-min-w-150 blast-table-fixed">
                             <thead>
                                 <tr>
                                     @foreach ($screens as $screen)
