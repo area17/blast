@@ -1,3 +1,4 @@
+import '../public/main.css';
 import { themes } from '@storybook/theming';
 import theme from './theme';
 

@@ -67,7 +67,7 @@ class Launch extends Command
         $installMessage = $this->getInstallMessage($npmInstall);
 
         // init progress bar
-        $progressBar = $this->output->createProgressBar(3);
+        $progressBar = $this->output->createProgressBar(2);
         $progressBar->setFormat('%current%/%max% [%bar%] %message%');
 
         // Install step
@@ -105,13 +105,6 @@ class Launch extends Command
         }
 
         usleep(250000);
-
-        // publish FE assets
-        $this->info('');
-        $progressBar->setMessage('Publishing FE assets.');
-        $progressBar->advance();
-        $this->newLine();
-        $this->call('vendor:publish', ['--tag' => 'blast-assets']);
 
         // init storybook and watch stories
         $this->info('');

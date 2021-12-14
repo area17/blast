@@ -139,7 +139,38 @@ Default: `true`
 
 #### `assets`
 
-An array of urls to the `css` and `js` used by your components. The `css` and `js` urls are seperated out as the `css` is included in the head and the `js` is included before the closing `body` tag. You will most likely need to configure this after installing the package.
+An array of urls to the `css` and `js` used by your components. The `css` and `js` urls are seperated out as the `css` is included in the head and the `js` is included before the closing `body` tag.
+
+You can also group assets and specify which to use for different components.
+
+```php
+'assets' => [
+    'css' => [
+        'path/to/default.css', // default, loaded in all stories
+        'blast' => 'path/to/blast.css', // load a single file
+        'area17' => [ // use array to load multiple files
+            'path/to/area17.css',
+            'path/to/area17-other.css'
+        ]
+    ],
+    'js' => [
+        'path/to/default.js', // default, loaded in all stories
+        'blast' => 'path/to/blast.js', // load a single file
+        'area17' => [ // use array to load multiple files
+            'path/to/area17.js'
+            'path/to/area17-other.js'
+        ]
+    ]
+]
+```
+
+In your story blade file you would select the assets to use with `assetGroup`.
+
+```php
+@storybook([
+    'assetGroup' => 'blast',
+]);
+```
 
 Default: `[ 'css' => [], 'js' => [], ]`
 
@@ -242,6 +273,9 @@ There are certain Storybook elements you can configure from within your story bl
                 ],
             ],
         ]
+    ],
+    'actions' => [
+        'handles' => ['mouseover', 'click']
     ]
 ])
 ```
@@ -256,6 +290,7 @@ The supported options for this directive are:
 -   `design` - a Figma url for the component
 -   `args` - an array of static data used to create storybook fields. You can read more about that [here](https://github.com/storybookjs/storybook/tree/main/app/server#server-rendering). The keys in the array are passed to the blade view and updated when the fields are updated in storybook.
 -   `argTypes` - an array to define the args used for the controls. You can read more about them [here](https://storybook.js.org/docs/react/api/argtypes)
+-   `actions.handles` - an array defining the events that are passed to the `@storybook-actions` addon. You can read more about actions [here](https://storybook.js.org/docs/react/essentials/actions) - See the Action Event Handlers heading.
 
 ## Demo Components
 
