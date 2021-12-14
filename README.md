@@ -63,6 +63,43 @@ The route Storybook Server uses to render components. You shouldn't need to chan
 
 Default: `config('app.url') . '/storybook_preview'`
 
+#### `auto_documentation`
+
+Blast can automatically generate documentation pages in the form of stories based on your Tailwind config. Use this array to specify which documentation pages to generate. All options are loaded by default.
+
+Default:
+
+```
+[
+    'border-radius',
+    'border-width',
+    'colors',
+    'font-size',
+    'font-weight',
+    'height',
+    'layout',
+    'letter-spacing',
+    'line-height',
+    'max-height',
+    'max-width',
+    'min-height',
+    'min-width',
+    'opacity',
+    'shadows',
+    'spacing',
+    'transition',
+    'typesets',
+    'width',
+]
+
+```
+
+#### `tailwind_config_path`
+
+The path to your Tailwind config file. Used to parse the auto-documentation.
+
+Default: `base_path('tailwind.config.js')`
+
 #### `storybook_expanded_controls`
 
 See https://storybook.js.org/docs/react/essentials/controls Set to true to enable full documentation on the controls tab.
@@ -144,29 +181,31 @@ Blast ships with the [Status Addon](https://storybook.js.org/addons/@etchteam/st
 Default:
 
 ```
+
 [
-    'deprecated' => [
-        'background' => '#e02929',
-        'color' => '#ffffff',
-        'description' =>
-            'This component is deprecated and should no longer be used',
-    ],
-    'wip' => [
-        'background' => '#f59506',
-        'color' => '#ffffff',
-        'description' => 'This component is a work in progress',
-    ],
-    'readyForQA' => [
-        'background' => '#34aae5',
-        'color' => '#ffffff',
-        'description' => 'This component is complete and ready to qa',
-    ],
-    'stable' => [
-        'background' => '#1bbb3f',
-        'color' => '#ffffff',
-        'description' => 'This component is stable and released',
-    ],
+'deprecated' => [
+'background' => '#e02929',
+'color' => '#ffffff',
+'description' =>
+'This component is deprecated and should no longer be used',
+],
+'wip' => [
+'background' => '#f59506',
+'color' => '#ffffff',
+'description' => 'This component is a work in progress',
+],
+'readyForQA' => [
+'background' => '#34aae5',
+'color' => '#ffffff',
+'description' => 'This component is complete and ready to qa',
+],
+'stable' => [
+'background' => '#1bbb3f',
+'color' => '#ffffff',
+'description' => 'This component is stable and released',
+],
 ]
+
 ```
 
 #### `storybook_sort_order`
@@ -251,7 +290,7 @@ The supported options for this directive are:
 -   `design` - a Figma url for the component
 -   `args` - an array of static data used to create storybook fields. You can read more about that [here](https://github.com/storybookjs/storybook/tree/main/app/server#server-rendering). The keys in the array are passed to the blade view and updated when the fields are updated in storybook.
 -   `argTypes` - an array to define the args used for the controls. You can read more about them [here](https://storybook.js.org/docs/react/api/argtypes)
-- `actions.handles` - an array defining the events that are passed to the `@storybook-actions` addon. You can read more about actions [here](https://storybook.js.org/docs/react/essentials/actions) - See the Action Event Handlers heading.
+-   `actions.handles` - an array defining the events that are passed to the `@storybook-actions` addon. You can read more about actions [here](https://storybook.js.org/docs/react/essentials/actions) - See the Action Event Handlers heading.
 
 ## Demo Components
 
@@ -414,6 +453,16 @@ Blast can build a static Storybook app and publish it to your public folder. You
 ```bash
 php artisan blast:publish
 ```
+
+## Generate Tailwind Documenatation Stories
+
+Blast can automatically generate stories to visualize your Tailwind configuration. See 'auto_documentation' above to see how to configure which stories to generate.
+
+```bash
+php artisan blast:generate-docs
+```
+
+You can pass the option `--force` to automatically overwrite existing documenation stories or use the `--update-data` option to update the story data without copying any files (this option only works if you have already run the task before).
 
 ### Options
 

@@ -24,6 +24,7 @@ trait Helpers
             $process->setTimeout(config('blast.build_timeout', 300));
         }
 
+        $process->enableOutput();
         $process->mustRun();
     }
 

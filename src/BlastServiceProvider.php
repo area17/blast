@@ -4,6 +4,7 @@ namespace A17\Blast;
 
 use A17\Blast\Commands\Demo;
 use A17\Blast\Commands\GenerateStories;
+use A17\Blast\Commands\GenerateUIDocs;
 use A17\Blast\Commands\Launch;
 use A17\Blast\Commands\Publish;
 use Illuminate\Support\Facades\Blade;
@@ -35,6 +36,7 @@ final class BlastServiceProvider extends ServiceProvider
             $this->commands([
                 Demo::class,
                 GenerateStories::class,
+                GenerateUIDocs::class,
                 Launch::class,
                 Publish::class,
             ]);

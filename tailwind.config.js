@@ -1,7 +1,7 @@
 module.exports = {
   prefix: 'blast-',
   darkMode: false,
-  purge: ['./resources/**/*.blade.php'],
+  purge: ['./resources/**/*.blade.php', './src/Components/**/*.php'],
   theme: {
     corePlugins: {
       preflight: false
@@ -15,6 +15,16 @@ module.exports = {
         xl: '5rem',
         '2xl': '6rem'
       }
+    },
+    extend: {
+      minWidth: {
+        150: '37.5rem'
+      }
+    }
+  },
+  variants: {
+    extend: {
+      width: ['group-hover']
     }
   },
   plugins: []
