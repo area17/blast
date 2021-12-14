@@ -1,4 +1,4 @@
-<div>
+<div class="blast-min-h-screen blast-bg-white">
     <div class="blast-bg-blue-500 blast-text-white">
         <div class="blast-container blast-flex blast-flex-col blast-pt-6 blast-pb-9 md:blast-pt-8 md:blast-pb-12">
             @if($label)
@@ -24,7 +24,7 @@
     </div>
 
     <!-- Content -->
-    <div class=" blast-container blast-mt-6 blast-mb-12">
+    <div class=" blast-container blast-mt-6 blast-pb-12">
         {{ $slot }}
     </div>
 </div>
