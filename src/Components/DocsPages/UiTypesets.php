@@ -5,6 +5,7 @@ namespace A17\Blast\Components\DocsPages;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 use A17\Blast\UiDocsStore;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class UiTypesets extends Component
@@ -32,22 +33,21 @@ class UiTypesets extends Component
                 $index = 0;
                 foreach ($item as $breakpoint => $values) {
                     foreach ($values as $property => $value) {
-                        $nextItemKey = array_keys($item)[$index + 1] ?? false;
-                        $span = $this->getSpan($breakpoint, null);
-
-                        if ($nextItemKey) {
-                            $nextItem = $item[$nextItemKey];
-
-                            if (
-                                $nextItem &&
-                                array_key_exists($property, $nextItem)
-                            ) {
-                                $span = $this->getSpan(
-                                    $breakpoint,
-                                    array_keys($item)[$index + 1] ?? null,
-                                );
-                            }
-                        }
+                        $propertyBreakpoints = $this->getPropertyBreakpoints(
+                            $item,
+                            $property,
+                        );
+                        $currentBreakpointIndex = array_search(
+                            $breakpoint,
+                            $propertyBreakpoints,
+                        );
+                        $nextItem =
+                            $propertyBreakpoints[$currentBreakpointIndex + 1] ??
+                            false;
+                        $span = $this->getSpan(
+                            $propertyBreakpoints[$currentBreakpointIndex],
+                            $nextItem ?? null,
+                        );
 
                         if (
                             $property === 'font-family' &&
@@ -74,6 +74,19 @@ class UiTypesets extends Component
                 return $row;
             });
         }
+    }
+
+    private function getPropertyBreakpoints($data, $property)
+    {
+        $bps = [];
+
+        foreach ($data as $breakpoint => $values) {
+            if (Arr::has($values, $property)) {
+                $bps[] = $breakpoint;
+            }
+        }
+
+        return $bps;
     }
 
     private function getSpan($current, $next)
