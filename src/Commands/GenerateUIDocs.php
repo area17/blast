@@ -87,6 +87,8 @@ class GenerateUIDocs extends Command
             usleep(500000);
             $this->call('blast:generate-stories');
         }
+
+        return 1;
     }
 
     private function get($key = null)

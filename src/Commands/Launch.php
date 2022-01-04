@@ -97,7 +97,13 @@ class Launch extends Command
             $progressBar->setMessage('Generating Stories...');
             $progressBar->advance();
 
-            $this->callSilently('blast:generate-docs', ['--update-data' => 1]);
+            $generatedDocs = $this->callSilently('blast:generate-docs', [
+                '--update-data' => 1,
+            ]);
+
+            if (!$generatedDocs) {
+                $this->call('blast:generate-stories');
+            }
         } else {
             $this->info('');
             $progressBar->setMessage('Skipping Story Generation...');
