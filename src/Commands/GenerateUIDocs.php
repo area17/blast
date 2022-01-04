@@ -16,7 +16,9 @@ class GenerateUIDocs extends Command
      *
      * @var string
      */
-    protected $signature = 'blast:generate-docs {--force} {--update-data}';
+    protected $signature = 'blast:generate-docs
+                                                {--force : Override files without prompting}
+                                                {--update-data : Only update the data for the docs. Doesn\'t copy any files}';
 
     /**
      * The console command description.
