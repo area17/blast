@@ -95,7 +95,7 @@ class Publish extends Command
         $progressBar->setMessage('Generating Stories...');
         $progressBar->advance();
 
-        $this->call('blast:generate-stories');
+        $this->callSilently('blast:generate-docs', ['--update-data' => 1]);
 
         $this->info('');
         $progressBar->setMessage('Starting static Storybook build...');
