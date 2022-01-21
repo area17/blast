@@ -10,6 +10,11 @@ Blast is a low maintenance component library using Storybook Server, built to in
 
 Blast allows you to render examples of your app's components using the blade templating engine using Storybook Server within your Laravel app.
 
+We've published some articles to help you get started with Blast and it's features:
+
+-   [Getting Started with Blast – Storybook for Laravel Blade](https://dev.to/area17/getting-started-with-blast-storybook-for-laravel-blade-c5c)
+-   [Auto-visualizing Tailwind Tokens and Documenting Design Systems Props with Blast](https://dev.to/area17/documenting-your-design-system-in-blast-4ao6)
+
 ## Install
 
 ```bash
