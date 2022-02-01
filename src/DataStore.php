@@ -30,17 +30,22 @@ class DataStore
         $this->filesystem = $filesystem;
 
         $this->filesystem->ensureDirectoryExists($this->dataPath);
-        $this->getComponentsData();
     }
 
     public function get($key = null)
     {
+        $filename = explode('.', $key);
+
+        if (empty($this->data[$filename[0]])) {
+            $this->getComponentData($filename[0]);
+        }
+
         if ($key) {
             return Arr::get($this->data, $key);
         }
     }
 
-    private function getComponentsData()
+    private function getComponentData($key)
     {
         if (!$this->filesystem->exists($this->dataPath)) {
             return 1;
@@ -53,15 +58,18 @@ class DataStore
                 if ($file->getExtension() == 'php') {
                     $filename = str_replace('.php', '', $file->getFilename());
 
-                    $this->data[$filename] = include base_path(
-                        $file->getPathname(),
-                    );
+                    if ($key === $filename) {
+                        $this->data[$filename] = include base_path(
+                            $file->getPathname(),
+                        );
+                    }
                 }
             }
 
             $this->data = array_map([$this, 'parsePresetArgs'], $this->data);
         }
     }
+
     private function parsePresetArgs($data = null)
     {
         $parsed = array_map(function ($item) {
