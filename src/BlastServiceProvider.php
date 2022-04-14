@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\Support\Str;
+use A17\Blast\Support\Transformer;
 
 final class BlastServiceProvider extends ServiceProvider
 {
@@ -28,6 +29,7 @@ final class BlastServiceProvider extends ServiceProvider
         $this->bootRoutes();
         $this->bootPublishing();
         $this->setAssetsFromMix();
+        $this->bootTransformer();
     }
 
     private function registerCommands(): void
@@ -57,6 +59,10 @@ final class BlastServiceProvider extends ServiceProvider
     {
         Blade::directive('storybook', function () {
             return '';
+        });
+
+        Blade::directive('transformer', function ($contents) {
+            return app(Transformer::class)->compileTransformer($contents);
         });
     }
 
@@ -139,5 +145,12 @@ final class BlastServiceProvider extends ServiceProvider
 
         // if the count is greater than 0, we can assume that assets have been set
         return count(array_filter($assets)) > 0;
+    }
+
+    public function bootTransformer()
+    {
+        $this->app->singleton(Transformer::class, function ($app) {
+            return new Transformer();
+        });
     }
 }
