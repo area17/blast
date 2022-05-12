@@ -126,6 +126,10 @@ return [
 
     'vendor_path' => 'vendor/area17/blast',
 
+    // Assign your own route middleware to the $storybook_server_url/{name?} routes
+    // Useful for CSRF, etc.
+    'route_middleware' => null,
+
     'components' => [
         'docs-page' => \A17\Blast\Components\DocsPages\DocsPage::class,
         'ui-colors' => \A17\Blast\Components\DocsPages\UiColors::class,

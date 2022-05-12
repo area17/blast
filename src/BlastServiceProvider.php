@@ -8,6 +8,7 @@ use A17\Blast\Commands\GenerateUIDocs;
 use A17\Blast\Commands\Launch;
 use A17\Blast\Commands\Publish;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\Support\Str;
@@ -50,7 +51,15 @@ final class BlastServiceProvider extends ServiceProvider
 
     private function bootRoutes(): void
     {
-        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        $middleware = config('blast.route_middleware', null);
+        Route::group(
+            [
+                'middleware' => $middleware,
+            ],
+            function () {
+                $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+            },
+        );
     }
 
     private function bootBladeDirectives(): void
