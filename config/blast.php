@@ -77,7 +77,7 @@ return [
         'inputBorderRadius' => 4,
         'brandTitle' => 'Blast - Storybook for blade',
         'brandUrl' => 'https://storybook.js.org',
-        'brandImage' => \A17\Blast\Traits\StorybookLogo::defaultLogo(),
+        'brandImage' => \A17\Blast\Storybook\StorybookLogo::defaultLogo(),
     ],
 
     'storybook_global_types' => [],
