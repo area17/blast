@@ -1,7 +1,6 @@
 module.exports = {
   prefix: 'blast-',
-  darkMode: false,
-  purge: ['./resources/**/*.blade.php', './src/Components/**/*.php'],
+  content: ['./resources/**/*.blade.php', './src/Components/**/*.php'],
   theme: {
     corePlugins: {
       preflight: false
