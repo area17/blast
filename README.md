@@ -297,6 +297,16 @@ The supported options for this directive are:
 -   `argTypes` - an array to define the args used for the controls. You can read more about them [here](https://storybook.js.org/docs/react/api/argtypes)
 -   `actions.handles` - an array defining the events that are passed to the `@storybook-actions` addon. You can read more about actions [here](https://storybook.js.org/docs/react/essentials/actions) - See the Action Event Handlers heading.
 
+## Customizing the story view
+
+You can customize a lot of the story component view from within `config/blast.php` but if you need to take it a step futher you can publish the view to your application folder and modify it there.
+
+```bash
+php artisan vendor:publish --provider="A17\Blast\BlastServiceProvider" --tag="blast-views"
+```
+
+This will publish `storybook.blade.php` and all of the ui-docs components to `resources/views/vendor/blast`.
+
 ## Demo Components
 
 Running `php artisan blast:demo` will create all the files needed to display a demo component. It creates files in your `resources/views/components` and `resources/views/stories` directories and generates the stories.
