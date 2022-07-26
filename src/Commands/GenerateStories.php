@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use A17\Blast\DataStore;
+use A17\Blast\Facades\DataStore;
 use A17\Blast\Traits\Helpers;
 
 class GenerateStories extends Command
@@ -33,18 +33,12 @@ class GenerateStories extends Command
     protected $filesystem;
 
     /**
-     * @var DataStore
-     */
-    protected $dataStore;
-
-    /**
      * @param Filesystem $filesystem
      */
-    public function __construct(Filesystem $filesystem, DataStore $dataStore)
+    public function __construct(Filesystem $filesystem)
     {
         parent::__construct();
 
-        $this->dataStore = $dataStore;
         $this->filesystem = $filesystem;
         $this->storyViewsPath = base_path('resources/views/stories');
         $this->vendorPath = $this->getVendorPath();
@@ -321,7 +315,7 @@ class GenerateStories extends Command
             $options = $item['options'];
 
             if (Arr::has($options, 'preset')) {
-                $preset = $this->dataStore->get($options['preset']);
+                $preset = DataStore::get($options['preset']);
 
                 if (is_array($preset) && !empty($preset)) {
                     foreach ($preset as $key => $settings) {
@@ -345,10 +339,10 @@ class GenerateStories extends Command
                 foreach ($presetArgs as $key => $preset) {
                     if (is_array($preset)) {
                         $args = array_map(function ($item) {
-                            return $this->dataStore->get($item)['args'] ?? [];
+                            return DataStore::get($item)['args'] ?? [];
                         }, $preset);
                     } else {
-                        $args = $this->dataStore->get($preset)['args'] ?? [];
+                        $args = DataStore::get($preset)['args'] ?? [];
                     }
 
                     $options['args'][$key] = $args;

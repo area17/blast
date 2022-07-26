@@ -2,15 +2,17 @@
 
 namespace A17\Blast;
 
+use A17\Blast\DataStore;
+use Illuminate\Support\Str;
 use A17\Blast\Commands\Demo;
-use A17\Blast\Commands\GenerateStories;
-use A17\Blast\Commands\GenerateUIDocs;
 use A17\Blast\Commands\Launch;
 use A17\Blast\Commands\Publish;
 use Illuminate\Support\Facades\Blade;
+use A17\Blast\Commands\GenerateUIDocs;
+use A17\Blast\Commands\GenerateStories;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\View\Compilers\BladeCompiler;
-use Illuminate\Support\Str;
 
 final class BlastServiceProvider extends ServiceProvider
 {
@@ -18,6 +20,7 @@ final class BlastServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/blast.php', 'blast');
         $this->registerCommands();
+        $this->registerServices();
     }
 
     public function boot(): void
@@ -41,6 +44,13 @@ final class BlastServiceProvider extends ServiceProvider
                 Publish::class,
             ]);
         }
+    }
+
+    private function registerServices(): void
+    {
+        $this->app->singleton('blast.datastore', function () {
+            return new DataStore($this->app->make(FileSystem::class));
+        });
     }
 
     private function bootResources(): void

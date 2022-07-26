@@ -41,7 +41,10 @@
         "laravel": {
             "providers": [
                 "A17\\Blast\\BlastServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "DataStore": "A17\\Blast\\Facades\\DataStore"
+            }
         }
     },
     "autoload-dev": {
