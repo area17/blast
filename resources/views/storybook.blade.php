@@ -22,7 +22,12 @@
 
     @if (!empty($js))
         @foreach ($js as $key => $asset)
-            <script src="{{ $asset }}"></script>
+            <script
+                @if ($jsType)
+                    type="{{ $jsType }}"
+                @endif
+                src="{{ $asset }}"
+            ></script>
         @endforeach
     @endif
 </body>

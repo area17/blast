@@ -27,6 +27,7 @@ class StoryController
         $canvasBgColor = config('blast.canvas_bg_color') ?? null;
         $css = config('blast.assets.css') ?? [];
         $js = config('blast.assets.js') ?? [];
+        $jsType = config('blast.assets.js_type') ?? null;
         $assetGroup = $parsedArgs['assetGroup'] ?? null;
 
         $parsedCss = [];
@@ -75,6 +76,7 @@ class StoryController
                 'canvasBgColor' => $canvasBgColor,
                 'css' => $parsedCss,
                 'js' => $parsedJs,
+                'jsType' => $jsType,
             ] + $parsedArgs,
         );
     }
