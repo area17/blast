@@ -15,9 +15,14 @@ use Illuminate\Support\Str;
 |
 */
 
-$sb_url = config('blast.storybook_server_url');
-$app_url = config('app.url');
+if (config('blast.enabled')) {
+    $sb_url = config('blast.storybook_server_url');
+    $app_url = config('app.url');
 
-$sb_route = Str::remove($app_url, $sb_url);
+    $sb_route = Str::remove($app_url, $sb_url);
 
-Route::get($sb_route . '/{name?}', StoryController::class)->where('name', '.*');
+    Route::get($sb_route . '/{name?}', StoryController::class)->where(
+        'name',
+        '.*',
+    );
+}

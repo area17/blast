@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'enabled' => env('BLAST_ENABLED', true),
+
     'storybook_server_url' =>
         env('STORYBOOK_SERVER_HOST', env('APP_URL')) . '/storybook_preview',
 
