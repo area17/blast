@@ -91,7 +91,7 @@ return [
     // set the background color of the storybook canvas area
     'canvas_bg_color' => '',
 
-    // Blast will attempt to autoload assets from a mix-manifest if the assets arrays are empty. This option allows you to disable that functionality
+    // Blast will attempt to autoload assets from a mix-manifest or vite generated manifest if the assets arrays are empty. This option allows you to disable that functionality
     'autoload_assets' => true,
 
     'assets' => [
