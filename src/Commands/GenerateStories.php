@@ -437,7 +437,7 @@ class GenerateStories extends Command
         // Regexp modifiers:
         //   `s`  allows newlines as part of the `.*` match
         //   `U`  stops the match at the first closing parenthesis
-        preg_match('/@storybook\(\[(.*)\]\)/sU', $contents, $matches);
+        preg_match('/@storybook[ \t]*\(\[(.*)\]\)/sU', $contents, $matches);
 
         if (!filled($matches)) {
             return [];
