@@ -4,6 +4,7 @@ namespace A17\Blast;
 
 use A17\Blast\Commands\Demo;
 use A17\Blast\Commands\GenerateStories;
+use A17\Blast\Commands\GenerateUIDocs;
 use A17\Blast\Commands\Launch;
 use A17\Blast\Commands\Publish;
 use Illuminate\Support\Facades\Blade;
@@ -35,6 +36,7 @@ final class BlastServiceProvider extends ServiceProvider
             $this->commands([
                 Demo::class,
                 GenerateStories::class,
+                GenerateUIDocs::class,
                 Launch::class,
                 Publish::class,
             ]);
@@ -114,20 +116,42 @@ final class BlastServiceProvider extends ServiceProvider
         ];
 
         $mix_manifest_path = public_path('mix-manifest.json');
+        $vite_manifest_path = public_path('build/manifest.json');
 
         // if the mix manifest exists, automatically load assets
         if (is_file($mix_manifest_path)) {
             $mix_manifest = json_decode(file_get_contents($mix_manifest_path));
 
-            foreach ($mix_manifest as $key => $asset) {
-                if (Str::endsWith($key, '.js')) {
-                    $assets['js'][] = config('app.url') . $asset;
-                } elseif (Str::endsWith($key, '.css')) {
-                    $assets['css'][] = config('app.url') . $asset;
+            if (filled($mix_manifest)) {
+                foreach ($mix_manifest as $key => $asset) {
+                    if (Str::endsWith($key, '.js')) {
+                        $assets['js'][] = asset($asset);
+                    } elseif (Str::endsWith($key, '.css')) {
+                        $assets['css'][] = asset($asset);
+                    }
                 }
+
+                config(['blast.assets' => $assets]);
             }
 
-            config(['blast.assets' => $assets]);
+            // if the vite manifest exists, automatically load assets
+        } elseif (is_file($vite_manifest_path)) {
+            $manifest = json_decode(file_get_contents($vite_manifest_path));
+
+            if (filled($manifest)) {
+                foreach ($manifest as $asset) {
+                    $src = $asset->src ?? '';
+                    $file = $asset->file ?? '';
+
+                    if (Str::endsWith($src, '.js')) {
+                        $assets['js'][] = asset('build/' . $file);
+                    } elseif (Str::endsWith($src, '.css')) {
+                        $assets['css'][] = asset('build/' . $file);
+                    }
+                }
+
+                config(['blast.assets' => $assets]);
+            }
         }
     }
 

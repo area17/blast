@@ -1,5 +1,6 @@
 <?php
 
+use A17\Blast\Controllers\StoryController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
@@ -14,20 +15,14 @@ use Illuminate\Support\Str;
 |
 */
 
-$sb_url = config('blast.storybook_server_url');
-$app_url = config('app.url');
+if (config('blast.enabled')) {
+    $sb_url = config('blast.storybook_server_url');
+    $app_url = config('app.url');
 
-$sb_route = Str::remove($app_url, $sb_url);
+    $sb_route = Str::remove($app_url, $sb_url);
 
-Route::get($sb_route . '/{name?}', function ($name) {
-    $parsedArgs = array_map(function ($arg) {
-        $parsed = json_decode($arg, true);
-
-        return $parsed ?? $arg;
-    }, request()->all());
-
-    return view(
-        'blast::storybook',
-        ['component' => str_replace('/', '.', $name)] + $parsedArgs,
+    Route::get($sb_route . '/{name?}', StoryController::class)->where(
+        'name',
+        '.*',
     );
-})->where('name', '.*');
+}

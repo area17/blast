@@ -1,4 +1,4 @@
-<div>
+<div class="blast-min-h-screen blast-bg-white">
     <div class="blast-bg-blue-500 blast-text-white">
         <div class="blast-container blast-flex blast-flex-col blast-pt-6 blast-pb-9 md:blast-pt-8 md:blast-pb-12">
             @if($label)
@@ -15,16 +15,16 @@
                 @endif
 
                 @if($description)
-                    <p class="md:blast-w-10/12 blast-mt-4 md:blast-mt-5  blast-text-base blast-font-normal blast-antialiased">
-                        {{ $description }}
-                    </p>
+                    <div class="md:blast-w-10/12 blast-mt-4 md:blast-mt-5  blast-wysiwyg">
+                        {!! Str::markdown($description) !!}
+                    </div>
                 @endif
             </div>
         </div>
     </div>
 
     <!-- Content -->
-    <div class=" blast-container blast-mt-6 blast-mb-12 blast-wysiwyg">
+    <div class=" blast-container blast-mt-6 blast-pb-12">
         {{ $slot }}
     </div>
 </div>

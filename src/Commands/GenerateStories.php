@@ -135,10 +135,9 @@ class GenerateStories extends Command
                 }
             }
 
-            // sort alphabetically by story name
-            usort($parsedStory['stories'], function ($item1, $item2) {
-                return $item1['name'] <=> $item2['name'];
-            });
+            $parsedStory['stories'] = $this->updateStoryOrder(
+                $parsedStory['stories'],
+            );
 
             $fileData = json_encode($parsedStory, JSON_PRETTY_PRINT);
 
@@ -179,9 +178,7 @@ class GenerateStories extends Command
     private function handleAllComponents($files = null)
     {
         $this->filesystem->cleanDirectory($this->packageStoriesPath);
-
-        $path = base_path('resources/views/stories');
-        $files = $this->filesystem->allfiles($path);
+        $files = $this->filesystem->allfiles($this->storyViewsPath);
         $watch = $this->option('watch');
 
         $groups = $this->createGroups($files);
@@ -274,13 +271,14 @@ class GenerateStories extends Command
      */
     private function buildStoryTemplate($item)
     {
+        $child_stories = $this->updateStoryOrder(
+            array_map([$this, 'buildChildTemplate'], $item['children']),
+        );
+
         $data = [
             'title' => ucwords($item['path'], '/'),
             'parameters' => [],
-            'stories' => array_map(
-                [$this, 'buildChildTemplate'],
-                $item['children'],
-            ),
+            'stories' => $child_stories,
         ];
 
         if (Arr::has($item, 'docs')) {
@@ -295,7 +293,6 @@ class GenerateStories extends Command
      */
     private function buildChildTemplate($item)
     {
-        $designOptions = null;
         $data = [
             'name' => ucwords(
                 str_replace('.blade.php', '', $item['name']),
@@ -304,6 +301,17 @@ class GenerateStories extends Command
             'parameters' => [
                 'server' => [
                     'id' => str_replace('.blade.php', '', $item['path']),
+                ],
+                'componentSource' => [
+                    'code' => $this->getCodeSnippet($item['path']),
+                ],
+                'docs' => [
+                    'source' => [
+                        'code' => $this->getCodeSnippet($item['path']),
+                    ],
+                ],
+                'actions' => [
+                    'handles' => $this->getEvents($item),
                 ],
             ],
         ];
@@ -315,15 +323,17 @@ class GenerateStories extends Command
             if (Arr::has($options, 'preset')) {
                 $preset = $this->dataStore->get($options['preset']);
 
-                foreach ($preset as $key => $settings) {
-                    if (is_array($settings)) {
-                        $options[$key] = array_merge(
-                            $settings,
-                            $options[$key] ?? [],
-                        );
-                    } else {
-                        if (!Arr::has($options, $key)) {
-                            $options[$key] = $settings;
+                if (is_array($preset) && !empty($preset)) {
+                    foreach ($preset as $key => $settings) {
+                        if (is_array($settings)) {
+                            $options[$key] = array_merge(
+                                $settings,
+                                $options[$key] ?? [],
+                            );
+                        } else {
+                            if (!Arr::has($options, $key)) {
+                                $options[$key] = $settings;
+                            }
                         }
                     }
                 }
@@ -373,9 +383,44 @@ class GenerateStories extends Command
                     'url' => $options['design'],
                 ];
             }
+
+            if (Arr::has($options, 'order')) {
+                $data['order'] = $options['order'];
+            }
+
+            if (Arr::has($options, 'assetGroup')) {
+                $data['args']['assetGroup'] = $options['assetGroup'];
+
+                if (!Arr::has($data['argTypes'], 'assetGroup')) {
+                    $data['argTypes']['assetGroup'] = [
+                        'table' => ['disable' => true],
+                    ];
+                }
+            }
         }
 
+        $data['hash'] = $this->getBladeChecksum(
+            $item['path'],
+            $data['args'] ?? [],
+        );
+
         return $data;
+    }
+
+    /**
+     * @return string
+     */
+    private function getBladeChecksum($filepath, $bladeArgs = [])
+    {
+        if (!Str::endsWith($filepath, '.blade.php')) {
+            return '';
+        }
+
+        $bladePath =
+            'stories.' .
+            str_replace('/', '.', str_replace('.blade.php', '', $filepath));
+
+        return md5(view($bladePath, $bladeArgs)->render());
     }
 
     /**
@@ -392,7 +437,7 @@ class GenerateStories extends Command
         // Regexp modifiers:
         //   `s`  allows newlines as part of the `.*` match
         //   `U`  stops the match at the first closing parenthesis
-        preg_match('/@storybook\(\[(.*)\]\)/sU', $contents, $matches);
+        preg_match('/@storybook[ \t]*\(\[(.*)\]\)/sU', $contents, $matches);
 
         if (!filled($matches)) {
             return [];
@@ -415,5 +460,40 @@ class GenerateStories extends Command
         }
 
         return false;
+    }
+
+    private function updateStoryOrder($stories)
+    {
+        // sort by custom order. Fall back to alphabetical by story name
+        return array_values(
+            Arr::sort($stories, function ($story) {
+                return $story['order'] ?? $story['name'];
+            }),
+        );
+    }
+
+    private function getCodeSnippet($filepath)
+    {
+        $filepath =
+            $this->storyViewsPath . '/' . Str::finish($filepath, '.blade.php');
+
+        if (!$this->filesystem->exists($filepath)) {
+            return false;
+        }
+
+        $contents = $this->filesystem->get($filepath);
+
+        $snippet = preg_replace('/@storybook\(\[(.*)\]\)/sU', '', $contents);
+
+        return trim($snippet);
+    }
+
+    private function getEvents(array $item): array
+    {
+        if (Arr::has($item, 'options.actions.handles')) {
+            return $item['options']['actions']['handles'];
+        } else {
+            return [];
+        }
     }
 }

@@ -43,7 +43,15 @@ class Launch extends Command
         $this->storybookServer = config('blast.storybook_server_url');
         $this->vendorPath = $this->getVendorPath();
         $this->storybookStatuses = config('blast.storybook_statuses');
-        $this->storybookTheme = config('blast.storybook_theme', false);
+        $this->storybookTheme = config('blast.storybook_theme', 'normal');
+        $this->customTheme = config('blast.storybook_custom_theme', false);
+        $this->docsTheme = config('blast.storybook_docs_theme', 'normal');
+        $this->expandedControls = config('blast.storybook_expanded_controls');
+        $this->storybookGlobalTypes = config(
+            'blast.storybook_global_types',
+            [],
+        );
+        $this->storybookSortOrder = config('blast.storybook_sort_order', []);
     }
 
     /*
@@ -59,7 +67,7 @@ class Launch extends Command
         $installMessage = $this->getInstallMessage($npmInstall);
 
         // init progress bar
-        $progressBar = $this->output->createProgressBar(3);
+        $progressBar = $this->output->createProgressBar(2);
         $progressBar->setFormat('%current%/%max% [%bar%] %message%');
 
         // Install step
@@ -89,7 +97,13 @@ class Launch extends Command
             $progressBar->setMessage('Generating Stories...');
             $progressBar->advance();
 
-            $this->call('blast:generate-stories');
+            $generatedDocs = $this->callSilently('blast:generate-docs', [
+                '--update-data' => 1,
+            ]);
+
+            if (!$generatedDocs) {
+                $this->call('blast:generate-stories');
+            }
         } else {
             $this->info('');
             $progressBar->setMessage('Skipping Story Generation...');
@@ -98,13 +112,6 @@ class Launch extends Command
 
         usleep(250000);
 
-        // publish FE assets
-        $this->info('');
-        $progressBar->setMessage('Publishing FE assets.');
-        $progressBar->advance();
-        $this->newLine();
-        $this->call('vendor:publish', ['--tag' => 'blast-assets']);
-
         // init storybook and watch stories
         $this->info('');
         $progressBar->setMessage(
@@ -112,11 +119,24 @@ class Launch extends Command
         );
         $progressBar->finish();
 
+        // fix CORS in dev
+        $this->filesystem->ensureDirectoryExists($this->vendorPath . '/tmp');
+        $this->filesystem->put($this->vendorPath . '/tmp/_blast', '');
+
         $this->runProcessInBlast(['npm', 'run', 'storybook'], true, [
             'STORYBOOK_SERVER_URL' => $this->storybookServer,
             'STORYBOOK_STATIC_PATH' => public_path(),
             'STORYBOOK_STATUSES' => json_encode($this->storybookStatuses),
             'STORYBOOK_THEME' => json_encode($this->storybookTheme),
+            'STORYBOOK_CUSTOM_THEME' => json_encode($this->customTheme),
+            'STORYBOOK_DOCS_THEME' => json_encode($this->docsTheme),
+            'STORYBOOK_EXPANDED_CONTROLS' => json_encode(
+                $this->expandedControls,
+            ),
+            'STORYBOOK_GLOBAL_TYPES' => json_encode(
+                $this->storybookGlobalTypes,
+            ),
+            'STORYBOOK_SORT_ORDER' => json_encode($this->storybookSortOrder),
             'LIBSTORYPATH' => $this->vendorPath . '/stories',
             'PROJECTPATH' => base_path(),
             'COMPONENTPATH' => base_path('resources/views/stories'),
