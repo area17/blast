@@ -124,6 +124,8 @@ return [
         ],
     ],
 
+    'storybook_default_view_mode' => false,
+
     'build_timeout' => 300,
 
     'vendor_path' => 'vendor/area17/blast',

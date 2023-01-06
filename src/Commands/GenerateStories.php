@@ -388,6 +388,15 @@ class GenerateStories extends Command
                 $data['order'] = $options['order'];
             }
 
+            $defaultViewMode = config(
+                'blast.storybook_default_view_mode',
+                false,
+            );
+            if ($defaultViewMode || Arr::has($options, 'viewMode')) {
+                $data['parameters']['viewMode'] =
+                    $options['viewMode'] ?? $defaultViewMode;
+            }
+
             if (Arr::has($options, 'assetGroup')) {
                 $data['args']['assetGroup'] = $options['assetGroup'];
 
