@@ -16,6 +16,7 @@ class DataStoreTest extends TestCase
         $this->writeExampleDataFile($path);
         Config::set('blast.data_path', $path);
         $this->assertEquals('bar', app(DataStore::class)->get('example.dummy.args.foo'));
+        $this->cleanup($path);
     }
 
     public function test_can_use_absolute_path()
@@ -24,6 +25,7 @@ class DataStoreTest extends TestCase
         $this->writeExampleDataFile($path);
         Config::set('blast.data_path', $path);
         $this->assertEquals('bar', app(DataStore::class)->get('example.dummy.args.foo'));
+        $this->cleanup($path);
     }
 
     public function test_default_path()
@@ -51,5 +53,13 @@ return [
 ];
 PHP
         );
+    }
+
+    private function cleanup(string $path)
+    {
+        if (! Str::startsWith($path, '/')) {
+            $path = base_path($path);
+        }
+        File::deleteDirectory($path);
     }
 }
