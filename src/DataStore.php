@@ -4,6 +4,7 @@ namespace A17\Blast;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class DataStore
 {
@@ -11,6 +12,11 @@ class DataStore
      * @var array
      */
     protected $data;
+
+    /**
+     * @var string
+     */
+    protected $dataPath;
 
     /**
      * @var Filesystem
@@ -23,10 +29,7 @@ class DataStore
     public function __construct(Filesystem $filesystem)
     {
         $this->data = [];
-        $this->dataPath = config(
-            'blast.data_path',
-            'resources/views/stories/data',
-        );
+        $this->dataPath = $this->getDataPath();
         $this->filesystem = $filesystem;
 
         $this->filesystem->ensureDirectoryExists($this->dataPath);
@@ -38,6 +41,20 @@ class DataStore
         if ($key) {
             return Arr::get($this->data, $key);
         }
+    }
+
+    private function getDataPath()
+    {
+        $dataPath = config(
+            'blast.data_path',
+            'resources/views/stories/data'
+        );
+
+        if (Str::startsWith($dataPath, '/')) {
+            return $dataPath;
+        }
+
+        return base_path($dataPath);
     }
 
     private function getComponentsData()
@@ -53,9 +70,7 @@ class DataStore
                 if ($file->getExtension() == 'php') {
                     $filename = str_replace('.php', '', $file->getFilename());
 
-                    $this->data[$filename] = include base_path(
-                        $file->getPathname(),
-                    );
+                    $this->data[$filename] = include $file->getPathname();
                 }
             }
 
