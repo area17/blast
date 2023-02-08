@@ -16,7 +16,7 @@
 
                 @if($description)
                     <div class="md:blast-w-10/12 blast-mt-4 md:blast-mt-5  blast-wysiwyg">
-                        {!! Str::markdown($description) !!}
+                        {!! \Illuminate\Support\Str::markdown($description) !!}
                     </div>
                 @endif
             </div>
