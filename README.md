@@ -225,6 +225,12 @@ The Global Types can be used, for example, to extend and edit the toolbar. The a
 
 Default: `[]`
 
+#### `storybook_default_view_mode`
+
+Set the default view for each story to either the Canvas or Docs view. This can be overridden in each story using the `viewMode` prop in the `@storybook` directive. Use the value `story` for the canvas view and `docs` for the docs view. If set to `false` it will use the last used view when changing between stories.
+
+Default: `false`
+
 #### `build_timeout`
 
 Set a custom timeout for tasks in `launch` and `generate-stories`

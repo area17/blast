@@ -6,7 +6,7 @@
                 blast-font-mono
                 blast-break-words
             ">
-                duration-{{ Str::remove(['ms', 's'], $duration) }}: {{ $duration }};
+                duration-{{ \Illuminate\Support\Str::remove(['ms', 's'], $duration) }}: {{ $duration }};
             </div>
         @endisset
 
@@ -17,7 +17,7 @@
                 blast-font-mono
                 blast-break-words
             ">
-                delay-{{ Str::remove(['ms', 's'], $delay) }}: {{ $delay }};
+                delay-{{ \Illuminate\Support\Str::remove(['ms', 's'], $delay) }}: {{ $delay }};
             </div>
         @endisset
     </div>
