@@ -1,5 +1,5 @@
-module.exports = {
-  stories: ['../stories/**/*.stories.mdx', '../stories/**/*.stories.@(json)'],
+const config = {
+  stories: ['../stories/**/*.stories.json'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
@@ -8,6 +8,11 @@ module.exports = {
     'storybook-source-code-addon',
     '@etchteam/storybook-addon-status'
   ],
+  docs: {
+    autodocs: 'tag',
+    // autodocs: true,
+    defaultName: 'Docs'
+  },
   features: {
     storyStoreV7: false
   },
@@ -19,3 +24,5 @@ module.exports = {
     }
   }
 };
+
+export default config;

@@ -465,7 +465,9 @@ Note: Defining custom statuses will override the existing statuses.
 
 ## Documentation
 
-Adding a `README.md` to your storybook blade directory will allow you to add notes to the Docs tab for each component in Storybook. The content of the markdown file will be output above the auto-generated Storybook content.
+Adding a `README.md` to your storybook blade directory will allow you to add a documentation page for the component in Storybook. The content of the markdown file will be output above the auto-generated Storybook content.
+
+You can also add a markdown file with the same name as your story file and it will add the documentation to component variation on the documentation page.
 
 ## Publish Static Storybook
 
