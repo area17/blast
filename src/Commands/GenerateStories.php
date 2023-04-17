@@ -187,6 +187,8 @@ class GenerateStories extends Command
         $progressBar->setFormat('%current%/%max% [%bar%] %message%');
 
         foreach ($groups as $group) {
+            //replace backslashes with forward slashes
+            $group['path'] = str_replace('\\', '/', $group['path']);
             $template = $this->buildStoryTemplate($group);
             $storyFilePath =
                 $this->packageStoriesPath .
