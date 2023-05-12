@@ -23,6 +23,13 @@ class StoryController
 
             return $parsed ?? $arg;
         }, request()->all());
+        
+        //if passedArgs contains 'attributes', convert it to a ComponentAttributeBag
+        if (isset($parsedArgs['attributes'])) {
+            $parsedArgs['attributes'] = new \Illuminate\View\ComponentAttributeBag(
+                $parsedArgs['attributes'],
+            );
+        }
 
         $canvasBgColor = config('blast.canvas_bg_color') ?? null;
         $css = config('blast.assets.css') ?? [];
