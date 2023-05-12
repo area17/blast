@@ -378,6 +378,12 @@ class GenerateStories extends Command
             if (Arr::has($options, 'argTypes')) {
                 $data['argTypes'] = $options['argTypes'];
             }
+            
+            //check if the options has 'attributes' set to true, call addAttributesArgument if so
+            if (Arr::has($options, 'attributes') && $options['attributes']) {
+                $data['args']['attributes'] = ['val' => ''];
+                $data['argTypes']['attributes'] = $this->generateAttributesArgument();
+            }
 
             if (Arr::has($options, 'design')) {
                 $data['parameters']['design'] = [
@@ -430,6 +436,13 @@ class GenerateStories extends Command
         $bladePath =
             'stories.' .
             str_replace('/', '.', str_replace('.blade.php', '', $filepath));
+        
+        //if we have attributes in bladeArgs - convert to ComponentAttributeBag
+        if (Arr::has($bladeArgs, 'attributes')) {
+            $bladeArgs['attributes'] = new \Illuminate\View\ComponentAttributeBag(
+                $bladeArgs['attributes'],
+            );
+        }
 
         return md5(view($bladePath, $bladeArgs)->render());
     }
@@ -497,6 +510,21 @@ class GenerateStories extends Command
         $snippet = preg_replace('/@storybook\(\[(.*)\]\)/sU', '', $contents);
 
         return trim($snippet);
+    }
+    
+    /**
+     * Generate the attributes argument to the story args.
+     * This is used to pass attributes to the component.
+     * @return array
+     */
+    private function generateAttributesArgument()
+    {
+        return [
+            "name" => "attributes",
+            "type" => ["name" => "array", "required" => false],
+            "description" => "An array of custom attributes that can be applied to the class.",
+            "control" => ["type" => "object"]
+        ];
     }
 
     private function getEvents(array $item): array
