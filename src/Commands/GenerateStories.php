@@ -388,6 +388,15 @@ class GenerateStories extends Command
                 $data['order'] = $options['order'];
             }
 
+            $defaultViewMode = config(
+                'blast.storybook_default_view_mode',
+                false,
+            );
+            if ($defaultViewMode || Arr::has($options, 'viewMode')) {
+                $data['parameters']['viewMode'] =
+                    $options['viewMode'] ?? $defaultViewMode;
+            }
+
             if (Arr::has($options, 'assetGroup')) {
                 $data['args']['assetGroup'] = $options['assetGroup'];
 
@@ -437,7 +446,7 @@ class GenerateStories extends Command
         // Regexp modifiers:
         //   `s`  allows newlines as part of the `.*` match
         //   `U`  stops the match at the first closing parenthesis
-        preg_match('/@storybook\(\[(.*)\]\)/sU', $contents, $matches);
+        preg_match('/@storybook[ \t]*\(\[(.*)\]\)/sU', $contents, $matches);
 
         if (!filled($matches)) {
             return [];

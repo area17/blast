@@ -138,7 +138,7 @@ Default: `''`
 
 #### `autoload_assets`
 
-Blast will attempt to autoload assets from a `mix-manifest.json` if the assets arrays are empty. This option allows you to disable that functionality.
+Blast will attempt to autoload assets from a `mix-manifest.json` (Laravel Mix) or `manifest.json` (Vite - added in 1.7) if the assets arrays are empty. This option allows you to disable that functionality. Note that the Vite assets are only auto loaded from a prod build. If you want to use it with Vite's hot reloading, you will need to manually define it in the `asset` array using the full local url (eg. http://127.0.0.1:5173/resources/css/app.css), or you can publish and modify the `storybook.blade.php` view to use Laravel's `@vite` helper.
 
 Default: `true`
 
@@ -224,6 +224,12 @@ Default: `[]` (alphabetical)
 The Global Types can be used, for example, to extend and edit the toolbar. The array of toolbars and globals options used by Storybook. More info [here](https://storybook.js.org/docs/react/essentials/toolbars-and-globals).
 
 Default: `[]`
+
+#### `storybook_default_view_mode`
+
+Set the default view for each story to either the Canvas or Docs view. This can be overridden in each story using the `viewMode` prop in the `@storybook` directive. Use the value `story` for the canvas view and `docs` for the docs view. If set to `false` it will use the last used view when changing between stories.
+
+Default: `false`
 
 #### `build_timeout`
 

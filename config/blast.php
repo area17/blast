@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'enabled' => env('BLAST_ENABLED', true),
+
     'storybook_server_url' =>
         env('STORYBOOK_SERVER_HOST', env('APP_URL')) . '/storybook_preview',
 
@@ -89,7 +91,7 @@ return [
     // set the background color of the storybook canvas area
     'canvas_bg_color' => '',
 
-    // Blast will attempt to autoload assets from a mix-manifest if the assets arrays are empty. This option allows you to disable that functionality
+    // Blast will attempt to autoload assets from a mix-manifest or vite generated manifest if the assets arrays are empty. This option allows you to disable that functionality
     'autoload_assets' => true,
 
     'assets' => [
@@ -121,6 +123,8 @@ return [
             'description' => 'This component is stable and released',
         ],
     ],
+
+    'storybook_default_view_mode' => false,
 
     'build_timeout' => 300,
 
