@@ -18,7 +18,8 @@ class Launch extends Command
     protected $signature = 'blast:launch
                                         {--install : Force install dependencies}
                                         {--noInstall : Deprecated. Launch Blast without installing dependencies}
-                                        {--noGenerate : Skip auto-generating stories based on existing components}';
+                                        {--noGenerate : Skip auto-generating stories based on existing components}
+                                        {--port= : Port used to run Storybook}';
 
     /**
      * The console command description.
@@ -65,6 +66,7 @@ class Launch extends Command
         $npmInstall = $this->option('install');
         $noInstall = $this->option('noInstall');
         $installMessage = $this->getInstallMessage($npmInstall);
+        $port = $this->option('port');
 
         // init progress bar
         $progressBar = $this->output->createProgressBar(2);
@@ -126,6 +128,7 @@ class Launch extends Command
         $this->runProcessInBlast(['npm', 'run', 'storybook'], true, [
             'STORYBOOK_SERVER_URL' => $this->storybookServer,
             'STORYBOOK_STATIC_PATH' => public_path(),
+            'STORYBOOK_PORT' => $port ?? 6006,
             'STORYBOOK_STATUSES' => json_encode($this->storybookStatuses),
             'STORYBOOK_THEME' => json_encode($this->storybookTheme),
             'STORYBOOK_CUSTOM_THEME' => json_encode($this->customTheme),

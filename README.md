@@ -41,6 +41,7 @@ This will install all of the dependencies, generate stories and start a Storyboo
 
 -   `--install` - force install dependencies
 -   `--noGenerate` - skip auto-generating stories based on existing components
+-   `--port` - port used to run Storybook
 
 ## Generating Stories
 
