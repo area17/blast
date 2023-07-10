@@ -4,7 +4,7 @@ const config = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-a11y',
-    'storybook-addon-designs',
+    '@storybook/addon-designs',
     'storybook-source-code-addon',
     '@etchteam/storybook-addon-status'
   ],
