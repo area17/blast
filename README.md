@@ -250,6 +250,21 @@ An array of custom components used by Blast.
 
 Default: `[ 'docs-page' => Components\DocsPages\DocsPage::class ]`
 
+#### `storybook_viewports`
+
+Configure custom viewports in the Storybook preview toolbar.
+
+It supports an array with the structure found [in the Storybook docs](https://storybook.js.org/docs/react/essentials/viewport#add-new-devices) and it can also use your Tailwind config to generate the viewports for you by setting the value to `'tailwind'`.
+
+It supports the various ways you can define breakpoints in Tailwind using these rules:
+
+-   If the value is a string, it uses that
+-   If the value is an array with only a `min` **or** only a `max` it will use that value
+-   If the value is an array with both a `min` **and** `max` value it will use the `min` value
+-   `raw` values will be ignored
+
+Default: `false`
+
 ## Story Configuration
 
 There are certain Storybook elements you can configure from within your story blade files. You can do this by adding the `@storybook` directive to the top of your files:
@@ -322,7 +337,7 @@ It can be run alongside the `php artisan blast:launch` task or you can run the d
 
 ## Presetting story options
 
-You can create preset options for components to reuse throughtout your storybook instance.
+You can create preset options for components to reuse throughout your storybook instance.
 
 The preset options use the same structure as Laravel config files:
 

@@ -1,4 +1,5 @@
 import '../public/main.css';
+import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { themes } from '@storybook/theming';
 import theme from './theme';
 
@@ -12,7 +13,14 @@ let setDocsTheme = (configDocsTheme) => {
   }
 };
 
+const customViewports = JSON.parse(process.env.STORYBOOK_VIEWPORTS);
+
+console.log(MINIMAL_VIEWPORTS);
+
 export const parameters = {
+  viewport: {
+    viewports: customViewports
+  },
   controls: {
     expanded: JSON.parse(process.env.STORYBOOK_EXPANDED_CONTROLS)
   },
