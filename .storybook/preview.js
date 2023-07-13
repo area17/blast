@@ -1,5 +1,4 @@
 import '../public/main.css';
-import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { themes } from '@storybook/theming';
 import theme from './theme';
 
