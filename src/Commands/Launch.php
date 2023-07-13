@@ -55,10 +55,7 @@ class Launch extends Command
             [],
         );
         $this->storybookSortOrder = config('blast.storybook_sort_order', []);
-        $this->storybookViewports = config(
-            'blast.storybook_viewports',
-            'tailwind',
-        );
+        $this->storybookViewports = config('blast.storybook_viewports', false);
     }
 
     /*

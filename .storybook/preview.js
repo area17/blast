@@ -15,8 +15,6 @@ let setDocsTheme = (configDocsTheme) => {
 
 const customViewports = JSON.parse(process.env.STORYBOOK_VIEWPORTS);
 
-console.log(MINIMAL_VIEWPORTS);
-
 export const parameters = {
   viewport: {
     viewports: customViewports
