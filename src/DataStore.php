@@ -45,10 +45,7 @@ class DataStore
 
     private function getDataPath()
     {
-        $dataPath = config(
-            'blast.data_path',
-            'resources/views/stories/data'
-        );
+        $dataPath = config('blast.data_path', 'resources/views/stories/data');
 
         if (Str::startsWith($dataPath, '/')) {
             return $dataPath;

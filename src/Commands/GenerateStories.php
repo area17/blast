@@ -271,18 +271,27 @@ class GenerateStories extends Command
      */
     private function buildStoryTemplate($item)
     {
-        $child_stories = $this->updateStoryOrder(
+        $childStories = $this->updateStoryOrder(
             array_map([$this, 'buildChildTemplate'], $item['children']),
         );
 
+        $docsPath = $this->storyViewsPath . '/' . $item['path'];
+        $docsFiles = glob($docsPath . '/*.md');
+
         $data = [
             'title' => ucwords($item['path'], '/'),
+            'tags' => [],
             'parameters' => [],
-            'stories' => $child_stories,
+            'stories' => $childStories,
         ];
 
+        if (count($docsFiles) > 0) {
+            $data['tags'][] = 'autodocs';
+        }
+
         if (Arr::has($item, 'docs')) {
-            $data['parameters']['notes'] = $item['docs'];
+            $data['parameters']['docs']['description']['component'] =
+                $item['docs'];
         }
 
         return $data;
@@ -293,11 +302,9 @@ class GenerateStories extends Command
      */
     private function buildChildTemplate($item)
     {
+        $name = str_replace('.blade.php', '', $item['name']);
         $data = [
-            'name' => ucwords(
-                str_replace('.blade.php', '', $item['name']),
-                '/',
-            ),
+            'name' => ucwords($name, '/'),
             'parameters' => [
                 'server' => [
                     'id' => str_replace('.blade.php', '', $item['path']),
@@ -315,6 +322,15 @@ class GenerateStories extends Command
                 ],
             ],
         ];
+
+        // add story docs
+        $storyPath =
+            $this->storyViewsPath . '/' . Str::beforeLast($item['path'], '/');
+        $storyDocs = $this->getDocs($storyPath, $name);
+
+        if ($storyDocs) {
+            $data['parameters']['docs']['description']['story'] = $storyDocs;
+        }
 
         // build options array
         if (Arr::has($item, 'options')) {
@@ -460,12 +476,12 @@ class GenerateStories extends Command
     /**
      * @return void
      */
-    private function getDocs($filepath)
+    private function getDocs($filepath, $filename = 'README')
     {
-        $readme = $filepath . '/README.md';
+        $fullpath = $filepath . '/' . $filename . '.md';
 
-        if ($this->filesystem->exists($readme)) {
-            return $this->filesystem->get($readme);
+        if ($this->filesystem->exists($fullpath)) {
+            return $this->filesystem->get($fullpath);
         }
 
         return false;
