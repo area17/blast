@@ -12,8 +12,13 @@ let setDocsTheme = (configDocsTheme) => {
   }
 };
 
+const customViewports = JSON.parse(process.env.STORYBOOK_VIEWPORTS);
+
 const preview = {
   parameters: {
+    viewport: {
+      viewports: customViewports
+    },
     controls: {
       expanded: JSON.parse(process.env.STORYBOOK_EXPANDED_CONTROLS)
     },
