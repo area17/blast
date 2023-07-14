@@ -94,6 +94,11 @@ return [
     // Blast will attempt to autoload assets from a mix-manifest or vite generated manifest if the assets arrays are empty. This option allows you to disable that functionality
     'autoload_assets' => true,
 
+    // paths to the supported manifest files to autoload assets
+    'mix_manifest_path' => public_path('mix-manifest.json'),
+
+    'vite_manifest_path' => public_path('build/manifest.json'),
+
     'assets' => [
         'css' => [],
         'js' => [],

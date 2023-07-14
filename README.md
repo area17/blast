@@ -143,6 +143,18 @@ Blast will attempt to autoload assets from a `mix-manifest.json` (Laravel Mix) o
 
 Default: `true`
 
+#### `mix_manifest_path`
+
+Allows you to customize the path to the mix-manifest file used to autoload assets.
+
+Default: `public_path('mix-manifest.json')`
+
+#### `vite_manifest_path`
+
+Allows you to customize the path to the vite manifest file used to autoload assets.
+
+Default: `public_path('build/manifest.json')`
+
 #### `assets`
 
 An array of urls to the `css` and `js` used by your components. The `css` and `js` urls are seperated out as the `css` is included in the head and the `js` is included before the closing `body` tag.
