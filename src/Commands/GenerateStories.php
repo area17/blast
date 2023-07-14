@@ -394,10 +394,14 @@ class GenerateStories extends Command
             }
 
             if (Arr::has($options, 'design')) {
-                $data['parameters']['design'] = [
-                    'type' => 'figma',
-                    'url' => $options['design'],
-                ];
+                if (is_array($options['design'])) {
+                    $data['parameters']['design'] = $options['design'];
+                } else {
+                    $data['parameters']['design'] = [
+                        'type' => 'figma',
+                        'url' => $options['design'],
+                    ];
+                }
             }
 
             if (Arr::has($options, 'order')) {

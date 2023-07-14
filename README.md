@@ -262,6 +262,18 @@ There are certain Storybook elements you can configure from within your story bl
     'status' => 'stable',
     'order' => 1,
     'design' => "https://www.figma.com/file/LKQ4FJ4bTn\CSjedbRpk931/Sample-File",
+    'design' => [
+        [
+            'name' => 'Foo',
+            'type' => "figma",
+            'url' => "https://www.figma.com/file/LKQ4FJ4bTn\CSjedbRpk931/Sample-File",
+        ],
+        [
+            'name' => 'Bar',
+            'type' => "link",
+            'url' => "https://www.figma.com/file/LKQ4FJ4bTn\CSjedbRpk931/Sample-File",
+        ],
+    ],
     'args' => [
         'label' => 'Lorem Ipsum',
         'icon' => 'lorem-icon-dolor'
@@ -299,7 +311,7 @@ The supported options for this directive are:
 -   `layout` - Set the component layout in canvas area. Options are `fullscreen`, `padded`, `centered` (default).
 -   `status` - adds a status badge to the component story. Can be configured in the package config. See below for more info.
 -   `order` - Customize the order of each story. Supports float values. Defaults to alphabetical order.
--   `design` - a Figma url for the component
+-   `design` - a Figma url for the component or array of design parameters. You can read more about the supported options [here](https://storybookjs.github.io/addon-designs)
 -   `args` - an array of static data used to create storybook fields. You can read more about that [here](https://github.com/storybookjs/storybook/tree/main/app/server#server-rendering). The keys in the array are passed to the blade view and updated when the fields are updated in storybook.
 -   `argTypes` - an array to define the args used for the controls. You can read more about them [here](https://storybook.js.org/docs/react/api/argtypes)
 -   `actions.handles` - an array defining the events that are passed to the `@storybook-actions` addon. You can read more about actions [here](https://storybook.js.org/docs/react/essentials/actions) - See the Action Event Handlers heading.
