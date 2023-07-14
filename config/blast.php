@@ -88,7 +88,7 @@ return [
     // More info - https://storybook.js.org/docs/react/writing-stories/naming-components-and-hierarchy#sorting-stories
     'storybook_sort_order' => [],
 
-    'storybook_viewports' => false,
+    'storybook_viewports' => 'tailwind',
 
     // set the background color of the storybook canvas area
     'canvas_bg_color' => '',

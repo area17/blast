@@ -158,7 +158,7 @@ class Launch extends Command
             $parsedConfig = $this->vendorPath . '/tmp/tailwind.config.php';
 
             if (!$this->filesystem->exists($parsedConfig)) {
-                return 1;
+                return false;
             }
 
             $config = include $parsedConfig;
@@ -193,5 +193,7 @@ class Launch extends Command
         } else {
             return $this->storybookViewports;
         }
+
+        return false;
     }
 }

@@ -254,7 +254,7 @@ Default: `[ 'docs-page' => Components\DocsPages\DocsPage::class ]`
 
 Configure custom viewports in the Storybook preview toolbar.
 
-It supports an array with the structure found [in the Storybook docs](https://storybook.js.org/docs/react/essentials/viewport#add-new-devices) and it can also use your Tailwind config to generate the viewports for you by setting the value to `'tailwind'`.
+It supports an array with the structure found [in the Storybook docs](https://storybook.js.org/docs/react/essentials/viewport#add-new-devices) and it can also use your Tailwind config to generate the viewports for you by setting the value to `'tailwind'`. Defaults to `'tailwind'` but fails silently if blast can't find a Tailwind config. The viewports can be disabled by setting to `false`.
 
 It supports the various ways you can define breakpoints in Tailwind using these rules:
 
@@ -263,7 +263,7 @@ It supports the various ways you can define breakpoints in Tailwind using these 
 -   If the value is an array with both a `min` **and** `max` value it will use the `min` value
 -   `raw` values will be ignored
 
-Default: `false`
+Default: `'tailwind'`
 
 ## Story Configuration
 
