@@ -120,10 +120,6 @@ class Publish extends Command
             $process = array_merge($process, ['-o', $outputDir]);
         }
 
-        // add storybook_preview to $serverURL
-        $serverUrl .=
-            (!Str::endsWith($serverUrl, '/') ? '/' : '') . 'storybook_preview';
-
         $this->runProcessInBlast($process, true, [
             'STORYBOOK_SERVER_URL' => $serverUrl ?? $this->storybookServer,
             'STORYBOOK_STATIC_PATH' => public_path(),
