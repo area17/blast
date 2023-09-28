@@ -2,15 +2,17 @@
 
 namespace A17\Blast\Commands;
 
+use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use A17\Blast\Traits\Helpers;
-use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
+use A17\Blast\Traits\TailwindViewports;
 
 class Launch extends Command
 {
     use Helpers;
+    use TailwindViewports;
 
     /**
      * The name and signature of the console command.
@@ -150,50 +152,5 @@ class Launch extends Command
             'PROJECTPATH' => base_path(),
             'COMPONENTPATH' => base_path('resources/views/stories'),
         ]);
-    }
-
-    private function buildTailwindViewports()
-    {
-        if ($this->storybookViewports === 'tailwind') {
-            $parsedConfig = $this->vendorPath . '/tmp/tailwind.config.php';
-
-            if (!$this->filesystem->exists($parsedConfig)) {
-                return false;
-            }
-
-            $config = include $parsedConfig;
-
-            $viewports = [];
-
-            foreach ($config['theme']['screens'] as $key => $value) {
-                $width = false;
-
-                if (is_array($value) && !empty($value)) {
-                    if (Arr::has($value, 'min')) {
-                        $width = $value['min'];
-                    } elseif (Arr::has($value, 'max')) {
-                        $width = $value['max'];
-                    }
-                } elseif (is_string($value) && $value !== '0') {
-                    $width = $value;
-                }
-
-                if ($width) {
-                    $viewports[$key] = [
-                        'name' => $key,
-                        'styles' => [
-                            'width' => $width,
-                            'height' => '100%',
-                        ],
-                    ];
-                }
-            }
-
-            return $viewports;
-        } else {
-            return $this->storybookViewports;
-        }
-
-        return false;
     }
 }
