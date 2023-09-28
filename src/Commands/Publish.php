@@ -7,10 +7,12 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use A17\Blast\Traits\Helpers;
+use A17\Blast\Traits\TailwindViewports;
 
 class Publish extends Command
 {
     use Helpers;
+    use TailwindViewports;
 
     /**
      * The name and signature of the console command.
@@ -19,6 +21,7 @@ class Publish extends Command
      */
     protected $signature = 'blast:publish
                                         {--install : Force install dependencies}
+                                        {--url= : set the server url used to load the stories}
                                         {--o|output-dir=storybook-static : Directory where to store built files}';
 
     /**
@@ -53,6 +56,7 @@ class Publish extends Command
             'blast.storybook_global_types',
             [],
         );
+        $this->storybookViewports = config('blast.storybook_viewports', false);
     }
 
     /*
@@ -62,6 +66,7 @@ class Publish extends Command
      */
     public function handle()
     {
+        $serverUrl = $this->option('url', $this->storybookServer);
         $npmInstall = $this->option('install');
         $installMessage = $this->getInstallMessage($npmInstall);
         $outputDir = $this->option('output-dir');
@@ -115,8 +120,14 @@ class Publish extends Command
             $process = array_merge($process, ['-o', $outputDir]);
         }
 
+        // add storybook_preview to $serverURL
+        $serverUrl .=
+            (!Str::endsWith($serverUrl, '/') ? '/' : '') . 'storybook_preview';
+
         $this->runProcessInBlast($process, true, [
-            'STORYBOOK_SERVER_URL' => $this->storybookServer,
+            'STORYBOOK_SERVER_URL' => $serverUrl ?? $this->storybookServer,
+            'STORYBOOK_STATIC_PATH' => public_path(),
+            'STORYBOOK_PORT' => 6006,
             'STORYBOOK_STATUSES' => json_encode($this->storybookStatuses),
             'STORYBOOK_THEME' => json_encode($this->storybookTheme),
             'STORYBOOK_CUSTOM_THEME' => json_encode($this->customTheme),
@@ -127,10 +138,13 @@ class Publish extends Command
             'STORYBOOK_GLOBAL_TYPES' => json_encode(
                 $this->storybookGlobalTypes,
             ),
+            'STORYBOOK_SORT_ORDER' => json_encode($this->storybookSortOrder),
+            'STORYBOOK_VIEWPORTS' => json_encode(
+                $this->buildTailwindViewports($this->storybookViewports),
+            ),
             'LIBSTORYPATH' => $this->vendorPath . '/stories',
             'PROJECTPATH' => base_path(),
             'COMPONENTPATH' => base_path('resources/views/stories'),
-            'STORYBOOK_SORT_ORDER' => json_encode($this->storybookSortOrder),
         ]);
 
         usleep(250000);
