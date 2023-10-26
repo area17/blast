@@ -146,7 +146,7 @@ class Launch extends Command
             ),
             'STORYBOOK_SORT_ORDER' => json_encode($this->storybookSortOrder),
             'STORYBOOK_VIEWPORTS' => json_encode(
-                $this->buildTailwindViewports(),
+                $this->buildTailwindViewports($this->storybookViewports),
             ),
             'LIBSTORYPATH' => $this->vendorPath . '/stories',
             'PROJECTPATH' => base_path(),
