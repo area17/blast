@@ -25,12 +25,12 @@
     "require": {
         "php": "^8.2",
         "ext-json": "*",
-        "illuminate/filesystem": "^10.0",
-        "illuminate/support": "^10.0",
-        "illuminate/view": "^10.0"
+        "illuminate/filesystem": "^7.0|^8.0|^9.0|^10.0",
+        "illuminate/support": "^7.0|^8.0|^9.0|^10.0",
+        "illuminate/view": "^7.0|^8.0|^9.0|^10.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^8.15.0"
+        "orchestra/testbench": "^6.21|^7.0|^8.15.0"
     },
     "autoload": {
         "psr-4": {

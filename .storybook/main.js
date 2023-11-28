@@ -5,7 +5,7 @@ const config = {
     '@storybook/addon-essentials',
     '@storybook/addon-a11y',
     '@storybook/addon-designs',
-    'storybook-source-code-addon',
+    '@storybook/addon-storysource',
     '@etchteam/storybook-addon-status'
   ],
   docs: {
