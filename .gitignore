@@ -13,3 +13,4 @@ yarn-error.log
 !/stories/.keep
 .php_cs.cache
 composer.lock
+/storybook-static

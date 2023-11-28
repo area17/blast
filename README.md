@@ -1,8 +1,8 @@
-# Blast — Storybook for Laravel Blade 🚀
+# Blast - Storybook for Laravel Blade 🚀
 
-<a href="https://github.com/area17/blast/actions"><img src="https://github.com/area17/blast/actions/workflows/phpunit.yml/badge.svg" alt="phpunit tests status"></a>
-<a href="https://packagist.org/packages/area17/blast"><img src="https://poser.pugx.org/area17/blast/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/area17/blast"><img src="https://poser.pugx.org/area17/blast/license.svg" alt="License"></a>
+[![phpunit tests status](https://github.com/area17/blast/actions/workflows/phpunit.yml/badge.svg)](https://github.com/area17/blast/actions)
+[![Latest Stable Version](https://poser.pugx.org/area17/blast/v/stable.svg)](https://packagist.org/packages/area17/blast)
+[![License](https://poser.pugx.org/area17/blast/license.svg)](https://packagist.org/packages/area17/blast)
 
 ## What is Blast?
 
@@ -12,8 +12,8 @@ Blast allows you to render examples of your app's components using the blade tem
 
 We've published some articles to help you get started with Blast and it's features:
 
--   [Getting Started with Blast – Storybook for Laravel Blade](https://dev.to/area17/getting-started-with-blast-storybook-for-laravel-blade-c5c)
--   [Auto-visualizing Tailwind Tokens and Documenting Design Systems Props with Blast](https://dev.to/area17/documenting-your-design-system-in-blast-4ao6)
+- [Getting Started with Blast – Storybook for Laravel Blade](https://dev.to/area17/getting-started-with-blast-storybook-for-laravel-blade-c5c)
+- [Auto-visualizing Tailwind Tokens and Documenting Design Systems Props with Blast](https://dev.to/area17/documenting-your-design-system-in-blast-4ao6)
 
 ## Install
 
@@ -37,11 +37,11 @@ php artisan blast:launch
 
 This will install all of the dependencies, generate stories and start a Storybook instance, as well as a watch task so updates to `.md` and `.blade.php` files in `resources/views/stories` and `.php` files in `resources/views/stories/data` will automatically regenerate the stories and update Storybook.
 
-### Options
+### Start Options
 
--   `--install` - force install dependencies
--   `--noGenerate` - skip auto-generating stories based on existing components
--   `--port` - port used to run Storybook
+- `--install` - force install dependencies
+- `--noGenerate` - skip auto-generating stories based on existing components
+- `--port` - port used to run Storybook
 
 ## Generating Stories
 
@@ -51,9 +51,9 @@ Blast can also generate stories outside of the `launch` task. You can do this by
 php artisan blast:generate-stories
 ```
 
-### Options
+### Generating Stories Options
 
--   `--watch` - watches the story blade files and updates stories
+- `--watch` - watches the story blade files and updates stories
 
 ## Storybook Configuration
 
@@ -61,7 +61,7 @@ Global configuration can be done through the `config/blast.php`.
 
 Blast uses the `public_path()` to reference any static assets. This means that any assets in that directory will be available during developement as well as static builds published to the public directory using the `blast:publish` task.
 
-### Options
+### Storybook Options
 
 #### `storybook_server_url`
 
@@ -75,7 +75,7 @@ Blast can automatically generate documentation pages in the form of stories base
 
 Default:
 
-```
+```php
 [
     'border-radius',
     'border-width',
@@ -108,7 +108,7 @@ Default: `base_path('tailwind.config.js')`
 
 #### `storybook_expanded_controls`
 
-See https://storybook.js.org/docs/react/essentials/controls Set to true to enable full documentation on the controls tab.
+See <https://storybook.js.org/docs/react/essentials/controls> Set to true to enable full documentation on the controls tab.
 Enabling this feature will require configuration in the `@storybook` blade directive, see `description`, `defaultValue` and `table` array keys in the blade directive configuration.
 
 Default: `true`
@@ -139,7 +139,7 @@ Default: `''`
 
 #### `autoload_assets`
 
-Blast will attempt to autoload assets from a `mix-manifest.json` (Laravel Mix) or `manifest.json` (Vite - added in 1.7) if the assets arrays are empty. This option allows you to disable that functionality. Note that the Vite assets are only auto loaded from a prod build. If you want to use it with Vite's hot reloading, you will need to manually define it in the `asset` array using the full local url (eg. http://127.0.0.1:5173/resources/css/app.css), or you can publish and modify the `storybook.blade.php` view to use Laravel's `@vite` helper.
+Blast will attempt to autoload assets from a `mix-manifest.json` (Laravel Mix) or `manifest.json` (Vite - added in 1.7) if the assets arrays are empty. This option allows you to disable that functionality. Note that the Vite assets are only auto loaded from a prod build. If you want to use it with Vite's hot reloading, you will need to manually define it in the `asset` array using the full local url (eg. <http://127.0.0.1:5173/resources/css/app.css>), or you can publish and modify the `storybook.blade.php` view to use Laravel's `@vite` helper.
 
 Default: `true`
 
@@ -198,7 +198,7 @@ Blast ships with the [Status Addon](https://storybook.js.org/addons/@etchteam/st
 
 Default:
 
-```
+```php
 
 [
 'deprecated' => [
@@ -270,14 +270,14 @@ It supports an array with the structure found [in the Storybook docs](https://st
 
 It supports the various ways you can define breakpoints in Tailwind using these rules:
 
--   If the value is a string, it uses that
--   If the value is an array with only a `min` **or** only a `max` it will use that value
--   If the value is an array with both a `min` **and** `max` value it will use the `min` value
--   `raw` values will be ignored
+- If the value is a string, it uses that
+- If the value is an array with only a `min` **or** only a `max` it will use that value
+- If the value is an array with both a `min` **and** `max` value it will use the `min` value
+- `raw` values will be ignored
 
 Default: `'tailwind'`
 
-## Story Configuration
+## Generate Story Configuration
 
 There are certain Storybook elements you can configure from within your story blade files. You can do this by adding the `@storybook` directive to the top of your files:
 
@@ -333,15 +333,15 @@ There are certain Storybook elements you can configure from within your story bl
 
 The supported options for this directive are:
 
--   `preset` - Use a preset as the base for the component story. Setting options in this directive will override the preset
--   `name` - Overrides the auto generated name in the Storybook sidebar.
--   `layout` - Set the component layout in canvas area. Options are `fullscreen`, `padded`, `centered` (default).
--   `status` - adds a status badge to the component story. Can be configured in the package config. See below for more info.
--   `order` - Customize the order of each story. Supports float values. Defaults to alphabetical order.
--   `design` - a Figma url for the component or array of design parameters. You can read more about the supported options [here](https://storybookjs.github.io/addon-designs)
--   `args` - an array of static data used to create storybook fields. You can read more about that [here](https://github.com/storybookjs/storybook/tree/main/app/server#server-rendering). The keys in the array are passed to the blade view and updated when the fields are updated in storybook.
--   `argTypes` - an array to define the args used for the controls. You can read more about them [here](https://storybook.js.org/docs/react/api/argtypes)
--   `actions.handles` - an array defining the events that are passed to the `@storybook-actions` addon. You can read more about actions [here](https://storybook.js.org/docs/react/essentials/actions) - See the Action Event Handlers heading.
+- `preset` - Use a preset as the base for the component story. Setting options in this directive will override the preset
+- `name` - Overrides the auto generated name in the Storybook sidebar.
+- `layout` - Set the component layout in canvas area. Options are `fullscreen`, `padded`, `centered` (default).
+- `status` - adds a status badge to the component story. Can be configured in the package config. See below for more info.
+- `order` - Customize the order of each story. Supports float values. Defaults to alphabetical order.
+- `design` - a Figma url for the component or array of design parameters. You can read more about the supported options [here](https://storybookjs.github.io/addon-designs)
+- `args` - an array of static data used to create storybook fields. You can read more about that [here](https://github.com/storybookjs/storybook/tree/main/app/server#server-rendering). The keys in the array are passed to the blade view and updated when the fields are updated in storybook.
+- `argTypes` - an array to define the args used for the controls. You can read more about them [here](https://storybook.js.org/docs/react/api/argtypes)
+- `actions.handles` - an array defining the events that are passed to the `@storybook-actions` addon. You can read more about actions [here](https://storybook.js.org/docs/react/essentials/actions) - See the Action Event Handlers heading.
 
 ## Customizing the story view
 
@@ -527,9 +527,9 @@ php artisan blast:generate-docs
 
 You can pass the option `--force` to automatically overwrite existing documenation stories or use the `--update-data` option to update the story data without copying any files (this option only works if you have already run the task before).
 
-### Options
+### Generate Tailwind Options
 
--   `--o, --output-dir` - the directory where to store built files relative to your `public` directory
+- `--o, --output-dir` - the directory where to store built files relative to your `public` directory
 
 ## Troubleshooting
 
@@ -537,4 +537,4 @@ If you see a `Failed to fetch` message when viewing your stories you will need t
 
 ## Known Issues
 
--   Renaming the story blade files can sometimes result in the story for that component being duplicated. You can work around this by running `php artisan blast:generate-stories`
+- Renaming the story blade files can sometimes result in the story for that component being duplicated. You can work around this by running `php artisan blast:generate-stories`
