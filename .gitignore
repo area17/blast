@@ -5,6 +5,7 @@
 .env
 !.env.example
 .phpunit.result.cache
+.phpunit.cache
 npm-debug.log
 yarn-error.log
 .vscode
