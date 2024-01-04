@@ -3,7 +3,7 @@ const fs = require('fs');
 
 try {
   const resolveConfig = require('tailwindcss/resolveConfig');
-  const config = require(process.env.CONFIGPATH);
+  const config = import(process.env.CONFIGPATH);
   const tempDir = './tmp';
   const outputPath = `${tempDir}/tailwind.config.php`;
   const fullConfig = resolveConfig(config);
