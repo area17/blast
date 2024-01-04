@@ -41,6 +41,7 @@ This will install all of the dependencies, generate stories and start a Storyboo
 
 -   `--install` - force install dependencies
 -   `--noGenerate` - skip auto-generating stories based on existing components
+-   `--port` - port used to run Storybook
 
 ## Generating Stories
 
@@ -141,6 +142,18 @@ Default: `''`
 Blast will attempt to autoload assets from a `mix-manifest.json` (Laravel Mix) or `manifest.json` (Vite - added in 1.7) if the assets arrays are empty. This option allows you to disable that functionality. Note that the Vite assets are only auto loaded from a prod build. If you want to use it with Vite's hot reloading, you will need to manually define it in the `asset` array using the full local url (eg. http://127.0.0.1:5173/resources/css/app.css), or you can publish and modify the `storybook.blade.php` view to use Laravel's `@vite` helper.
 
 Default: `true`
+
+#### `mix_manifest_path`
+
+Allows you to customize the path to the mix-manifest file used to autoload assets.
+
+Default: `public_path('mix-manifest.json')`
+
+#### `vite_manifest_path`
+
+Allows you to customize the path to the vite manifest file used to autoload assets.
+
+Default: `public_path('build/manifest.json')`
 
 #### `assets`
 
@@ -249,6 +262,21 @@ An array of custom components used by Blast.
 
 Default: `[ 'docs-page' => Components\DocsPages\DocsPage::class ]`
 
+#### `storybook_viewports`
+
+Configure custom viewports in the Storybook preview toolbar.
+
+It supports an array with the structure found [in the Storybook docs](https://storybook.js.org/docs/react/essentials/viewport#add-new-devices) and it can also use your Tailwind config to generate the viewports for you by setting the value to `'tailwind'`. Defaults to `'tailwind'` but fails silently if blast can't find a Tailwind config. The viewports can be disabled by setting to `false`.
+
+It supports the various ways you can define breakpoints in Tailwind using these rules:
+
+-   If the value is a string, it uses that
+-   If the value is an array with only a `min` **or** only a `max` it will use that value
+-   If the value is an array with both a `min` **and** `max` value it will use the `min` value
+-   `raw` values will be ignored
+
+Default: `'tailwind'`
+
 ## Story Configuration
 
 There are certain Storybook elements you can configure from within your story blade files. You can do this by adding the `@storybook` directive to the top of your files:
@@ -261,6 +289,18 @@ There are certain Storybook elements you can configure from within your story bl
     'status' => 'stable',
     'order' => 1,
     'design' => "https://www.figma.com/file/LKQ4FJ4bTn\CSjedbRpk931/Sample-File",
+    'design' => [
+        [
+            'name' => 'Foo',
+            'type' => "figma",
+            'url' => "https://www.figma.com/file/LKQ4FJ4bTn\CSjedbRpk931/Sample-File",
+        ],
+        [
+            'name' => 'Bar',
+            'type' => "link",
+            'url' => "https://www.figma.com/file/LKQ4FJ4bTn\CSjedbRpk931/Sample-File",
+        ],
+    ],
     'args' => [
         'label' => 'Lorem Ipsum',
         'icon' => 'lorem-icon-dolor'
@@ -298,7 +338,7 @@ The supported options for this directive are:
 -   `layout` - Set the component layout in canvas area. Options are `fullscreen`, `padded`, `centered` (default).
 -   `status` - adds a status badge to the component story. Can be configured in the package config. See below for more info.
 -   `order` - Customize the order of each story. Supports float values. Defaults to alphabetical order.
--   `design` - a Figma url for the component
+-   `design` - a Figma url for the component or array of design parameters. You can read more about the supported options [here](https://storybookjs.github.io/addon-designs)
 -   `args` - an array of static data used to create storybook fields. You can read more about that [here](https://github.com/storybookjs/storybook/tree/main/app/server#server-rendering). The keys in the array are passed to the blade view and updated when the fields are updated in storybook.
 -   `argTypes` - an array to define the args used for the controls. You can read more about them [here](https://storybook.js.org/docs/react/api/argtypes)
 -   `actions.handles` - an array defining the events that are passed to the `@storybook-actions` addon. You can read more about actions [here](https://storybook.js.org/docs/react/essentials/actions) - See the Action Event Handlers heading.
@@ -321,7 +361,7 @@ It can be run alongside the `php artisan blast:launch` task or you can run the d
 
 ## Presetting story options
 
-You can create preset options for components to reuse throughtout your storybook instance.
+You can create preset options for components to reuse throughout your storybook instance.
 
 The preset options use the same structure as Laravel config files:
 
@@ -465,7 +505,9 @@ Note: Defining custom statuses will override the existing statuses.
 
 ## Documentation
 
-Adding a `README.md` to your storybook blade directory will allow you to add notes to the Docs tab for each component in Storybook. The content of the markdown file will be output above the auto-generated Storybook content.
+Adding a `README.md` to your storybook blade directory will allow you to add a documentation page for the component in Storybook. The content of the markdown file will be output above the auto-generated Storybook content.
+
+You can also add a markdown file with the same name as your story file and it will add the documentation to component variation on the documentation page.
 
 ## Publish Static Storybook
 

@@ -4,11 +4,15 @@ namespace A17\Blast\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use A17\Blast\Traits\Helpers;
+use A17\Blast\Traits\TailwindViewports;
 
 class Launch extends Command
 {
     use Helpers;
+    use TailwindViewports;
 
     /**
      * The name and signature of the console command.
@@ -18,7 +22,8 @@ class Launch extends Command
     protected $signature = 'blast:launch
                                         {--install : Force install dependencies}
                                         {--noInstall : Deprecated. Launch Blast without installing dependencies}
-                                        {--noGenerate : Skip auto-generating stories based on existing components}';
+                                        {--noGenerate : Skip auto-generating stories based on existing components}
+                                        {--port= : Port used to run Storybook}';
 
     /**
      * The console command description.
@@ -52,6 +57,7 @@ class Launch extends Command
             [],
         );
         $this->storybookSortOrder = config('blast.storybook_sort_order', []);
+        $this->storybookViewports = config('blast.storybook_viewports', false);
     }
 
     /*
@@ -65,6 +71,7 @@ class Launch extends Command
         $npmInstall = $this->option('install');
         $noInstall = $this->option('noInstall');
         $installMessage = $this->getInstallMessage($npmInstall);
+        $port = $this->option('port');
 
         // init progress bar
         $progressBar = $this->output->createProgressBar(2);
@@ -126,6 +133,7 @@ class Launch extends Command
         $this->runProcessInBlast(['npm', 'run', 'storybook'], true, [
             'STORYBOOK_SERVER_URL' => $this->storybookServer,
             'STORYBOOK_STATIC_PATH' => public_path(),
+            'STORYBOOK_PORT' => $port ?? 6006,
             'STORYBOOK_STATUSES' => json_encode($this->storybookStatuses),
             'STORYBOOK_THEME' => json_encode($this->storybookTheme),
             'STORYBOOK_CUSTOM_THEME' => json_encode($this->customTheme),
@@ -137,6 +145,9 @@ class Launch extends Command
                 $this->storybookGlobalTypes,
             ),
             'STORYBOOK_SORT_ORDER' => json_encode($this->storybookSortOrder),
+            'STORYBOOK_VIEWPORTS' => json_encode(
+                $this->buildTailwindViewports($this->storybookViewports),
+            ),
             'LIBSTORYPATH' => $this->vendorPath . '/stories',
             'PROJECTPATH' => base_path(),
             'COMPONENTPATH' => base_path('resources/views/stories'),

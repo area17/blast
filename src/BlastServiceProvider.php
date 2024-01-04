@@ -115,8 +115,14 @@ final class BlastServiceProvider extends ServiceProvider
             'js' => [],
         ];
 
-        $mix_manifest_path = public_path('mix-manifest.json');
-        $vite_manifest_path = public_path('build/manifest.json');
+        $mix_manifest_path = config(
+            'blast.mix_manifest_path',
+            public_path('mix-manifest.json'),
+        );
+        $vite_manifest_path = config(
+            'blast.vite_manifest_path',
+            public_path('build/manifest.json'),
+        );
 
         // if the mix manifest exists, automatically load assets
         if (is_file($mix_manifest_path)) {

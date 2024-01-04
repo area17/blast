@@ -12,31 +12,41 @@ let setDocsTheme = (configDocsTheme) => {
   }
 };
 
-export const parameters = {
-  controls: {
-    expanded: JSON.parse(process.env.STORYBOOK_EXPANDED_CONTROLS)
-  },
-  server: {
-    url: process.env.STORYBOOK_SERVER_URL
-  },
-  layout: 'centered',
-  status: {
-    statuses: JSON.parse(process.env.STORYBOOK_STATUSES)
-  },
-  docs: {
-    extractComponentDescription: (component, { notes }) => {
-      if (notes) {
-        return typeof notes === 'string' ? notes : notes.markdown || notes.text;
-      }
-      return null;
+const customViewports = JSON.parse(process.env.STORYBOOK_VIEWPORTS);
+
+const preview = {
+  parameters: {
+    viewport: {
+      viewports: customViewports
     },
-    theme: setDocsTheme(JSON.parse(process.env.STORYBOOK_DOCS_THEME))
-  },
-  options: {
-    storySort: {
-      order: JSON.parse(process.env.STORYBOOK_SORT_ORDER)
+    controls: {
+      expanded: JSON.parse(process.env.STORYBOOK_EXPANDED_CONTROLS)
+    },
+    server: {
+      url: process.env.STORYBOOK_SERVER_URL
+    },
+    layout: 'centered',
+    status: {
+      statuses: JSON.parse(process.env.STORYBOOK_STATUSES)
+    },
+    docs: {
+      extractComponentDescription: (component, { notes }) => {
+        if (notes) {
+          return typeof notes === 'string'
+            ? notes
+            : notes.markdown || notes.text;
+        }
+        return null;
+      },
+      theme: setDocsTheme(JSON.parse(process.env.STORYBOOK_DOCS_THEME))
+    },
+    options: {
+      storySort: {
+        order: JSON.parse(process.env.STORYBOOK_SORT_ORDER)
+      }
     }
-  }
+  },
+  globalTypes: JSON.parse(process.env.STORYBOOK_GLOBAL_TYPES)
 };
 
-export const globalTypes = JSON.parse(process.env.STORYBOOK_GLOBAL_TYPES);
+export default preview;

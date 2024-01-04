@@ -88,11 +88,18 @@ return [
     // More info - https://storybook.js.org/docs/react/writing-stories/naming-components-and-hierarchy#sorting-stories
     'storybook_sort_order' => [],
 
+    'storybook_viewports' => 'tailwind',
+
     // set the background color of the storybook canvas area
     'canvas_bg_color' => '',
 
     // Blast will attempt to autoload assets from a mix-manifest or vite generated manifest if the assets arrays are empty. This option allows you to disable that functionality
     'autoload_assets' => true,
+
+    // paths to the supported manifest files to autoload assets
+    'mix_manifest_path' => public_path('mix-manifest.json'),
+
+    'vite_manifest_path' => public_path('build/manifest.json'),
 
     'assets' => [
         'css' => [],

@@ -15,7 +15,10 @@ class DataStoreTest extends TestCase
         $path = 'resources/views/stories/non-standard-relative';
         $this->writeExampleDataFile($path);
         Config::set('blast.data_path', $path);
-        $this->assertEquals('bar', app(DataStore::class)->get('example.dummy.args.foo'));
+        $this->assertEquals(
+            'bar',
+            app(DataStore::class)->get('example.dummy.args.foo'),
+        );
         $this->cleanup($path);
     }
 
@@ -24,7 +27,10 @@ class DataStoreTest extends TestCase
         $path = base_path('resources/views/stories/non-standard-absolute');
         $this->writeExampleDataFile($path);
         Config::set('blast.data_path', $path);
-        $this->assertEquals('bar', app(DataStore::class)->get('example.dummy.args.foo'));
+        $this->assertEquals(
+            'bar',
+            app(DataStore::class)->get('example.dummy.args.foo'),
+        );
         $this->cleanup($path);
     }
 
@@ -32,32 +38,38 @@ class DataStoreTest extends TestCase
     {
         $path = base_path('resources/views/stories/data');
         $this->writeExampleDataFile($path);
-        $this->assertEquals('bar', app(DataStore::class)->get('example.dummy.args.foo'));
+        $this->assertEquals(
+            'bar',
+            app(DataStore::class)->get('example.dummy.args.foo'),
+        );
     }
 
     private function writeExampleDataFile(string $path)
     {
-        if (! Str::startsWith($path, '/')) {
+        if (!Str::startsWith($path, '/')) {
             $path = base_path($path);
         }
         File::ensureDirectoryExists($path);
-        File::put($path . '/example.php', <<<PHP
-<?php
+        File::put(
+            $path . '/example.php',
+            <<<PHP
+            <?php
 
-return [
-    'dummy' => [
-        'args' => [
-            'foo' => 'bar',
-        ],
-    ],
-];
-PHP
+            return [
+                'dummy' => [
+                    'args' => [
+                        'foo' => 'bar',
+                    ],
+                ],
+            ];
+            PHP
+            ,
         );
     }
 
     private function cleanup(string $path)
     {
-        if (! Str::startsWith($path, '/')) {
+        if (!Str::startsWith($path, '/')) {
             $path = base_path($path);
         }
         File::deleteDirectory($path);
