@@ -2,6 +2,7 @@
 
 namespace A17\Blast\Traits;
 
+use Illuminate\Support\Arr;
 use Illuminate\Filesystem\Filesystem;
 
 trait TailwindViewports
