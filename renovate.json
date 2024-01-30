@@ -1,0 +1,84 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "labels": [
+    "dependencies"
+  ],
+  "commitMessageAction": "⬆️ Bump",
+  "extends": [
+    "config:best-practices",
+    "schedule:weekly",
+    ":dependencyDashboard"
+  ],
+  "commitMessageTopic": "{{depName}}",
+  "forkProcessing": "enabled",
+  "prConcurrentLimit": 2,
+  "rebaseWhen": "never",
+  "packageRules": [
+    {
+      "matchCategories": [
+        "php"
+      ],
+      "addLabels": [
+        "php"
+      ]
+    },
+    {
+      "matchCategories": [
+        "js"
+      ],
+      "addLabels": [
+        "javascript"
+      ]
+    },
+    {
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch",
+        "pin"
+      ]
+    },
+    {
+      "matchManagers": [
+        "npm"
+      ],
+      "addLabels": [
+        "npm"
+      ]
+    },
+    {
+      "matchManagers": [
+        "composer"
+      ],
+      "addLabels": [
+        "composer"
+      ],
+      "rangeStrategy": "bump"
+    },
+    {
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "addLabels": [
+        "major"
+      ]
+    },
+    {
+      "matchUpdateTypes": [
+        "minor"
+      ],
+      "addLabels": [
+        "minor"
+      ]
+    },
+    {
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "addLabels": [
+        "patch"
+      ]
+    }
+  ],
+  "timezone": "Europe/Stockholm"
+}
