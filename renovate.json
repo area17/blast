@@ -11,8 +11,6 @@
   ],
   "commitMessageTopic": "{{depName}}",
   "forkProcessing": "enabled",
-  "prConcurrentLimit": 2,
-  "rebaseWhen": "never",
   "packageRules": [
     {
       "matchCategories": [
