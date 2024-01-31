@@ -5,7 +5,7 @@ const config = {
     '@storybook/addon-essentials',
     '@storybook/addon-a11y',
     '@storybook/addon-designs',
-    'storybook-source-code-addon',
+    '@storybook/addon-storysource',
     '@etchteam/storybook-addon-status'
   ],
   docs: {
@@ -13,14 +13,10 @@ const config = {
     defaultName: 'Docs'
   },
   features: {
-    storyStoreV7: false
+    // storyStoreV7: false
   },
   framework: {
-    name: '@storybook/server-webpack5',
-    options: {
-      quiet: true,
-      port: 6006
-    }
+    name: '@storybook/server-webpack5'
   }
 };
 

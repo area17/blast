@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-const fs = require('fs');
+import fs from 'fs';
+import resolveConfig from 'tailwindcss/resolveConfig.js';
 
 try {
-  const resolveConfig = require('tailwindcss/resolveConfig');
   const config = import(process.env.CONFIGPATH);
   const tempDir = './tmp';
   const outputPath = `${tempDir}/tailwind.config.php`;
