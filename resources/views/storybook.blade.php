@@ -22,7 +22,19 @@
 
     @if (!empty($js))
         @foreach ($js as $key => $asset)
-            <script src="{{ $asset }}"></script>
+            @php
+                $path = $asset['path'] ?? (is_string($asset) ? $asset : null);
+                $type = $asset['type'] ?? null;
+            @endphp
+
+            @if ($path)
+                <script
+                    @if ($type)
+                        type="{{ $type }}"
+                    @endif
+                    src="{{ $path }}"
+                ></script>
+            @endif
         @endforeach
     @endif
 </body>
