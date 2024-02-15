@@ -17,13 +17,13 @@
         "prettier:php": "prettier --write -- \"./src/**/*.php\""
     },
     "devDependencies": {
-        "@prettier/plugin-php": "^0.18.8",
-        "eslint": "^8.18.0",
-        "eslint-config-prettier": "^8.5.0",
-        "eslint-plugin-prettier": "^4.2.1",
+        "@prettier/plugin-php": "^0.22.2",
+        "eslint": "^8.56.0",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-plugin-prettier": "^5.1.3",
         "husky": "^8.0.1",
         "lint-staged": "^13.0.3",
-        "prettier": "^2.7.1",
+        "prettier": "^3.2.5",
         "stylelint": "^14.9.1",
         "stylelint-config-recommended": "^8.0.0",
         "stylelint-order": "^5.0.0",

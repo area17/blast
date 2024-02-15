@@ -6,7 +6,7 @@
         "es6": true
     },
     "parserOptions": {
-        "ecmaVersion": 2019,
+        "ecmaVersion": "latest",
         "sourceType": "module"
     },
     "extends": ["prettier", "plugin:prettier/recommended"],

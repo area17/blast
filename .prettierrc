@@ -1,7 +1,8 @@
 {
-    "phpVersion": "7.3",
+    "phpVersion": "8.2",
     "semi": true,
     "arrowParens": "always",
     "singleQuote": true,
-    "trailingComma": "none"
+    "trailingComma": "none",
+    "plugins": ["@prettier/plugin-php"]
 }
