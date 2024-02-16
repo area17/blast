@@ -45,6 +45,7 @@ class Launch extends Command
         parent::__construct();
 
         $this->filesystem = $filesystem;
+        $this->storybookVersion = config('blast.storybook_version');
         $this->storybookServer = config('blast.storybook_server_url');
         $this->vendorPath = $this->getVendorPath();
         $this->storybookStatuses = config('blast.storybook_statuses');
@@ -93,8 +94,8 @@ class Launch extends Command
             sleep(5);
         }
 
-        // install
-        $this->installDependencies($npmInstall);
+        // install deps
+        $this->installDependencies($npmInstall, $this->storybookVersion);
 
         usleep(250000);
 
