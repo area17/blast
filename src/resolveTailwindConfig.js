@@ -5,7 +5,7 @@ async function resolve() {
   const config = await import(process.env.CONFIGPATH)
   const tempDir = './tmp';
   const outputPath = `${tempDir}/tailwind.config.php`;
-  const fullConfig = resolveConfig.default(config);
+  const fullConfig = resolveConfig.default(config.default);
 
   async function parseConfig(data) {
     let output = '';
