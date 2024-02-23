@@ -1,21 +1,20 @@
 #!/usr/bin/env node
-const fs = require('fs');
-
-try {
-  const resolveConfig = require('tailwindcss/resolveConfig');
-  const config = import(process.env.CONFIGPATH);
+async function resolve() {
+  const fs = await import('fs');
+  const resolveConfig = await import('tailwindcss/resolveConfig.js')
+  const config = await import(process.env.CONFIGPATH)
   const tempDir = './tmp';
   const outputPath = `${tempDir}/tailwind.config.php`;
-  const fullConfig = resolveConfig(config);
+  const fullConfig = resolveConfig.default(config);
 
-  function parseConfig(data) {
+  async function parseConfig(data) {
     let output = '';
 
     for (const [key, item] of Object.entries(data)) {
       const value = item == null || typeof item === 'function' ? null : item;
       const str =
         value && typeof value === 'object'
-          ? parseConfig(value)
+          ? await parseConfig(value)
           : JSON.stringify(value);
 
       output += `'${key}' => ${str},`;
@@ -29,10 +28,16 @@ try {
       fs.mkdirSync(tempDir);
     }
 
-    fs.writeFileSync(outputPath, `<?php return ${parseConfig(fullConfig)};`);
+    fs.writeFileSync(outputPath, `<?php return ${await parseConfig(fullConfig)};`);
   } catch (err) {
     console.error(err);
   }
-} catch (err) {
-  console.error(err);
 }
+
+(async () => {
+  try {
+    await resolve()
+  } catch (err) {
+    console.error(err);
+  }
+})()
