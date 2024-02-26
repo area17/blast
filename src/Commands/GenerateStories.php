@@ -277,9 +277,20 @@ class GenerateStories extends Command
 
         $docsPath = $this->storyViewsPath . '/' . $item['path'];
         $docsFiles = glob($docsPath . '/*.md');
+        $title = ucwords($item['path'], '/');
+        $singleStory = count($item['children']) === 1;
+
+        // If it's a single story, check if the name has been changed and update the parent title
+        if ($singleStory) {
+            $name = $childStories[0]['name'] ?? false;
+
+            if ($name) {
+                $title = $name;
+            }
+        }
 
         $data = [
-            'title' => ucwords($item['path'], '/'),
+            'title' => $title,
             'tags' => [],
             'parameters' => [],
             'stories' => $childStories,
