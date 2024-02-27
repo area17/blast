@@ -240,6 +240,7 @@ class GenerateStories extends Command
                         $relativePath == '' ? $filename : $relativePath;
 
                     // if the view is in the folder root, add it to a generic 'components' directory
+                    $isRoot = (bool) !$relativePath;
                     $storyPath = $relativePath
                         ? $relativePath
                         : str_replace('.blade.php', '', $filename);
@@ -256,6 +257,7 @@ class GenerateStories extends Command
                         $groups[$storyName] = [
                             'path' => $storyPath,
                             'docs' => $this->getDocs($file->getPath()),
+                            'isRoot' => $isRoot,
                             'children' => [$childData],
                         ];
                     }
@@ -278,14 +280,16 @@ class GenerateStories extends Command
         $docsPath = $this->storyViewsPath . '/' . $item['path'];
         $docsFiles = glob($docsPath . '/*.md');
         $title = ucwords($item['path'], '/');
-        $singleStory = count($item['children']) === 1;
 
-        // If it's a single story, check if the name has been changed and update the parent title
-        if ($singleStory) {
+        // If it's a root story, check if the name has been changed and update the parent title
+        if ($item['isRoot']) {
             $name = $childStories[0]['name'] ?? false;
 
             if ($name) {
-                $title = $name;
+                $hasSlash = Str::contains($title, '/');
+                $title = $hasSlash
+                    ? Str::beforeLast($title, '/') . '/' . $name
+                    : $name;
             }
         }
 
