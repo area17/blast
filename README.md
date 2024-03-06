@@ -63,6 +63,12 @@ Blast uses the `public_path()` to reference any static assets. This means that a
 
 ### Options
 
+#### `storybook_version`
+
+Allows the use of a different version of Storybook. Blast has only been tested up to 7.1.1.
+
+Default: `'7.1.1'`
+
 #### `storybook_server_url`
 
 The route Storybook Server uses to render components. You shouldn't need to change this as it isn't ever visible on the FE.

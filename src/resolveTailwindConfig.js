@@ -20,8 +20,10 @@ function parseConfig(data) {
 
 async function resolveTailwindConfig() {
   const fs = await import('fs');
-  const { default: resolveConfig } = await import('tailwindcss/resolveConfig.js')
-  const { default: config } = await import(process.env.CONFIGPATH)
+  const { default: resolveConfig } = await import(
+    'tailwindcss/resolveConfig.js'
+  );
+  const { default: config } = await import(process.env.CONFIGPATH);
 
   const fullConfig = resolveConfig(config);
 
@@ -37,7 +39,7 @@ async function resolveTailwindConfig() {
 }
 
 try {
-  resolveTailwindConfig()
+  resolveTailwindConfig();
 } catch (err) {
   console.error(err);
 }
