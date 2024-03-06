@@ -1,38 +1,45 @@
 #!/usr/bin/env node
-const fs = require('fs');
+const TEMP_DIR = './tmp';
+const OUTPUT_PATH = `${TEMP_DIR}/tailwind.config.php`;
 
-try {
-  const resolveConfig = require('tailwindcss/resolveConfig');
-  const config = import(process.env.CONFIGPATH);
-  const tempDir = './tmp';
-  const outputPath = `${tempDir}/tailwind.config.php`;
-  const fullConfig = resolveConfig(config);
+function parseConfig(data) {
+  let output = '';
 
-  function parseConfig(data) {
-    let output = '';
+  for (const [key, item] of Object.entries(data)) {
+    const value = item == null || typeof item === 'function' ? null : item;
+    const str =
+      value && typeof value === 'object'
+        ? parseConfig(value)
+        : JSON.stringify(value);
 
-    for (const [key, item] of Object.entries(data)) {
-      const value = item == null || typeof item === 'function' ? null : item;
-      const str =
-        value && typeof value === 'object'
-          ? parseConfig(value)
-          : JSON.stringify(value);
-
-      output += `'${key}' => ${str},`;
-    }
-
-    return `[${output}]`;
+    output += `'${key}' => ${str},`;
   }
 
+  return `[${output}]`;
+}
+
+async function resolveTailwindConfig() {
+  const fs = await import('fs');
+  const { default: resolveConfig } = await import(
+    'tailwindcss/resolveConfig.js'
+  );
+  const { default: config } = await import(process.env.CONFIGPATH);
+
+  const fullConfig = resolveConfig(config);
+
   try {
-    if (!fs.existsSync(tempDir)) {
-      fs.mkdirSync(tempDir);
+    if (!fs.existsSync(TEMP_DIR)) {
+      fs.mkdirSync(TEMP_DIR);
     }
 
-    fs.writeFileSync(outputPath, `<?php return ${parseConfig(fullConfig)};`);
+    fs.writeFileSync(OUTPUT_PATH, `<?php return ${parseConfig(fullConfig)};`);
   } catch (err) {
     console.error(err);
   }
+}
+
+try {
+  resolveTailwindConfig();
 } catch (err) {
   console.error(err);
 }
