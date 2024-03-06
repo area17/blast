@@ -282,7 +282,7 @@ class GenerateStories extends Command
         $title = ucwords($item['path'], '/');
 
         // If it's a root story, check if the name has been changed and update the parent title
-        if ($item['isRoot']) {
+        if (Arr::has($item, 'isRoot') && $item['isRoot']) {
             $name = $childStories[0]['name'] ?? false;
 
             if ($name) {
