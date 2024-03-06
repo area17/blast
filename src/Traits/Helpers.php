@@ -7,6 +7,10 @@ use Illuminate\Support\Str;
 
 trait Helpers
 {
+    protected $storybookDefaultVersion = '7.1.1';
+
+    protected $storybookInstallVersion;
+
     /**
      * @return void
      */
@@ -15,14 +19,20 @@ trait Helpers
         $disableTimeout = false,
         $envVars = null,
         $disableOutput = false,
+        $disableTty = false,
     ) {
         $process = new Process($command, $this->vendorPath, $envVars);
-        $process->setTty(Process::isTtySupported());
 
         if ($disableTimeout) {
             $process->setTimeout(null);
         } else {
             $process->setTimeout(config('blast.build_timeout', 300));
+        }
+
+        if ($disableTty) {
+            $process->setTty(false);
+        } else {
+            $process->setTty(Process::isTtySupported());
         }
 
         if ($disableOutput) {
@@ -32,6 +42,10 @@ trait Helpers
         }
 
         $process->mustRun();
+
+        if (!$disableOutput) {
+            return $process->getOutput();
+        }
     }
 
     /**
@@ -84,7 +98,9 @@ trait Helpers
 
     private function installDependencies($npmInstall, $storybookVersion)
     {
+        $this->storybookInstallVersion = $storybookVersion;
         $depsInstalled = $this->dependenciesInstalled();
+        $updateStorybook = $this->checkStorybookVersions($storybookVersion);
 
         if ($npmInstall || (!$npmInstall && !$depsInstalled)) {
             $this->runProcessInBlast(
@@ -95,30 +111,34 @@ trait Helpers
             );
 
             $this->installStorybook($storybookVersion);
+        } else {
+            if ($updateStorybook) {
+                $this->installStorybook($storybookVersion);
+            }
         }
     }
 
     private function installStorybook($storybookVersion)
     {
-        $storybookDefaultVersion = '7.1.1';
-
         if (!$storybookVersion) {
             $this->error(
-                "No Storybook version defined. Using default version - $storybookDefaultVersion",
+                "No Storybook version defined. Using default version - $this->storybookDefaultVersion",
             );
 
-            $storybookVersion = $storybookDefaultVersion;
+            $this->storybookInstallVersion = $this->storybookDefaultVersion;
+        } else {
+            $this->storybookInstallVersion = $storybookVersion;
         }
 
         // check if version exists
-        $this->info("Verifying Storybook @ $storybookVersion");
+        $this->info("Verifying Storybook @ $this->storybookInstallVersion");
 
         try {
             $this->runProcessInBlast(
                 [
                     'npm',
                     'view',
-                    "storybook@$storybookVersion",
+                    "storybook@$this->storybookInstallVersion",
                     'version',
                     '--json',
                 ],
@@ -130,10 +150,10 @@ trait Helpers
             $this->info('Verified');
         } catch (\Exception $e) {
             $this->error(
-                "Problem verifying Storybook version. Using default version - $storybookDefaultVersion",
+                "Problem verifying Storybook version. Using default version - $this->storybookDefaultVersion",
             );
 
-            $storybookVersion = $storybookDefaultVersion;
+            $this->storybookInstallVersion = $this->storybookDefaultVersion;
 
             usleep(250000);
         }
@@ -162,5 +182,41 @@ trait Helpers
 
             exit();
         }
+    }
+
+    private function getInstalledStorybookVersion()
+    {
+        $version = false;
+        $rawOutput = $this->runProcessInBlast(
+            ['npm', 'list', 'storybook', '--json'],
+            false,
+            null,
+            false,
+            true,
+        );
+        $data = json_decode($rawOutput, true);
+
+        if (isset($data['dependencies']['storybook'])) {
+            $version = $data['dependencies']['storybook']['version'];
+        }
+
+        return $version;
+    }
+
+    private function checkStorybookVersions($storybookVersion)
+    {
+        // check if version matches installed version
+        $installedStorybookVersion = $this->getInstalledStorybookVersion();
+
+        if ($installedStorybookVersion !== $this->storybookInstallVersion) {
+            $this->newLine();
+            $this->info('Storybook version mismatch');
+            $this->info("Installed: $installedStorybookVersion");
+            $this->info("To Install: $this->storybookInstallVersion");
+
+            return true;
+        }
+
+        return false;
     }
 }
