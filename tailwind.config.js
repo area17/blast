@@ -1,9 +1,5 @@
 module.exports = {
-  prefix: 'blast-',
   content: ['./resources/**/*.blade.php', './src/Components/**/*.php'],
-  corePlugins: {
-    preflight: false
-  },
   theme: {
     container: {
       center: true,

@@ -1,44 +1,47 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@layer theme, base, components, utilities;
+
+@import 'tailwindcss/theme.css' layer(theme) prefix(blast);
+@import 'tailwindcss/utilities.css' layer(utilities) prefix(blast);
+
+@config '../../../tailwind.config.js';
 
 .blast-wysiwyg {
-    @apply blast-font-sans
-            blast-text-base
-            blast-font-normal
-            blast-antialiased;
+    @apply blast:font-sans
+            blast:text-base
+            blast:font-normal
+            blast:antialiased;
 }
 
 .blast-wysiwyg h1,
 .blast-wysiwyg h2 {
-    @apply blast-mt-7
-            md:blast-mt-8
-            lg:blast-mt-9
-            blast-font-sans
-            blast-text-3xl
-            blast-font-semibold
-            md:blast-text-4xl;
+    @apply blast:mt-7
+            blast:md:mt-8
+            blast:lg:mt-9
+            blast:font-sans
+            blast:text-3xl
+            blast:font-semibold
+            blast:md:text-4xl;
 }
 
 .blast-wysiwyg h3 {
-    @apply blast-mt-6
-            md:blast-mt-7
-            lg:blast-mt-8
-            blast-font-sans
-            blast-text-2xl
-            blast-font-semibold
-            md:blast-text-3xl;
+    @apply blast:mt-6
+            blast:md:mt-7
+            blast:lg:mt-8
+            blast:font-sans
+            blast:text-2xl
+            blast:font-semibold
+            blast:md:text-3xl;
 }
 
 .blast-wysiwyg h4,
 .blast-wysiwyg h5,
 .blast-wysiwyg h6 {
-    @apply blast-mt-6
-            lg:blast-mt-7
-            blast-font-sans
-            blast-text-xl
-            blast-font-semibold
-            md:blast-text-2xl;
+    @apply blast:mt-6
+            blast:lg:mt-7
+            blast:font-sans
+            blast:text-xl
+            blast:font-semibold
+            blast:md:text-2xl;
 }
 
 .blast-wysiwyg p,
@@ -50,11 +53,11 @@
 }
 
 .blast-wysiwyg strong {
-    @apply blast-font-semibold;
+    @apply blast:font-semibold;
 }
 
 .blast-wysiwyg > *:first-child {
-    @apply blast-mt-0;
+    @apply blast:mt-0;
 }
 
 .blast-wysiwyg ul,
@@ -63,7 +66,7 @@
 }
 
 .blast-wysiwyg ul li {
-    @apply blast-relative;
+    @apply blast:relative;
 }
 
 .blast-wysiwyg ul {
@@ -76,20 +79,20 @@
 
 .blast-wysiwyg p a,
 .blast-wysiwyg li a {
-    @apply blast-border-b
-            hover:blast-border-opacity-50
-            blast-transition-all;
+    @apply blast:border-b
+            blast:hover:border-black/50
+            blast:transition-all;
 }
 
 .blast-wysiwyg figcaption {
-    @apply blast-mt-5
-            lg:blast-mt-6;
+    @apply blast:mt-5
+            blast:lg:mt-6;
 }
 
 .blast-wysiwyg code {
-    @apply blast-py-1 blast-px-2 blast-bg-gray-100 blast-text-sm;
+    @apply blast:py-1 blast:px-2 blast:bg-gray-100 blast:text-sm;
 }
 
 .blast-wysiwyg pre {
-    @apply blast-p-4 blast-bg-gray-100 blast-text-sm;
+    @apply blast:p-4 blast:bg-gray-100 blast:text-sm;
 }

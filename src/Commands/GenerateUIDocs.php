@@ -4,7 +4,6 @@ namespace A17\Blast\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Arr;
 use A17\Blast\Traits\Helpers;
 
 class GenerateUIDocs extends Command
@@ -35,16 +34,6 @@ class GenerateUIDocs extends Command
     /**
      * @var string
      */
-    private $parsedConfig;
-
-    /**
-     * @var mixed
-     */
-    private $configPath;
-
-    /**
-     * @var string
-     */
     private $vendorPath;
 
     /**
@@ -67,11 +56,7 @@ class GenerateUIDocs extends Command
         $this->config = [];
         $this->storiesToGenerate = config('blast.auto_documentation', []);
         $this->vendorPath = $this->getVendorPath();
-        $this->configPath = config(
-            'blast.tailwind_config_path',
-            base_path('tailwind.config.js'),
-        );
-        $this->parsedConfig = $this->vendorPath . '/tmp/tailwind.config.php';
+
         $this->filesystem = $filesystem;
     }
 
@@ -82,24 +67,9 @@ class GenerateUIDocs extends Command
      */
     public function handle()
     {
-        if (!$this->configPath) {
-            $this->error(
-                'No Tailwind config defined. Update `tailwind_config_path` in `config/blast.php`',
-            );
-
-            return false;
-        } elseif (!$this->filesystem->exists($this->configPath)) {
-            $this->error(
-                'Tailwind config file not found at `' . $this->configPath . '`',
-            );
-            return false;
-        }
-
         $copied = false;
         $force = $this->option('force');
         $updateData = $this->option('update-data');
-
-        $this->getConfigData();
 
         if (!$updateData) {
             $copied = $this->copyFiles($force);
@@ -114,32 +84,6 @@ class GenerateUIDocs extends Command
         }
 
         return 1;
-    }
-
-    private function get($key = null)
-    {
-        if ($key) {
-            return Arr::get($this->config, $key);
-        }
-    }
-
-    private function getConfigData()
-    {
-        if (!$this->filesystem->exists($this->configPath)) {
-            return 1;
-        }
-
-        $this->runProcessInBlast(
-            ['node', './src/resolveTailwindConfig.js'],
-            false,
-            [
-                'CONFIGPATH' => $this->configPath,
-            ],
-        );
-
-        if ($this->filesystem->exists($this->parsedConfig)) {
-            $this->config = include $this->parsedConfig;
-        }
     }
 
     /**

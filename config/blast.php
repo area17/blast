@@ -36,11 +36,6 @@ return [
     ],
 
     /**
-     * Path to tailwind config file to generate documentation.
-     */
-    'tailwind_config_path' => base_path('tailwind.config.js'),
-
-    /**
      * See https://storybook.js.org/docs/react/essentials/controls Set
      * to true to enable full documentation on the controls tab.
      */

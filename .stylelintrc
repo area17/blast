@@ -11,16 +11,22 @@
     "at-rule-no-unknown": [
       true,
       {
-        ignoreAtRules: [
-          "tailwind",
-          "apply",
-          "variants",
-          "responsive",
-          "screen",
-        ],
-      },
+        "ignoreAtRules": [
+          "config",
+          "custom-variant",
+          "source",
+          "theme",
+          "utility",
+          "variant"
+        ]
+      }
     ],
-    "declaration-block-trailing-semicolon": null,
+    "at-rule-no-deprecated": [
+      true,
+      {
+        "ignoreAtRules": ["apply"]
+      }
+    ],
     "no-descending-specificity": null,
     "prettier/prettier": true,
     "order/properties-order": [

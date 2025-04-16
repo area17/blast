@@ -12,8 +12,8 @@ Blast allows you to render examples of your app's components using the blade tem
 
 We've published some articles to help you get started with Blast and it's features:
 
--   [Getting Started with Blast – Storybook for Laravel Blade](https://dev.to/area17/getting-started-with-blast-storybook-for-laravel-blade-c5c)
--   [Auto-visualizing Tailwind Tokens and Documenting Design Systems Props with Blast](https://dev.to/area17/documenting-your-design-system-in-blast-4ao6)
+- [Getting Started with Blast – Storybook for Laravel Blade](https://dev.to/area17/getting-started-with-blast-storybook-for-laravel-blade-c5c)
+- [Auto-visualizing Tailwind Tokens and Documenting Design Systems Props with Blast](https://dev.to/area17/documenting-your-design-system-in-blast-4ao6)
 
 ## Install
 
@@ -39,9 +39,9 @@ This will install all of the dependencies, generate stories and start a Storyboo
 
 ### Options
 
--   `--install` - force install dependencies
--   `--noGenerate` - skip auto-generating stories based on existing components
--   `--port` - port used to run Storybook
+- `--install` - force install dependencies
+- `--noGenerate` - skip auto-generating stories based on existing components
+- `--port` - port used to run Storybook
 
 ## Generating Stories
 
@@ -53,7 +53,7 @@ php artisan blast:generate-stories
 
 ### Options
 
--   `--watch` - watches the story blade files and updates stories
+- `--watch` - watches the story blade files and updates stories
 
 ## Storybook Configuration
 
@@ -105,12 +105,6 @@ Default:
 ]
 
 ```
-
-#### `tailwind_config_path`
-
-The path to your Tailwind config file. Used to parse the auto-documentation.
-
-Default: `base_path('tailwind.config.js')`
 
 #### `storybook_expanded_controls`
 
@@ -280,10 +274,10 @@ It supports an array with the structure found [in the Storybook docs](https://st
 
 It supports the various ways you can define breakpoints in Tailwind using these rules:
 
--   If the value is a string, it uses that
--   If the value is an array with only a `min` **or** only a `max` it will use that value
--   If the value is an array with both a `min` **and** `max` value it will use the `min` value
--   `raw` values will be ignored
+- If the value is a string, it uses that
+- If the value is an array with only a `min` **or** only a `max` it will use that value
+- If the value is an array with both a `min` **and** `max` value it will use the `min` value
+- `raw` values will be ignored
 
 Default: `'tailwind'`
 
@@ -343,15 +337,15 @@ There are certain Storybook elements you can configure from within your story bl
 
 The supported options for this directive are:
 
--   `preset` - Use a preset as the base for the component story. Setting options in this directive will override the preset
--   `name` - Overrides the auto generated name in the Storybook sidebar.
--   `layout` - Set the component layout in canvas area. Options are `fullscreen`, `padded`, `centered` (default).
--   `status` - adds a status badge to the component story. Can be configured in the package config. See below for more info.
--   `order` - Customize the order of each story. Supports float values. Defaults to alphabetical order.
--   `design` - a Figma url for the component or array of design parameters. You can read more about the supported options [here](https://storybookjs.github.io/addon-designs)
--   `args` - an array of static data used to create storybook fields. You can read more about that [here](https://github.com/storybookjs/storybook/tree/main/app/server#server-rendering). The keys in the array are passed to the blade view and updated when the fields are updated in storybook.
--   `argTypes` - an array to define the args used for the controls. You can read more about them [here](https://storybook.js.org/docs/react/api/argtypes)
--   `actions.handles` - an array defining the events that are passed to the `@storybook-actions` addon. You can read more about actions [here](https://storybook.js.org/docs/react/essentials/actions) - See the Action Event Handlers heading.
+- `preset` - Use a preset as the base for the component story. Setting options in this directive will override the preset
+- `name` - Overrides the auto generated name in the Storybook sidebar.
+- `layout` - Set the component layout in canvas area. Options are `fullscreen`, `padded`, `centered` (default).
+- `status` - adds a status badge to the component story. Can be configured in the package config. See below for more info.
+- `order` - Customize the order of each story. Supports float values. Defaults to alphabetical order.
+- `design` - a Figma url for the component or array of design parameters. You can read more about the supported options [here](https://storybookjs.github.io/addon-designs)
+- `args` - an array of static data used to create storybook fields. You can read more about that [here](https://github.com/storybookjs/storybook/tree/main/app/server#server-rendering). The keys in the array are passed to the blade view and updated when the fields are updated in storybook.
+- `argTypes` - an array to define the args used for the controls. You can read more about them [here](https://storybook.js.org/docs/react/api/argtypes)
+- `actions.handles` - an array defining the events that are passed to the `@storybook-actions` addon. You can read more about actions [here](https://storybook.js.org/docs/react/essentials/actions) - See the Action Event Handlers heading.
 
 ## Customizing the story view
 
@@ -539,7 +533,7 @@ You can pass the option `--force` to automatically overwrite existing documenati
 
 ### Options
 
--   `--o, --output-dir` - the directory where to store built files relative to your `public` directory
+- `--o, --output-dir` - the directory where to store built files relative to your `public` directory
 
 ## Publish Storybook Config
 
@@ -555,4 +549,4 @@ If you see a `Failed to fetch` message when viewing your stories you will need t
 
 ## Known Issues
 
--   Renaming the story blade files can sometimes result in the story for that component being duplicated. You can work around this by running `php artisan blast:generate-stories`
+- Renaming the story blade files can sometimes result in the story for that component being duplicated. You can work around this by running `php artisan blast:generate-stories`
