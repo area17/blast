@@ -23,4 +23,8 @@ const config = {
   }
 };
 
+if (process.env.STORYBOOK_STATIC_PATH) {
+  config.staticDirs = [process.env.STORYBOOK_STATIC_PATH];
+}
+
 export default config;

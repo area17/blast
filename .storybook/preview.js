@@ -14,6 +14,32 @@ let setDocsTheme = (configDocsTheme) => {
 
 const customViewports = JSON.parse(process.env.STORYBOOK_VIEWPORTS);
 
+const fetchStoryHtml = async (url, path, params, context) => {
+  const fetchUrl = new URL(`${url}/${path}`);
+  fetchUrl.search = new URLSearchParams({
+    ...context.globals,
+    ...params
+  }).toString();
+
+  const headers = new Headers();
+
+  if (process.env.STORYBOOK_SERVER_AUTH) {
+    headers.append(
+      'Authorization',
+      `Basic ${btoa(process.env.STORYBOOK_SERVER_AUTH)}`
+    );
+  }
+
+  const response = await fetch(fetchUrl, {
+    method: 'GET',
+    headers
+  });
+
+  const html = await response.text();
+
+  return html;
+};
+
 const preview = {
   parameters: {
     viewport: {
@@ -23,7 +49,8 @@ const preview = {
       expanded: JSON.parse(process.env.STORYBOOK_EXPANDED_CONTROLS)
     },
     server: {
-      url: process.env.STORYBOOK_SERVER_URL
+      url: process.env.STORYBOOK_SERVER_URL,
+      fetchStoryHtml
     },
     layout: 'centered',
     status: {

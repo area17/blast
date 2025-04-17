@@ -14,7 +14,8 @@
         "stylelint": "stylelint",
         "stylelint:all": "stylelint ./resources/**/*.css",
         "prettier": "prettier",
-        "prettier:php": "prettier --write -- \"./src/**/*.php\""
+        "prettier:php": "prettier --write -- \"./src/**/*.php\"",
+        "chromatic": "npx chromatic"
     },
     "devDependencies": {
         "@prettier/plugin-php": "^0.22.2",

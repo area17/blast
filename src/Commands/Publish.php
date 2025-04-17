@@ -22,7 +22,8 @@ class Publish extends Command
      */
     protected $signature = 'blast:publish
                                         {--install : Force install dependencies}
-                                        {--url= : set the server url used to load the stories}
+                                        {--t|chromatic-token= : the Chromatic project token. Login to Chromatic to generate one}
+                                        {--u|url= : set the server url used to load the stories}
                                         {--o|output-dir=storybook-static : Directory where to store built files}';
 
     /**
@@ -96,6 +97,7 @@ class Publish extends Command
 
         $this->filesystem = $filesystem;
         $this->storybookServer = config('blast.storybook_server_url');
+        $this->storybookServerAuth = config('blast.storybook_server_auth');
         $this->vendorPath = $this->getVendorPath();
         $this->storybookStatuses = config('blast.storybook_statuses');
         $this->storybookTheme = config('blast.storybook_theme', false);
@@ -121,12 +123,14 @@ class Publish extends Command
         $npmInstall = $this->option('install');
         $installMessage = $this->getInstallMessage($npmInstall);
         $outputDir = $this->option('output-dir');
+        $chromaticToken = $this->option('chromatic-token');
 
         if (Str::startsWith($outputDir, '/')) {
             $outputDir = Str::after($outputDir, '/');
         }
 
-        $progressBar = $this->output->createProgressBar(3);
+        $progessBarSteps = $chromaticToken ? 4 : 3;
+        $progressBar = $this->output->createProgressBar($progessBarSteps);
         $progressBar->setFormat('%current%/%max% [%bar%] %message%');
 
         $progressBar->setMessage($installMessage);
@@ -180,6 +184,7 @@ class Publish extends Command
 
         $this->runProcessInBlast($process, true, [
             'STORYBOOK_SERVER_URL' => $serverUrl ?? $this->storybookServer,
+            'STORYBOOK_SERVER_AUTH' => $this->storybookServerAuth,
             'STORYBOOK_STATIC_PATH' => public_path(),
             'STORYBOOK_PORT' => 6006,
             'STORYBOOK_STATUSES' => json_encode($this->storybookStatuses),
@@ -213,6 +218,25 @@ class Publish extends Command
         $destPath = public_path($outputDir);
 
         $this->CopyDirectory($outputPath, $destPath);
+
+        // publish to chromatic
+        if ($chromaticToken) {
+            $this->info('');
+            $progressBar->setMessage('Publishing to Chromatic');
+            $progressBar->advance();
+
+            $chromaticProcess = [
+                'npm',
+                'run',
+                'chromatic',
+                '--storybook-build-dir',
+                $destPath,
+            ];
+
+            $this->runProcessInBlast($chromaticProcess, true, [
+                'CHROMATIC_PROJECT_TOKEN' => $chromaticToken,
+            ]);
+        }
 
         $this->info('');
         $progressBar->setMessage('Publish Complete');

@@ -2,6 +2,7 @@
 /storybook/node_modules
 /vendor
 /tmp
+/storybook-static
 .env
 !.env.example
 .phpunit.result.cache

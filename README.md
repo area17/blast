@@ -527,6 +527,8 @@ Blast can build a static Storybook app and publish it to your public folder. You
 php artisan blast:publish
 ```
 
+You can also publish to Chromatic using the `-t` or `--chromatic-token` option and your Chromatic project token. Note that it requires the `-u` or `--url` option to also be defined as a publicly accessible url as Storybook Server will use that to render the components in Chromatic.
+
 ## Generate Tailwind Documenatation Stories
 
 Blast can automatically generate stories to visualize your Tailwind configuration. See 'auto_documentation' above to see how to configure which stories to generate.

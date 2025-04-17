@@ -96,6 +96,7 @@ class Launch extends Command
 
         $this->filesystem = $filesystem;
         $this->storybookServer = config('blast.storybook_server_url');
+        $this->storybookServerAuth = config('blast.storybook_server_auth');
         $this->vendorPath = $this->getVendorPath();
         $this->storybookStatuses = config('blast.storybook_statuses');
         $this->storybookTheme = config('blast.storybook_theme', 'normal');
@@ -182,6 +183,7 @@ class Launch extends Command
 
         $this->runProcessInBlast(['npm', 'run', 'storybook'], true, [
             'STORYBOOK_SERVER_URL' => $this->storybookServer,
+            'STORYBOOK_SERVER_AUTH' => $this->storybookServerAuth,
             'STORYBOOK_STATIC_PATH' => public_path(),
             'STORYBOOK_PORT' => $port ?? 6006,
             'STORYBOOK_STATUSES' => json_encode($this->storybookStatuses),
