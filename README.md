@@ -75,6 +75,12 @@ The route Storybook Server uses to render components. You shouldn't need to chan
 
 Default: `config('app.url') . '/storybook_preview'`
 
+#### `storybook_addons`
+
+An array of custom [storybook addons](https://storybook.js.org/integrations/) you'd like to use in your project. Note that not all addons are compatible with Storybook Server. Read about how to configure addons in your stories in the Storybook Configuration section below.
+
+Default: `[]`
+
 #### `auto_documentation`
 
 Blast can automatically generate documentation pages in the form of stories based on your Tailwind config. Use this array to specify which documentation pages to generate. All options are loaded by default.
@@ -337,7 +343,12 @@ There are certain Storybook elements you can configure from within your story bl
     ],
     'actions' => [
         'handles' => ['mouseover', 'click']
-    ]
+    ],
+    'addons' => [
+        'jira' => [
+            'id' => 'ABC-123'
+        ]
+    ],
 ])
 ```
 
@@ -352,6 +363,7 @@ The supported options for this directive are:
 -   `args` - an array of static data used to create storybook fields. You can read more about that [here](https://github.com/storybookjs/storybook/tree/main/app/server#server-rendering). The keys in the array are passed to the blade view and updated when the fields are updated in storybook.
 -   `argTypes` - an array to define the args used for the controls. You can read more about them [here](https://storybook.js.org/docs/react/api/argtypes)
 -   `actions.handles` - an array defining the events that are passed to the `@storybook-actions` addon. You can read more about actions [here](https://storybook.js.org/docs/react/essentials/actions) - See the Action Event Handlers heading.
+-   `addons` - an array to define options for any custom addons. Any options defined here are added to the parameters array in the story. Some addons require you to modify storybook config files which can be done by publishing them to your project directory.
 
 ## Customizing the story view
 

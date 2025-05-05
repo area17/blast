@@ -8,6 +8,8 @@ return [
     'storybook_server_url' =>
         env('STORYBOOK_SERVER_HOST', env('APP_URL')) . '/storybook_preview',
 
+    'storybook_addons' => [],
+
     /**
      * Specify which documentation pages to generate for the Tailwind classes used in your application
      * Defaults to `[]` which will render all

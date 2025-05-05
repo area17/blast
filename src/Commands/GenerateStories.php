@@ -456,6 +456,12 @@ class GenerateStories extends Command
                     ];
                 }
             }
+
+            if (Arr::has($options, 'addons')) {
+                foreach ($options['addons'] as $key => $addon) {
+                    $data['parameters'][$key] = $addon;
+                }
+            }
         }
 
         $data['hash'] = $this->getBladeChecksum(

@@ -103,6 +103,7 @@ trait Helpers
         $updateStorybook = $this->checkStorybookVersions(
             $this->storybookInstallVersion,
         );
+        $updateAddons = true;
 
         if ($npmInstall || (!$npmInstall && !$depsInstalled)) {
             $this->runProcessInBlast(
@@ -113,7 +114,13 @@ trait Helpers
             );
 
             $this->installStorybook($this->storybookInstallVersion);
+
+            $this->installAddons();
         } else {
+            if ($updateAddons) {
+                $this->installAddons();
+            }
+
             if ($updateStorybook) {
                 $this->installStorybook($this->storybookInstallVersion);
             }
@@ -186,11 +193,11 @@ trait Helpers
         }
     }
 
-    private function getInstalledStorybookVersion()
+    private function getInstalledPackageVersion($package)
     {
         $version = false;
         $rawOutput = $this->runProcessInBlast(
-            ['npm', 'list', 'storybook', '--json'],
+            ['npm', 'list', $package, '--json'],
             false,
             null,
             false,
@@ -198,8 +205,8 @@ trait Helpers
         );
         $data = json_decode($rawOutput, true);
 
-        if (isset($data['dependencies']['storybook'])) {
-            $version = $data['dependencies']['storybook']['version'];
+        if (isset($data['dependencies'][$package])) {
+            $version = $data['dependencies'][$package]['version'];
         }
 
         return $version;
@@ -208,7 +215,9 @@ trait Helpers
     private function checkStorybookVersions($storybookVersion)
     {
         // check if version matches installed version
-        $installedStorybookVersion = $this->getInstalledStorybookVersion();
+        $installedStorybookVersion = $this->getInstalledPackageVersion(
+            'storybook',
+        );
 
         if ($installedStorybookVersion !== $this->storybookInstallVersion) {
             $this->newLine();
@@ -220,5 +229,76 @@ trait Helpers
         }
 
         return false;
+    }
+
+    private function storybookConfigPublished()
+    {
+        $projectMainConfigPath = base_path('.storybook/main.js');
+
+        return $this->filesystem->exists($projectMainConfigPath);
+    }
+
+    private function storybookConfigPath($path = false)
+    {
+        $configPublished = $this->storybookConfigPublished();
+        $configPath = $configPublished
+            ? base_path('.storybook')
+            : $this->vendorPath . '/.storybook';
+
+        if ($path) {
+            $path = Str::start($path, '/');
+        }
+        return Str::of($configPath)->finish($path);
+    }
+
+    private function installAddons()
+    {
+        $storybookConfigPublished = $this->storybookConfigPublished();
+        $mainJsPath = $this->storybookConfigPath('main.js');
+        $mainJsContents = $this->filesystem->get($mainJsPath);
+        $addons = config('blast.storybook_addons');
+        $installedAddons = [];
+
+        if (!$addons) {
+            return 0;
+        }
+
+        $this->newLine();
+        foreach ($addons as $addon) {
+            $this->info('Found custom addon - ' . $addon);
+
+            $addonInstalled = $this->getInstalledPackageVersion($addon);
+
+            if (!$addonInstalled) {
+                $this->info('Installing ' . $addon);
+
+                $this->runProcessInBlast(['npm', 'install', $addon]);
+            } else {
+                $this->info('Addon already installed. Skipping installation.');
+            }
+
+            if (!Str::contains($mainJsContents, $addon)) {
+                $this->info('Addon missing from .storybook/main.js. Adding.');
+
+                $addonName = Str::of($addon);
+                if ($storybookConfigPublished) {
+                    $addonName = $addonName->start(
+                        '../vendor/area17/blast/node_modules/',
+                    );
+                }
+
+                $installedAddons[] = $addonName->start("'")->finish("'");
+            }
+        }
+
+        if (filled($installedAddons)) {
+            $this->filesystem->replaceInFile(
+                'addons: [',
+                "addons: [\n" . implode(",\n", $installedAddons) . ',',
+                $mainJsPath,
+            );
+        }
+
+        $this->info('Addons installed');
     }
 }
