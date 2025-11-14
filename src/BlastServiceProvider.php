@@ -132,9 +132,9 @@ final class BlastServiceProvider extends ServiceProvider
 
             if (filled($mix_manifest)) {
                 foreach ($mix_manifest as $key => $asset) {
-                    if (Str::endsWith($src, ['.js', '.ts', '.jsx', '.tsx'])) {
+                    if (Str::endsWith($key, ['.js', '.ts', '.jsx', '.tsx'])) {
                         $assets['js'][] = asset($asset);
-                    } elseif (Str::endsWith($src, ['.css', '.scss', '.sass', '.less'])) {
+                    } elseif (Str::endsWith($key, ['.css', '.scss', '.sass', '.less'])) {
                         $assets['css'][] = asset($asset);
                     }
                 }
