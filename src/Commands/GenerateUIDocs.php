@@ -57,19 +57,19 @@ class GenerateUIDocs extends Command
     /*
      * Executes the console command.
      */
-    public function handle(): mixed
+    public function handle(): void
     {
         if (!$this->configPath) {
             $this->error(
                 'No Tailwind config defined. Update `tailwind_config_path` in `config/blast.php`',
             );
 
-            return false;
+            return;
         } elseif (!$this->filesystem->exists($this->configPath)) {
             $this->error(
                 'Tailwind config file not found at `' . $this->configPath . '`',
             );
-            return false;
+            return;
         }
 
         $copied = false;
@@ -89,8 +89,6 @@ class GenerateUIDocs extends Command
             usleep(500000);
             $this->call('blast:generate-stories');
         }
-
-        return 1;
     }
 
     private function get($key = null)

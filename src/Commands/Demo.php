@@ -42,7 +42,7 @@ class Demo extends Command
     /*
      * Executes the console command.
      */
-    public function handle(): mixed
+    public function handle(): void
     {
         // copy demo files
         $this->CopyComponentFiles();

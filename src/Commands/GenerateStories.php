@@ -51,7 +51,7 @@ class GenerateStories extends Command
     /*
      * Executes the console command.
      */
-    public function handle(): mixed
+    public function handle(): void
     {
         $component = $this->argument('component');
 
