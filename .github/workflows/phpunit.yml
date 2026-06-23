@@ -46,7 +46,9 @@ jobs:
             php: '8.1'
           - laravel: '13.*'
             php: '8.1'
-          # Laravel 13 requires PHP 8.2+ (no further exclusions needed)
+          # Laravel 13 requires PHP ^8.3
+          - laravel: '13.*'
+            php: '8.2'
 
     name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - ${{ matrix.os }}
 
