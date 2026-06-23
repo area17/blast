@@ -20,9 +20,8 @@ class UiFontWeight extends Component
     /** @var string */
     public $property;
 
-    public function __construct(UiDocsStore $uiDocsStore)
+    public function __construct(protected UiDocsStore $uiDocsStore)
     {
-        $this->uiDocsStore = $uiDocsStore;
         $this->prefix = 'font';
         $this->property = 'font-weight';
         $this->items = $this->parseData();

@@ -11,7 +11,6 @@ use A17\Blast\Traits\TailwindViewports;
 
 class Publish extends Command
 {
-
     use Helpers;
     use TailwindViewports;
 
@@ -32,64 +31,28 @@ class Publish extends Command
      */
     protected $description = 'Build Static Storybook Instance.';
 
-    /**
-     * @var Filesystem
-     */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
-    /**
-     * @var mixed
-     */
-    private $storybookViewports;
+    private mixed $storybookViewports;
 
-    /**
-     * @var mixed
-     */
-    private $storybookGlobalTypes;
+    private mixed $storybookGlobalTypes;
 
-    /**
-     * @var mixed
-     */
-    private $storybookSortOrder;
+    private mixed $storybookSortOrder;
 
-    /**
-     * @var mixed
-     */
-    private $expandedControls;
+    private mixed $expandedControls;
 
-    /**
-     * @var mixed
-     */
-    private $docsTheme;
+    private mixed $docsTheme;
 
-    /**
-     * @var mixed
-     */
-    private $customTheme;
+    private mixed $customTheme;
 
-    /**
-     * @var mixed
-     */
-    private $storybookTheme;
+    private mixed $storybookTheme;
 
-    /**
-     * @var mixed
-     */
-    private $storybookStatuses;
+    private mixed $storybookStatuses;
 
-    /**
-     * @var string
-     */
-    private $vendorPath;
+    private string $vendorPath;
 
-    /**
-     * @var mixed
-     */
-    private $storybookServer;
+    private mixed $storybookServer;
 
-    /**
-     * @param Filesystem $filesystem
-     */
     public function __construct(Filesystem $filesystem)
     {
         parent::__construct();

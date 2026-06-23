@@ -21,11 +21,10 @@ class UiSpacing extends Component
     public $variation;
 
     public function __construct(
-        UiDocsStore $uiDocsStore,
+        protected UiDocsStore $uiDocsStore,
         $type = 'margin',
-        $variation = 'all'
+        $variation = 'all',
     ) {
-        $this->uiDocsStore = $uiDocsStore;
         $this->type = $type;
         $this->variation = $variation;
         $this->items = $this->uiDocsStore->get('theme.spacing');

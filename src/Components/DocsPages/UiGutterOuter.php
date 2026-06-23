@@ -14,9 +14,8 @@ class UiGutterOuter extends Component
     /** @var array */
     public $items;
 
-    public function __construct(UiDocsStore $uiDocsStore)
+    public function __construct(protected UiDocsStore $uiDocsStore)
     {
-        $this->uiDocsStore = $uiDocsStore;
         $this->type = 'gutter-outer';
         $this->items = $this->uiDocsStore->get('theme.outerGutters') ?? null;
     }

@@ -27,11 +27,10 @@ class UiTransition extends Component
     public $delay;
 
     public function __construct(
-        UiDocsStore $uiDocsStore,
+        protected UiDocsStore $uiDocsStore,
         $duration = null,
-        $delay = null
+        $delay = null,
     ) {
-        $this->uiDocsStore = $uiDocsStore;
         $this->duration = $duration;
         $this->delay = $delay;
         $this->prefix = 'ease';

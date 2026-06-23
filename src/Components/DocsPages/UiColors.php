@@ -14,9 +14,10 @@ class UiColors extends Component
     /** @var array */
     public $colors;
 
-    public function __construct(UiDocsStore $uiDocsStore, $type = 'all')
-    {
-        $this->uiDocsStore = $uiDocsStore;
+    public function __construct(
+        protected UiDocsStore $uiDocsStore,
+        $type = 'all',
+    ) {
         $this->type = $type;
         $this->colors = [];
 

@@ -7,14 +7,8 @@ use Illuminate\Filesystem\Filesystem;
 
 trait TailwindViewports
 {
-    /**
-     * @var Filesystem
-     */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
-    /**
-     * @param Filesystem $filesystem
-     */
     public function __construct(Filesystem $filesystem)
     {
         $this->filesystem = $filesystem;

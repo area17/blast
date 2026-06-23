@@ -11,16 +11,13 @@ trait Helpers
 
     protected ?string $storybookInstallVersion = null;
 
-    /**
-     * @return void
-     */
     private function runProcessInBlast(
         array $command,
         $disableTimeout = false,
         $envVars = null,
         $disableOutput = false,
         $disableTty = false,
-    ) {
+    ): ?string {
         $process = new Process($command, $this->vendorPath, $envVars);
 
         if ($disableTimeout) {
@@ -48,10 +45,7 @@ trait Helpers
         }
     }
 
-    /**
-     * @return void
-     */
-    private function CopyDirectory($from, $to, $cleanDir = false)
+    private function CopyDirectory($from, $to, $cleanDir = false): void
     {
         $this->filesystem->ensureDirectoryExists($to);
 
@@ -66,10 +60,8 @@ trait Helpers
 
     /**
      * Returns the full vendor_path for Blast.
-     *
-     * @return string
      */
-    private function getVendorPath()
+    private function getVendorPath(): string
     {
         $vendorPath = config('blast.vendor_path');
 
@@ -80,14 +72,14 @@ trait Helpers
         return base_path($vendorPath);
     }
 
-    private function dependenciesInstalled()
+    private function dependenciesInstalled(): bool
     {
         return $this->filesystem->exists(
             $this->vendorPath . '/node_modules/@storybook',
         );
     }
 
-    private function getInstallMessage($npmInstall)
+    private function getInstallMessage($npmInstall): string
     {
         $depsInstalled = $this->dependenciesInstalled();
 
@@ -96,7 +88,7 @@ trait Helpers
             : 'Reusing') . ' npm dependencies...';
     }
 
-    private function installDependencies($npmInstall)
+    private function installDependencies($npmInstall): void
     {
         $this->storybookInstallVersion = config('blast.storybook_version');
         $depsInstalled = $this->dependenciesInstalled();
@@ -218,7 +210,7 @@ trait Helpers
         return (int) ($matches[1] ?? 8);
     }
 
-    private function getInstalledStorybookVersion()
+    private function getInstalledStorybookVersion(): string|false
     {
         $version = false;
         $rawOutput = $this->runProcessInBlast(
@@ -237,7 +229,7 @@ trait Helpers
         return $version;
     }
 
-    private function checkStorybookVersions($storybookVersion)
+    private function checkStorybookVersions($storybookVersion): bool
     {
         // check if version matches installed version
         $installedStorybookVersion = $this->getInstalledStorybookVersion();

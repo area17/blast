@@ -7,23 +7,11 @@ use Illuminate\Contracts\View\View;
 
 class DocsPage extends Component
 {
-    /** @var string */
-    public $label;
-
-    /** @var string */
-    public $title;
-
-    /** @var string */
-    public $description;
-
     public function __construct(
-        $label = null,
-        $title = null,
-        $description = null
+        public ?string $label = null,
+        public ?string $title = null,
+        public ?string $description = null,
     ) {
-        $this->label = $label;
-        $this->title = $title;
-        $this->description = $description;
     }
 
     public function render(): View
