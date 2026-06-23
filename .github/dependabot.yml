@@ -1,0 +1,73 @@
+version: 2
+updates:
+  # npm dependencies (Storybook ecosystem etc.)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
+    groups:
+      # Patch bumps: merge when CI is green, no review needed
+      npm-patch:
+        update-types: ["patch"]
+      # Minor bumps: CI + quick eyeball before merging
+      npm-minor:
+        update-types: ["minor"]
+      # Storybook packages always move together -- group regardless of semver
+      storybook:
+        patterns:
+          - "@storybook/*"
+          - "storybook"
+        update-types: ["major", "minor", "patch"]
+    # Majors (except Storybook which is grouped above) stay ungrouped
+    # so each gets its own PR and review
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "npm"
+
+  # Composer dependencies (Laravel/illuminate + orchestra/testbench)
+  - package-ecosystem: "composer"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
+    groups:
+      # illuminate/* packages all version-lock to the same Laravel release
+      # -- always update them together
+      illuminate:
+        patterns:
+          - "illuminate/*"
+        update-types: ["major", "minor", "patch"]
+      composer-patch:
+        update-types: ["patch"]
+        exclude-patterns:
+          - "illuminate/*"
+      composer-minor:
+        update-types: ["minor"]
+        exclude-patterns:
+          - "illuminate/*"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "composer"
+
+  # GitHub Actions workflows
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
+    groups:
+      actions:
+        patterns:
+          - "*"
+    labels:
+      - "dependencies"
+      - "github-actions"

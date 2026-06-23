@@ -10,19 +10,14 @@ class UiDocsStore
 {
     use Helpers;
 
-    /**
-     * @var array
-     */
-    protected $data;
+    protected array $data;
 
-    /**
-     * @var Filesystem
-     */
-    protected $filesystem;
+    protected string $vendorPath;
 
-    /**
-     * @param Filesystem $filesystem
-     */
+    protected string $configPath;
+
+    protected Filesystem $filesystem;
+
     public function __construct()
     {
         $this->data = [];
