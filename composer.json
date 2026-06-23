@@ -23,7 +23,7 @@
         "issues": "https://github.com/area17/blast/issues/"
     },
     "require": {
-        "php": "^8.2|^8.3|^8.4|^8.5",
+        "php": "^8.0",
         "ext-json": "*",
         "illuminate/filesystem": "^9.0|^10.0|^11.0|^12.0|^13.0",
         "illuminate/support": "^9.0|^10.0|^11.0|^12.0|^13.0",
