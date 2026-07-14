@@ -40,52 +40,52 @@ class Launch extends Command
     /**
      * @var mixed
      */
-   private $storybookViewports;
+    private $storybookViewports;
 
     /**
      * @var mixed
      */
-   private $storybookSortOrder;
+    private $storybookSortOrder;
 
     /**
      * @var mixed
      */
-   private $storybookGlobalTypes;
+    private $storybookGlobalTypes;
 
     /**
      * @var mixed
      */
-   private $expandedControls;
+    private $expandedControls;
 
     /**
      * @var mixed
      */
-   private $docsTheme;
+    private $docsTheme;
 
     /**
      * @var mixed
      */
-   private $customTheme;
+    private $customTheme;
 
     /**
      * @var mixed
      */
-   private $storybookTheme;
+    private $storybookTheme;
 
     /**
      * @var mixed
      */
-   private $storybookStatuses;
+    private $storybookStatuses;
 
     /**
      * @var string $vendorPath
      */
-   private $vendorPath;
+    private $vendorPath;
 
     /**
      * @var mixed
      */
-   private $storybookServer;
+    private $storybookServer;
 
     /**
      * @param Filesystem $filesystem
@@ -184,6 +184,10 @@ class Launch extends Command
             'STORYBOOK_SERVER_URL' => $this->storybookServer,
             'STORYBOOK_STATIC_PATH' => public_path(),
             'STORYBOOK_PORT' => $port ?? 6006,
+            'STORYBOOK_BIND_HOST' => config(
+                'blast.storybook_bind_host',
+                '127.0.0.1',
+            ),
             'STORYBOOK_STATUSES' => json_encode($this->storybookStatuses),
             'STORYBOOK_THEME' => json_encode($this->storybookTheme),
             'STORYBOOK_CUSTOM_THEME' => json_encode($this->customTheme),

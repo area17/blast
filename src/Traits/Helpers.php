@@ -14,7 +14,7 @@ trait Helpers
     /**
      * @return void
      */
-    private function runProcessInBlast(
+    protected function runProcessInBlast(
         array $command,
         $disableTimeout = false,
         $envVars = null,
@@ -37,13 +37,14 @@ trait Helpers
 
         if ($disableOutput) {
             $process->disableOutput();
+            $process->run();
         } else {
             $process->enableOutput();
-        }
 
-        $process->run();
+            $process->run(function ($type, $buffer) {
+                echo $buffer;
+            });
 
-        if (!$disableOutput) {
             return $process->getOutput();
         }
     }
@@ -96,7 +97,7 @@ trait Helpers
             : 'Reusing') . ' npm dependencies...';
     }
 
-    private function installDependencies($npmInstall)
+    protected function installDependencies($npmInstall)
     {
         $this->storybookInstallVersion = config('blast.storybook_version');
         $depsInstalled = $this->dependenciesInstalled();

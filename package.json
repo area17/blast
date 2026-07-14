@@ -4,9 +4,9 @@
     "scripts": {
         "build-tailwind": "npx tailwindcss -i ./resources/frontend/css/main.css -o ./public/main.css --minify",
         "build-storybook": "storybook build",
-        "storybook": "concurrently --i -c \"red,blue,yellow\" -n storybook,watch-components,watch-data \"storybook dev --quiet -c $STORYBOOK_CONFIG_PATH -s $STORYBOOK_STATIC_PATH -p $STORYBOOK_PORT\" \"npm run watch-components\" \"npm run watch-data\"",
-        "watch-components": "chokidar \"$COMPONENTPATH/**/*.blade.php\" -d 0 -c \"cd $PROJECTPATH && php artisan blast:generate-stories --watchEvent={event} -- '{path}';\"",
-        "watch-data": "chokidar \"$COMPONENTPATH/data/**/*.php\" \"$COMPONENTPATH/**/*.md\" -d 0 -c \"cd $PROJECTPATH && php artisan blast:generate-stories;\"",
+        "storybook": "cross-env-shell concurrently --i -c \"red,blue,yellow\" -n storybook,watch-components,watch-data \"storybook dev --quiet -c $STORYBOOK_CONFIG_PATH -s $STORYBOOK_STATIC_PATH -p $STORYBOOK_PORT --host $STORYBOOK_BIND_HOST\" \"npm run watch-components\" \"npm run watch-data\"",
+        "watch-components": "cross-env-shell chokidar \"$COMPONENTPATH/**/*.blade.php\" -d 0 -c \"cd $PROJECTPATH && php artisan blast:generate-stories --watchEvent={event} -- \\\"{path}\\\";\"",
+        "watch-data": "cross-env-shell chokidar \"$COMPONENTPATH/data/**/*.php\" \"$COMPONENTPATH/**/*.md\" -d 0 -c \"cd $PROJECTPATH && php artisan blast:generate-stories;\"",
         "parse-tailwind": "node ./src/resolveTailwindConfig.js",
         "prepare": "husky install",
         "lint": "eslint --no-fix ./.storybook/**/*.js ./src/**/*.js",
@@ -18,6 +18,7 @@
     },
     "devDependencies": {
         "@prettier/plugin-php": "^0.22.2",
+        "cross-env": "^7.0.3",
         "eslint": "^8.56.0",
         "eslint-config-prettier": "^9.1.0",
         "eslint-plugin-prettier": "^5.1.3",

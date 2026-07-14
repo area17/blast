@@ -8,6 +8,8 @@ return [
     'storybook_server_url' =>
         env('STORYBOOK_SERVER_HOST', env('APP_URL')) . '/storybook_preview',
 
+    'storybook_bind_host' => env('STORYBOOK_BIND_HOST', '127.0.0.1'),
+
     /**
      * Specify which documentation pages to generate for the Tailwind classes used in your application
      * Defaults to `[]` which will render all
