@@ -9,12 +9,6 @@
             "email": "tim@area17.com"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/mchardians/blast"
-        }
-    ],
     "keywords": [
         "A17",
         "storybook",
