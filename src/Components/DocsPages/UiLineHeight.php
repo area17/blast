@@ -20,9 +20,8 @@ class UiLineHeight extends Component
     /** @var string */
     public $property;
 
-    public function __construct(UiDocsStore $uiDocsStore)
+    public function __construct(protected UiDocsStore $uiDocsStore)
     {
-        $this->uiDocsStore = $uiDocsStore;
         $this->prefix = 'leading';
         $this->property = 'line-height';
         $this->items = $this->parseData();

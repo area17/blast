@@ -3,7 +3,7 @@
 return [
     'enabled' => env('BLAST_ENABLED', true),
 
-    'storybook_version' => '7.1.1',
+    'storybook_version' => '8.5.0',
 
     'storybook_server_url' =>
         env('STORYBOOK_SERVER_HOST', env('APP_URL')) . '/storybook_preview',
@@ -36,7 +36,18 @@ return [
     ],
 
     /**
+     * Tailwind CSS version detection mode.
+     * Options: 'auto', 'v3', 'v4'
+     * - 'auto': Automatically detect based on config file type
+     * - 'v3': Force Tailwind CSS v3 JS-based configuration
+     * - 'v4': Force Tailwind CSS v4 CSS-based configuration
+     */
+    'tailwind_version' => 'auto',
+
+    /**
      * Path to tailwind config file to generate documentation.
+     * For v3: typically tailwind.config.js
+     * For v4: typically app.css or a CSS file with @theme directive
      */
     'tailwind_config_path' => base_path('tailwind.config.js'),
 

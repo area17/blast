@@ -12,9 +12,6 @@ const config = {
     autodocs: 'tag',
     defaultName: 'Docs'
   },
-  features: {
-    storyStoreV7: false
-  },
   framework: {
     name: '@storybook/server-webpack5',
     options: {

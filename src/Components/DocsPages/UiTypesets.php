@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\View;
 use A17\Blast\UiDocsStore;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 
 class UiTypesets extends Component
 {
@@ -15,9 +16,10 @@ class UiTypesets extends Component
 
     public $screens;
 
-    public function __construct(UiDocsStore $uiDocsStore)
+    protected Collection $fontFamilies;
+
+    public function __construct(protected UiDocsStore $uiDocsStore)
     {
-        $this->uiDocsStore = $uiDocsStore;
         $this->screens = collect(
             $this->uiDocsStore->get('theme.screens'),
         )->keys();

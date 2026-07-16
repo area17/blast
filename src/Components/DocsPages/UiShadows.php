@@ -20,9 +20,8 @@ class UiShadows extends Component
     /** @var string */
     public $property;
 
-    public function __construct(UiDocsStore $uiDocsStore)
+    public function __construct(protected UiDocsStore $uiDocsStore)
     {
-        $this->uiDocsStore = $uiDocsStore;
         $this->prefix = 'shadow';
         $this->property = 'box-shadow';
         $this->items = $this->uiDocsStore->get('theme.boxShadow');

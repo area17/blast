@@ -15,40 +15,73 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ['8.0', '8.1', '8.2', '8.3']
-        os: [ubuntu-22.04, windows-latest, macos-latest]
+        php: ['8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
+        laravel: ['9.*', '10.*', '11.*', '12.*', '13.*']
+        os: [ubuntu-latest]
+        include:
+          - laravel: '9.*'
+            testbench: '^7.0'
+          - laravel: '10.*'
+            testbench: '^8.0'
+          - laravel: '11.*'
+            testbench: '^9.0'
+          - laravel: '12.*'
+            testbench: '^10.0'
+          - laravel: '13.*'
+            testbench: '^11.0'
+        exclude:
+          # PHP 8.0 only supports Laravel 9
+          - laravel: '10.*'
+            php: '8.0'
+          - laravel: '11.*'
+            php: '8.0'
+          - laravel: '12.*'
+            php: '8.0'
+          - laravel: '13.*'
+            php: '8.0'
+          # PHP 8.1 only supports Laravel 9 and 10
+          - laravel: '11.*'
+            php: '8.1'
+          - laravel: '12.*'
+            php: '8.1'
+          - laravel: '13.*'
+            php: '8.1'
+          # Laravel 13 requires PHP ^8.3
+          - laravel: '13.*'
+            php: '8.2'
 
-    name: PHP ${{ matrix.php }} on ${{ matrix.os }}
+    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
+          coverage: none
 
       - name: Validate composer.json
         run: composer validate
 
-      - name: Cache Composer packages
+      - name: Get composer cache directory
         id: composer-cache
-        uses: actions/cache@v3
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
         with:
-          path: vendor
-          key: ${{ runner.os }}-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-${{ matrix.php }}-${{ matrix.laravel }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: |
-            ${{ runner.os }}-${{ matrix.php }}-
+            ${{ runner.os }}-${{ matrix.php }}-${{ matrix.laravel }}-composer-
 
       - name: Install dependencies
-        if: "steps.composer-cache.outputs.cache-hit != 'true'"
-        run: composer install --no-progress --no-suggest
-
-      - name: Increase PHP memory limit
-        run: echo 'memory_limit = -1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/memory.ini
-
-      - name: Run PHP_CodeSniffer
-        run: vendor/bin/phpcs || true
+        run: |
+          composer config --global -- policy.advisories.block false
+          composer require "illuminate/support:${{ matrix.laravel }}" "illuminate/filesystem:${{ matrix.laravel }}" "illuminate/view:${{ matrix.laravel }}" --no-interaction --no-update
+          composer require --dev "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+          composer update --prefer-dist --no-interaction --no-progress
 
       - name: Run test suite
         run: vendor/bin/phpunit

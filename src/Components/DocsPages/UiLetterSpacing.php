@@ -20,9 +20,8 @@ class UiLetterSpacing extends Component
     /** @var string */
     public $property;
 
-    public function __construct(UiDocsStore $uiDocsStore)
+    public function __construct(protected UiDocsStore $uiDocsStore)
     {
-        $this->uiDocsStore = $uiDocsStore;
         $this->prefix = 'tracking';
         $this->property = 'letter-spacing';
         $this->items = $this->parseData();

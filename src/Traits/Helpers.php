@@ -7,20 +7,17 @@ use Illuminate\Support\Str;
 
 trait Helpers
 {
-    protected $storybookDefaultVersion = '7.1.1';
+    protected string $storybookDefaultVersion = '8.5.0';
 
-    protected $storybookInstallVersion;
+    protected ?string $storybookInstallVersion = null;
 
-    /**
-     * @return void
-     */
     private function runProcessInBlast(
         array $command,
         $disableTimeout = false,
         $envVars = null,
         $disableOutput = false,
         $disableTty = false,
-    ) {
+    ): ?string {
         $process = new Process($command, $this->vendorPath, $envVars);
 
         if ($disableTimeout) {
@@ -48,10 +45,7 @@ trait Helpers
         }
     }
 
-    /**
-     * @return void
-     */
-    private function CopyDirectory($from, $to, $cleanDir = false)
+    private function CopyDirectory($from, $to, $cleanDir = false): void
     {
         $this->filesystem->ensureDirectoryExists($to);
 
@@ -66,10 +60,8 @@ trait Helpers
 
     /**
      * Returns the full vendor_path for Blast.
-     *
-     * @return string
      */
-    private function getVendorPath()
+    private function getVendorPath(): string
     {
         $vendorPath = config('blast.vendor_path');
 
@@ -80,14 +72,14 @@ trait Helpers
         return base_path($vendorPath);
     }
 
-    private function dependenciesInstalled()
+    private function dependenciesInstalled(): bool
     {
         return $this->filesystem->exists(
             $this->vendorPath . '/node_modules/@storybook',
         );
     }
 
-    private function getInstallMessage($npmInstall)
+    private function getInstallMessage($npmInstall): string
     {
         $depsInstalled = $this->dependenciesInstalled();
 
@@ -96,7 +88,7 @@ trait Helpers
             : 'Reusing') . ' npm dependencies...';
     }
 
-    private function installDependencies($npmInstall)
+    private function installDependencies($npmInstall): void
     {
         $this->storybookInstallVersion = config('blast.storybook_version');
         $depsInstalled = $this->dependenciesInstalled();
@@ -120,7 +112,7 @@ trait Helpers
         }
     }
 
-    private function installStorybook($storybookVersion)
+    private function installStorybook(?string $storybookVersion): void
     {
         if (!$storybookVersion) {
             $this->error(
@@ -162,15 +154,7 @@ trait Helpers
 
         $this->info("Installing Storybook @ $this->storybookInstallVersion");
 
-        $deps = [
-            "@storybook/addon-a11y@$this->storybookInstallVersion",
-            "@storybook/addon-actions@$this->storybookInstallVersion",
-            "@storybook/addon-docs@$this->storybookInstallVersion",
-            "@storybook/addon-essentials@$this->storybookInstallVersion",
-            "@storybook/addon-links@$this->storybookInstallVersion",
-            "storybook@$this->storybookInstallVersion",
-            "@storybook/server-webpack5@$this->storybookInstallVersion",
-        ];
+        $deps = $this->getStorybookDependencies($this->storybookInstallVersion);
 
         try {
             $this->runProcessInBlast(
@@ -186,7 +170,47 @@ trait Helpers
         }
     }
 
-    private function getInstalledStorybookVersion()
+    /**
+     * Get Storybook dependencies based on major version.
+     * Storybook 9+ consolidates many addons into core.
+     */
+    private function getStorybookDependencies(string $version): array
+    {
+        $majorVersion = $this->getStorybookMajorVersion($version);
+
+        // Core packages required for all versions
+        $deps = ["storybook@$version", "@storybook/server-webpack5@$version"];
+
+        if ($majorVersion >= 9) {
+            // Storybook 9+ has many addons consolidated into core
+            // Only add essentials which includes most functionality
+            $deps[] = "@storybook/addon-essentials@$version";
+        } else {
+            // Storybook 7.x and 8.x require separate addon packages
+            $deps = array_merge($deps, [
+                "@storybook/addon-a11y@$version",
+                "@storybook/addon-actions@$version",
+                "@storybook/addon-docs@$version",
+                "@storybook/addon-essentials@$version",
+                "@storybook/addon-links@$version",
+            ]);
+        }
+
+        return $deps;
+    }
+
+    /**
+     * Extract major version number from Storybook version string.
+     */
+    private function getStorybookMajorVersion(string $version): int
+    {
+        // Handle versions like "8.5.0", "9.0.0-alpha.1", etc.
+        preg_match('/^(\d+)/', $version, $matches);
+
+        return (int) ($matches[1] ?? 8);
+    }
+
+    private function getInstalledStorybookVersion(): string|false
     {
         $version = false;
         $rawOutput = $this->runProcessInBlast(
@@ -205,7 +229,7 @@ trait Helpers
         return $version;
     }
 
-    private function checkStorybookVersions($storybookVersion)
+    private function checkStorybookVersions($storybookVersion): bool
     {
         // check if version matches installed version
         $installedStorybookVersion = $this->getInstalledStorybookVersion();

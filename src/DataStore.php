@@ -8,24 +8,12 @@ use Illuminate\Support\Str;
 
 class DataStore
 {
-    /**
-     * @var array
-     */
-    protected $data;
+    protected array $data;
 
-    /**
-     * @var string
-     */
-    protected $dataPath;
+    protected string $dataPath;
 
-    /**
-     * @var Filesystem
-     */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
-    /**
-     * @param Filesystem $filesystem
-     */
     public function __construct(Filesystem $filesystem)
     {
         $this->data = [];

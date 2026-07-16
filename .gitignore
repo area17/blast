@@ -4,7 +4,10 @@
 /tmp
 .env
 !.env.example
+.phpunit.cache
 .phpunit.result.cache
+.claude/
+tasks/
 npm-debug.log
 yarn-error.log
 .vscode

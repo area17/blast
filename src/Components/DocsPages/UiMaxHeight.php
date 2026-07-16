@@ -20,9 +20,8 @@ class UiMaxHeight extends Component
     /** @var string */
     public $property;
 
-    public function __construct(UiDocsStore $uiDocsStore)
+    public function __construct(protected UiDocsStore $uiDocsStore)
     {
-        $this->uiDocsStore = $uiDocsStore;
         $this->prefix = 'max-h';
         $this->property = 'height';
         $this->items = $this->uiDocsStore->get('theme.maxHeight');

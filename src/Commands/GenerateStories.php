@@ -27,34 +27,16 @@ class GenerateStories extends Command
      */
     protected $description = 'Automatically generate stories.json based on example component directory';
 
-    /**
-     * @var Filesystem
-     */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
-    /**
-     * @var DataStore
-     */
-    protected $dataStore;
+    protected DataStore $dataStore;
 
-    /**
-     * @var string
-     */
-    private $packageStoriesPath;
+    private string $packageStoriesPath;
 
-    /**
-     * @var string
-     */
-    private $vendorPath;
+    private string $vendorPath;
 
-    /**
-     * @var string
-     */
-    private $storyViewsPath;
+    private string $storyViewsPath;
 
-    /**
-     * @param Filesystem $filesystem
-     */
     public function __construct(Filesystem $filesystem, DataStore $dataStore)
     {
         parent::__construct();
@@ -68,10 +50,8 @@ class GenerateStories extends Command
 
     /*
      * Executes the console command.
-     *
-     * @return mixed
      */
-    public function handle()
+    public function handle(): void
     {
         $component = $this->argument('component');
 
@@ -85,10 +65,7 @@ class GenerateStories extends Command
         }
     }
 
-    /**
-     * @return void
-     */
-    private function handleSingleComponent($component = null)
+    private function handleSingleComponent($component = null): void
     {
         $watchEvent = $this->option('watchEvent');
         $storyPathSlash = $this->storyViewsPath . '/';
@@ -187,10 +164,7 @@ class GenerateStories extends Command
         }
     }
 
-    /**
-     * @return void
-     */
-    private function handleAllComponents($files = null)
+    private function handleAllComponents($files = null): void
     {
         $this->filesystem->cleanDirectory($this->packageStoriesPath);
         $files = $this->filesystem->allfiles($this->storyViewsPath);
@@ -236,10 +210,7 @@ class GenerateStories extends Command
         }
     }
 
-    /**
-     * @return array
-     */
-    private function createGroups($files = null)
+    private function createGroups($files = null): array
     {
         $groups = [];
 
@@ -283,10 +254,7 @@ class GenerateStories extends Command
         return $groups;
     }
 
-    /**
-     * @return void
-     */
-    private function buildStoryTemplate($item)
+    private function buildStoryTemplate($item): array
     {
         $childStories = $this->updateStoryOrder(
             array_map([$this, 'buildChildTemplate'], $item['children']),
@@ -327,10 +295,7 @@ class GenerateStories extends Command
         return $data;
     }
 
-    /**
-     * @return void
-     */
-    private function buildChildTemplate($item)
+    private function buildChildTemplate($item): array
     {
         $name = str_replace('.blade.php', '', $item['name']);
         $data = [
@@ -466,10 +431,7 @@ class GenerateStories extends Command
         return $data;
     }
 
-    /**
-     * @return string
-     */
-    private function getBladeChecksum($filepath, $bladeArgs = [])
+    private function getBladeChecksum($filepath, $bladeArgs = []): string
     {
         if (!Str::endsWith($filepath, '.blade.php')) {
             return '';
@@ -482,10 +444,7 @@ class GenerateStories extends Command
         return md5(view($bladePath, $bladeArgs)->render());
     }
 
-    /**
-     * @return void
-     */
-    private function getStoryOptions($filepath)
+    private function getStoryOptions($filepath): array
     {
         if (!$this->filesystem->exists($filepath)) {
             return [];
@@ -507,10 +466,7 @@ class GenerateStories extends Command
         return $parsedOptions ?: [];
     }
 
-    /**
-     * @return void
-     */
-    private function getDocs($filepath, $filename = 'README')
+    private function getDocs($filepath, $filename = 'README'): string|false
     {
         $fullpath = $filepath . '/' . $filename . '.md';
 
@@ -521,7 +477,7 @@ class GenerateStories extends Command
         return false;
     }
 
-    private function updateStoryOrder($stories)
+    private function updateStoryOrder($stories): array
     {
         // sort by custom order. Fall back to alphabetical by story name
         return array_values(
@@ -531,7 +487,7 @@ class GenerateStories extends Command
         );
     }
 
-    private function getCodeSnippet($filepath)
+    private function getCodeSnippet($filepath): string|false
     {
         $filepath =
             $this->storyViewsPath . '/' . Str::finish($filepath, '.blade.php');

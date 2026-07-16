@@ -20,9 +20,8 @@ class UiMinWidth extends Component
     /** @var string */
     public $property;
 
-    public function __construct(UiDocsStore $uiDocsStore)
+    public function __construct(protected UiDocsStore $uiDocsStore)
     {
-        $this->uiDocsStore = $uiDocsStore;
         $this->prefix = 'min-w';
         $this->property = 'width';
         $this->items = $this->uiDocsStore->get('theme.minWidth');

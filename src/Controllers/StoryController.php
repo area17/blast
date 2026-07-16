@@ -4,12 +4,13 @@ namespace A17\Blast\Controllers;
 
 use A17\Blast\Traits\Helpers;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Contracts\View\View;
 
 class StoryController
 {
     use Helpers;
 
-    public function __invoke($name, Filesystem $filesystem)
+    public function __invoke(string $name, Filesystem $filesystem): View
     {
         $vendor_path = $this->getVendorPath();
         $file_check = $filesystem->exists($vendor_path . '/tmp/_blast');

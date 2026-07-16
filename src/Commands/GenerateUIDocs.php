@@ -27,39 +27,18 @@ class GenerateUIDocs extends Command
      */
     protected $description = 'Automatically generate stories for documenting your Tailwind config';
 
-    /**
-     * @var Filesystem
-     */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
-    /**
-     * @var string
-     */
-    private $parsedConfig;
+    private string $parsedConfig;
 
-    /**
-     * @var mixed
-     */
-    private $configPath;
+    private mixed $configPath;
 
-    /**
-     * @var string
-     */
-    private $vendorPath;
+    private string $vendorPath;
 
-    /**
-     * @var mixed
-     */
-    private $storiesToGenerate;
+    private mixed $storiesToGenerate;
 
-    /**
-     * @var array
-     */
-    private $config;
+    private array $config;
 
-    /**
-     * @param Filesystem $filesystem
-     */
     public function __construct(Filesystem $filesystem)
     {
         parent::__construct();
@@ -77,22 +56,20 @@ class GenerateUIDocs extends Command
 
     /*
      * Executes the console command.
-     *
-     * @return mixed
      */
-    public function handle()
+    public function handle(): void
     {
         if (!$this->configPath) {
             $this->error(
                 'No Tailwind config defined. Update `tailwind_config_path` in `config/blast.php`',
             );
 
-            return false;
+            return;
         } elseif (!$this->filesystem->exists($this->configPath)) {
             $this->error(
                 'Tailwind config file not found at `' . $this->configPath . '`',
             );
-            return false;
+            return;
         }
 
         $copied = false;
@@ -112,8 +89,6 @@ class GenerateUIDocs extends Command
             usleep(500000);
             $this->call('blast:generate-stories');
         }
-
-        return 1;
     }
 
     private function get($key = null)
@@ -142,10 +117,7 @@ class GenerateUIDocs extends Command
         }
     }
 
-    /**
-     * @return boolean
-     */
-    private function copyFiles($force = false)
+    private function copyFiles($force = false): bool
     {
         if (empty($this->storiesToGenerate)) {
             $this->error(

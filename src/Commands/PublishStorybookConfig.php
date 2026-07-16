@@ -25,19 +25,10 @@ class PublishStorybookConfig extends Command
      */
     protected $description = 'Publish Storybook config files to project directory';
 
-    /**
-     * @var Filesystem
-     */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
-    /**
-     * @var string
-     */
-    private $vendorPath;
+    private string $vendorPath;
 
-    /**
-     * @param Filesystem $filesystem
-     */
     public function __construct(Filesystem $filesystem)
     {
         parent::__construct();

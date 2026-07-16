@@ -24,24 +24,12 @@ class Demo extends Command
      */
     protected $description = 'Build example component and stories';
 
-    /**
-     * @var Filesystem
-     */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
-    /**
-     * @var string
-     */
-    private $vendorPath;
+    private string $vendorPath;
 
-    /**
-     * @var string
-     */
-    private $storyViewsPath;
+    private string $storyViewsPath;
 
-    /**
-     * @param Filesystem $filesystem
-     */
     public function __construct(Filesystem $filesystem)
     {
         parent::__construct();
@@ -53,10 +41,8 @@ class Demo extends Command
 
     /*
      * Executes the console command.
-     *
-     * @return mixed
      */
-    public function handle()
+    public function handle(): void
     {
         // copy demo files
         $this->CopyComponentFiles();
@@ -71,10 +57,7 @@ class Demo extends Command
         ]);
     }
 
-    /**
-     * @return void
-     */
-    private function CopyComponentFiles()
+    private function CopyComponentFiles(): void
     {
         $localComponentsPath = base_path(
             'resources/views/components/blast-demo',
@@ -93,10 +76,7 @@ class Demo extends Command
         }
     }
 
-    /**
-     * @return void
-     */
-    private function CopyStoryFiles()
+    private function CopyStoryFiles(): void
     {
         $localComponentsPath = base_path('resources/views/stories/blast-demo');
         $packageComponentsPath = $this->vendorPath . '/demo/stories';
