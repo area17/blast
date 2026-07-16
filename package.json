@@ -30,7 +30,7 @@
         "stylelint-prettier": "^2.0.0"
     },
     "dependencies": {
-        "@etchteam/storybook-addon-status": "^4.2.4",
+        "@etchteam/storybook-addon-status": "^8.1.0",
         "@storybook/addon-designs": "^7.0.1",
         "autoprefixer": "^10.4.7",
         "chokidar-cli": "^3.0.0",
